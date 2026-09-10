@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>战斗详情面板 · 机骸：第九行星</title>
+<style>
+  :root{
+    --bg:#0d1016; --panel:#151a23; --panel2:#1b212c; --line:#262e3d;
+    --fg:#dfe6f0; --dim:#8895a8; --acc:#5aa9ff; --hp:#4ade80; --exp:#60a5fa;
+    --plate:#cbd5e1; --spirit:#c084fc; --warn:#fbbf24; --bad:#f87171; --elite:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+    font:13px/1.45 "Microsoft YaHei UI","Microsoft YaHei","PingFang SC","Segoe UI",system-ui,sans-serif;}
+  a{color:var(--acc)}
+  #top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:8px 14px;background:linear-gradient(180deg,#161c26,#121721);border-bottom:1px solid var(--line)}
+  #top h1{font-size:14px;margin:0;font-weight:600;letter-spacing:.3px}
+  #top h1 span{color:var(--dim);font-weight:400}
+  .pill{padding:2px 9px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);
+    font-size:11.5px;color:var(--dim);white-space:nowrap}
+  .pill b{color:var(--fg);font-weight:600}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .dot.on{background:var(--hp);box-shadow:0 0 6px var(--hp)} .dot.off{background:var(--bad)}
+  .sp{flex:1}
+  button{background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:6px;
+    padding:4px 10px;cursor:pointer;font:inherit;font-size:12px}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  button.active{background:#1e3a5f;border-color:var(--acc);color:#cfe6ff}
+  select,input[type=number]{background:var(--panel2);color:var(--fg);border:1px solid var(--line);
+    border-radius:6px;padding:3px 6px;font:inherit;font-size:12px}
+  #wrap{display:grid;gap:12px;padding:12px 14px;
+    grid-template-columns:minmax(430px,1.05fr) minmax(430px,1fr);align-items:start}
+  @media(max-width:1180px){#wrap{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .card>h2{margin:0;padding:7px 12px;font-size:12px;font-weight:600;letter-spacing:.4px;color:var(--dim);
+    background:var(--panel2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+  .card>h2 .sp{flex:1}
+  .bd{padding:10px 12px}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0}
+  .kv dt{color:var(--dim);white-space:nowrap}
+  .kv dd{margin:0;font-variant-numeric:tabular-nums;text-align:right}
+  .bar{position:relative;height:15px;background:#0a0d12;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .bar>i{position:absolute;left:0;top:0;bottom:0;display:block;transition:width .12s linear}
+  .bar>span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px #000;color:#fff}
+  .barlbl{width:56px;color:var(--dim);font-size:11.5px;flex:none}
+  #radarBox{position:relative;display:flex;justify-content:center;padding:10px}
+  #radar{background:#080b10;border:1px solid var(--line);border-radius:8px;cursor:crosshair;max-width:100%}
+  #legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:0 10px 10px;
+    color:var(--dim);font-size:11px}
+  #legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+  #tip{position:absolute;pointer-events:none;display:none;z-index:30;max-width:290px;
+    background:#0b0f16ee;border:1px solid var(--acc);border-radius:7px;padding:7px 9px;font-size:11.5px;
+    box-shadow:0 6px 22px #000a}
+  #tip b{color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+  th,td{padding:3px 7px;border-bottom:1px solid #1c2330;text-align:right;white-space:nowrap}
+  th{color:var(--dim);font-weight:500;font-size:11px;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--panel)}
+  th:first-child,td:first-child{text-align:left}
+  th:hover{color:var(--acc)}
+  tbody tr:hover{background:#1b2433}
+  tbody tr.elite td:first-child{box-shadow:inset 3px 0 0 var(--elite)}
+  tbody tr.boss td:first-child{box-shadow:inset 3px 0 0 var(--bad)}
+  tbody tr.killable{background:#2b1517}
+  tbody tr.pinned{background:#22304a}
+  .mini{height:9px;background:#0a0d12;border-radius:3px;overflow:hidden;min-width:52px;border:1px solid #222b3a}
+  .mini>i{display:block;height:100%}
+  .tag{display:inline-block;padding:0 5px;margin-left:3px;border-radius:4px;font-size:10.5px;
+    border:1px solid var(--line);background:#10151d;color:var(--dim)}
+  .tag.e{color:#0d1016;background:var(--elite);border-color:var(--elite);font-weight:600}
+  .tag.s{color:#0d1016;background:var(--acc);border-color:var(--acc)}
+  .scroll{max-height:330px;overflow:auto}
+  #log{max-height:190px;overflow:auto;font-size:11.5px;line-height:1.6}
+  #log div{border-bottom:1px dotted #1e2634;padding:1px 0;color:var(--dim)}
+  #log div b{color:var(--fg);font-weight:600}
+  #log .dmg{color:var(--bad)} #log .kill{color:var(--hp)} #log .heal{color:#7dd3fc}
+  .dead{opacity:.45}
+  .err{color:var(--bad);padding:12px}
+  .muted{color:var(--dim)}
+  .num{font-variant-numeric:tabular-nums}
+  #footer{padding:8px 14px 22px;color:var(--dim);font-size:11.5px;border-top:1px solid var(--line);margin-top:4px}
+  code{background:#0a0d12;border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:11.5px}
+</style>
+</head>
+<body>
+
+<div id="top">
+  <h1>战斗详情面板 <span>· 机骸：第九行星</span></h1>
+  <span class="pill"><span id="connDot" class="dot off"></span><span id="connTxt">连接中…</span></span>
+  <span class="pill">局内 <b id="pInGame">–</b></span>
+  <span class="pill">关卡 <b id="pStage">–</b></span>
+  <span class="pill">机甲 <b id="pMech">–</b></span>
+  <span class="pill">场景 <b id="pScene">–</b></span>
+  <span class="pill">实体 <b id="pEnts">–</b></span>
+  <span class="pill">敌人 <b id="pEn">–</b></span>
+  <span class="pill">帧率 <b id="pFps">–</b></span>
+  <span class="sp"></span>
+  <label class="pill" style="cursor:pointer"><input type="checkbox" id="chkPause"> 暂停刷新</label>
+  <button id="btnSnap">强制抓取</button>
+  <button id="btnDeep">深度转储</button>
+  <button id="btnSave">导出 JSON</button>
+</div>
+
+<div id="wrap">
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+
+    <div class="card">
+      <h2>战场雷达 <span class="muted">（XY 平面，Z 仅为渲染深度）</span><span class="sp"></span>
+        <label class="muted" style="font-weight:400">范围
+          <select id="radarRange">
+            <option value="20">20</option>
+            <option value="40" selected>40</option>
+            <option value="80">80</option>
+            <option value="160">160</option>
+            <option value="0">自动</option>
+          </select>
+        </label>
+        <label class="pill" style="cursor:pointer;font-weight:400"><input type="checkbox" id="chkNames"> 显示名字</label>
+      </h2>
+      <div id="radarBox">
+        <canvas id="radar" width="560" height="560"></canvas>
+        <div id="tip"></div>
+      </div>
+      <div id="legend"></div>
+    </div>
+
+    <div class="card">
+      <h2>玩家（自身） <span class="sp"></span><span class="muted" id="pEnt">–</span></h2>
+      <div class="bd">
+        <div class="row" style="margin-bottom:5px"><span class="barlbl">血量</span>
+          <div class="bar" style="flex:1"><i id="bHp" style="background:var(--hp)"></i><span id="tHp">–</span></div></div>
+        <div class="row" style="margin-bottom:5px"><span class="barlbl">经验</span>
+          <div class="bar" style="flex:1"><i id="bExp" style="background:var(--exp)"></i><span id="tExp">–</span></div></div>
+        <div class="row" id="rowPlate" style="margin-bottom:5px;display:none"><span class="barlbl">装甲</span>
+          <div class="bar" style="flex:1"><i id="bPlate" style="background:var(--plate)"></i><span id="tPlate">–</span></div></div>
+        <div class="row" id="rowSpirit" style="margin-bottom:5px;display:none"><span class="barlbl">精神力</span>
+          <div class="bar" style="flex:1"><i id="bSpirit" style="background:var(--spirit)"></i><span id="tSpirit">–</span></div></div>
+        <div class="row" style="margin-bottom:8px"><span class="barlbl">技能冷却</span>
+          <div class="bar" style="flex:1"><i id="bSkill" style="background:var(--warn)"></i><span id="tSkill">–</span></div></div>
+
+        <dl class="kv">
+          <dt>等级 / 击杀</dt><dd><b id="pLv">–</b> 级 · 击杀 <b id="pKill">–</b></dd>
+          <dt>攻击力</dt><dd><b id="pAtk">–</b> <span class="muted">（基础 <span id="pAtkBase">–</span>）</span></dd>
+          <dt>攻击冷却</dt><dd><b id="pCd">–</b> 秒 <span class="muted">（基础 <span id="pCdBase">–</span>）</span></dd>
+          <dt>移动速度</dt><dd><b id="pSpd">–</b> <span class="muted">（基础 <span id="pSpdBase">–</span>）</span></dd>
+          <dt>索敌半径</dt><dd id="pDet">–</dd>
+          <dt>技能</dt><dd id="pSkill">–</dd>
+          <dt>预计单击</dt><dd id="pEst">–</dd>
+          <dt>暴击</dt><dd id="pCrit">–</dd>
+          <dt>减伤</dt><dd id="pMit">–</dd>
+          <dt>坐标</dt><dd id="pPos">–</dd>
+          <dt>瞄准点</dt><dd id="pAim">–</dd>
+          <dt>移动方向</dt><dd id="pDir">–</dd>
+        </dl>
+        <div id="pGod" class="err" style="display:none;padding:6px 0 0">无限血甲精神已启用（游戏自带 F2 无敌开着）</div>
+        <div style="margin-top:8px" class="row">
+          <span class="muted">天赋</span><span id="pPerks">–</span>
+        </div>
+        <div style="margin-top:5px" class="row">
+          <span class="muted">状态</span><span id="pBuffs">–</span>
+        </div>
+        <div style="margin-top:5px" class="row">
+          <span class="muted">组件标签</span><span id="pTags" class="muted">–</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="cardAlly" style="display:none">
+      <h2>小队友军 <span class="sp"></span><span class="muted" id="allyN">–</span></h2>
+      <div class="bd scroll" style="max-height:150px"><table id="tblAlly"></table></div>
+    </div>
+
+    <div class="card" id="cardBoss" style="display:none">
+      <h2>首领（BOSS） <span class="sp"></span><span class="muted" id="bossN">–</span></h2>
+      <div class="bd" id="bossBody"></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="card" id="cardAdv" style="border-color:#1d5f4c">
+      <h2 style="background:#12291f;color:#8ff0cd">战术建议 <span class="muted" style="font-weight:400">（只读，不接管操作）</span>
+        <span class="sp"></span><span class="muted" id="advDanger">–</span></h2>
+      <div class="bd" id="advBody"><span class="muted">等待建议数据…</span></div>
+    </div>
+
+    <div class="card">
+      <h2>敌人 <span class="sp"></span>
+        <span class="muted" id="enSummary">–</span>
+        <label class="pill" style="cursor:pointer;font-weight:400"><input type="checkbox" id="chkHideDead"> 隐藏已死亡</label>
+      </h2>
+      <div class="bd scroll" style="padding:0"><table id="tblEn"></table></div>
+    </div>
+
+    <div class="card">
+      <h2>弹幕 / 范围伤害 <span class="sp"></span><span class="muted" id="projN">–</span></h2>
+      <div class="bd scroll" style="padding:0;max-height:180px"><table id="tblProj"></table></div>
+    </div>
+
+    <div class="card">
+      <h2>战斗事件流 <span class="sp"></span>
+        <span class="muted" id="logN">0</span>
+        <button id="btnClearLog" style="padding:1px 8px;font-size:11px">清空</button></h2>
+      <div class="bd"><div id="log"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="footer">
+  数据来源：游戏自身 ECS 世界的实时组件读取（<code>World.DefaultGameObjectInjectionWorld</code> → <code>EntityManager</code>）。
+  接口：<code>/state</code> 缓存快照 · <code>/snapshot</code> 强制重抓 · <code>/deep?enemies=8&amp;depth=4</code> 反射式全组件全字段 · <code>/dump</code> 落盘 · <code>/help</code> 纯文本说明。
+  <br>本页快捷键：<b>空格</b> 暂停刷新 · <b>D</b> 深度转储 · <b>R</b> 强制抓取。
+  游戏内热键：<b>F8</b> 战术建议 · <b>F9</b> 浮层 · <b>F10</b> 落盘 · <b>F11</b> 雷达 · <b>F12</b> 怪物血条。
+  <br>游戏自带开发键（若已挂载）：<b>F1</b> 连升级 · <b>F2</b> 无限血甲精神 · <b>F3</b> 强刷首领 · <b>F4</b> 天赋自选面板 · <b>F5</b> 随机事件面板 · <b>小键盘 0-6</b> 首领 AI 手动指令。
+  <br><span id="devTools" class="muted"></span>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const ORIGIN = location.origin;
+const REFRESH_MS = 250;
+
+// ------------------------------------------------ 中文映射（取自游戏枚举与 InspectorName）
+const CN = {
+  mech:  { Sun:'中型机', Storm:'轻型机', Iron:'重型机', Being:'6号机',
+           ReservedMech4:'4号机（预留）', ReservedMech5:'5号机（预留）' },
+  ai:    { Melee:'近战', Ranged:'远程', FlyingMelee:'飞行近战', DashMelee:'突进近战',
+           SuicideBomber:'自爆兵', InterferenceFloater:'干扰浮空体' },
+  cd:    { Single:'单次', Multiple:'多次（充能）' },
+  buff:  { None:'无', Slow:'减速' },
+  atk:   { Projectile:'弹体', 'AOE单次':'范围·单次', 'AOE持续':'范围·持续' }
+};
+const cn = (map, v) => (map && v != null && map[v]) || v || '–';
+const mechName = v => v ? (CN.mech[v] ? CN.mech[v] + '·' + v : v) : '–';
+
+let S = null;                 // 最新快照
+let fps = 0, frames = 0, fpsT = performance.now();
+let sortKey = 'distanceToPlayer', sortDir = 1;
+let pinned = null;
+let prevEnemies = new Map();  // 实体号 -> {hp, name}
+let prevKill = null;
+let logCount = 0;
+let deepPlayer = null;
+let radarHits = [], radarCenter = {x:0,y:0};
+
+const AI_COLOR = {
+  Melee:'#f87171', FlyingMelee:'#fb923c', Ranged:'#a78bfa',
+  DashMelee:'#f472b6', SuicideBomber:'#facc15', InterferenceFloater:'#38bdf8'
+};
+function enemyColor(e){
+  for (const t of (e.aiTags||[])) if (AI_COLOR[t]) return AI_COLOR[t];
+  return e.isBoss ? '#ef4444' : '#94a3b8';
+}
+function buildLegend(){
+  const items = Object.keys(AI_COLOR).map(k =>
+    '<span><i style="background:'+AI_COLOR[k]+'"></i>'+CN.ai[k]+'</span>');
+  items.push('<span><i style="background:#34d399"></i>友军</span>');
+  items.push('<span><i style="background:#fde68a"></i>弹幕</span>');
+  items.push('<span><i style="background:#5aa9ff"></i>自身</span>');
+  $('legend').innerHTML = items.join('');
+}
+
+// ---------------------------------------------------------------- 轮询
+async function tick(){
+  if (!$('chkPause').checked){
+    try{
+      const r = await fetch(ORIGIN + '/state', {cache:'no-store'});
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      S = await r.json();
+      onSnapshot();
+      setConn(true);
+    }catch(err){ setConn(false, err.message); }
+  }
+  frames++;
+  const now = performance.now();
+  if (now - fpsT > 1000){ fps = frames * 1000 / (now - fpsT); frames = 0; fpsT = now; $('pFps').textContent = fps.toFixed(1); }
+  setTimeout(tick, REFRESH_MS);
+}
+function setConn(ok, msg){
+  $('connDot').className = 'dot ' + (ok ? 'on' : 'off');
+  $('connTxt').textContent = ok ? '已连接' : ('已断开 ' + (msg||''));
+  $('connTxt').style.color = ok ? '' : 'var(--bad)';
+}
+
+// ---------------------------------------------------------------- 渲染
+const f = (v,d=1) => (v===null||v===undefined||Number.isNaN(v)) ? '–' : Number(v).toFixed(d);
+function setBar(iEl,tEl,cur,max,color){
+  const p = (max>1e-4) ? Math.max(0,Math.min(1,cur/max)) : 0;
+  $(iEl).style.width = (p*100).toFixed(1)+'%';
+  $(iEl).style.background = color || '';
+  $(tEl).textContent = f(cur,0)+' / '+f(max,0)+'　'+(p*100).toFixed(0)+'%';
+}
+
+function localPlayer(){
+  if (!S || !S.players || !S.players.length) return null;
+  return S.players.find(p=>p.isLocal) || S.players[0];
+}
+
+function onSnapshot(){
+  if (!S) return;
+  $('pInGame').textContent = S.isInGame ? '是' : '否';
+  $('pStage').textContent  = S.stageIndex ?? '–';
+  $('pMech').textContent   = mechName(S.mechType);
+  $('pScene').textContent  = S.sceneName || '–';
+  $('pEnts').textContent   = (S.world && S.world.totalEntities>=0) ? S.world.totalEntities : '–';
+  $('pEn').textContent     = (S.enemies||[]).length;
+  $('devTools').textContent = S.devToolsDetail || '';
+
+  renderPlayer();
+  renderAdvice();
+  renderAllies();
+  renderBosses();
+  renderEnemies();
+  renderProjectiles();
+  diffEvents();
+  drawRadar();
+}
+
+function renderPlayer(){
+  const p = localPlayer();
+  if (!p){ $('pEnt').textContent = '尚无玩家实体'; return; }
+  $('pEnt').textContent = '实体 E'+p.entityIndex+(p.mechSlot>=0?(' · 槽位 '+p.mechSlot):'')+(p.isLocal?'（本地）':'');
+
+  setBar('bHp','tHp',p.hp,p.maxHp, p.hpPct<0.3 ? 'var(--bad)' : 'var(--hp)');
+  setBar('bExp','tExp',p.exp,(p.maxExpEffective>0?p.maxExpEffective:p.maxExp));
+
+  const hasPlate = p.platingMax > 0.001;
+  $('rowPlate').style.display = hasPlate ? 'flex' : 'none';
+  if (hasPlate) setBar('bPlate','tPlate',p.plating,p.platingMax);
+
+  const hasSpirit = p.spiritMax > 0.001;
+  $('rowSpirit').style.display = hasSpirit ? 'flex' : 'none';
+  if (hasSpirit) setBar('bSpirit','tSpirit',p.spirit,p.spiritMax);
+
+  const cdMax = p.skillCdTime>0 ? p.skillCdTime : 1;
+  const ready = p.skillCdTimer <= 0.0001;
+  $('bSkill').style.width = (ready?100:Math.max(0,Math.min(1,1-p.skillCdTimer/cdMax))*100).toFixed(1)+'%';
+  $('bSkill').style.background = ready ? 'var(--hp)' : 'var(--warn)';
+  $('tSkill').textContent = ready ? '就绪' : (f(p.skillCdTimer,2)+' / '+f(p.skillCdTime,2)+' 秒');
+
+  $('pLv').textContent   = p.level;
+  $('pKill').textContent = p.killCount;
+  $('pAtk').textContent  = f(p.attackPower,1);
+  $('pAtkBase').textContent = f(p.attackPowerBase,1);
+  $('pCd').textContent   = f(p.attackCooldown,2);
+  $('pCdBase').textContent = f(p.attackCooldownBase,2);
+  $('pSpd').textContent  = f(p.moveSpeed,2);
+  $('pSpdBase').textContent = f(p.moveSpeedBase,2);
+  $('pDet').textContent  = f(p.detectionRadius,1);
+  $('pSkill').innerHTML  = '<b>'+mechName(p.skillType)+'</b> <span class="muted">'+cn(CN.cd,p.skillCdType)+
+      '</span> · 伤害 '+f(p.skillDamage,1)+' · 充能 '+p.skillTimes+'/'+p.skillMaxCharges+
+      (p.skillActive?' · <b style="color:var(--warn)">生效中</b>':'')+
+      (p.canSkill?'':' · <span class="muted">当前不可用</span>');
+  $('pPos').textContent  = '('+f(p.posX,2)+', '+f(p.posY,2)+', '+f(p.posZ,2)+')';
+  $('pAim').textContent  = p.hasAim ? ('('+f(p.aimX,2)+', '+f(p.aimY,2)+')') : '–';
+  $('pDir').textContent  = '('+f(p.moveDirX,2)+', '+f(p.moveDirY,2)+')';
+  $('pGod').style.display = p.infiniteSurvivalDevTag ? 'block' : 'none';
+
+  $('pPerks').innerHTML = (p.perks&&p.perks.length)
+    ? p.perks.map(k=>'<span class="tag">编号'+k.perkId+' · '+k.level+'级</span>').join('') : '<span class="muted">无</span>';
+  $('pBuffs').innerHTML = (p.buffs&&p.buffs.length)
+    ? p.buffs.map(b=>'<span class="tag">'+cn(CN.buff,b.type)+(b.level?(' ×'+f(b.level,1)):'')+(b.timer>0?(' '+f(b.timer,1)+'秒'):'')+'</span>').join('')
+    : '<span class="muted">无</span>';
+  $('pTags').innerHTML = (p.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('') || '–';
+
+  $('pCrit').textContent = deepPlayer
+    ? ((deepPlayer['CritRateData'] ? '暴击率 '+f(deepPlayer['CritRateData'].Value*100,1)+'%' : '–') +
+       (deepPlayer['CritDamageData'] ? ' · 暴击伤害 '+f(deepPlayer['CritDamageData'].Value,2)+' 倍' : ''))
+    : '点「深度转储」后可见';
+  $('pMit').textContent = (deepPlayer && deepPlayer['InjuryMitigation'])
+    ? f(deepPlayer['InjuryMitigation'].Value,3) : '点「深度转储」后可见';
+  $('pEst').innerHTML = (p.attackDamageEstimate>0)
+    ? ('<b>'+f(p.attackDamageEstimate,1)+'</b> <span class="muted">（未计目标护甲；命中后改用实测）</span>')
+    : '–';
+}
+
+function renderAdvice(){
+  const a = S && S.advice;
+  const body = $('advBody');
+  if (!a || !a.active){
+    $('advDanger').textContent = '–';
+    body.innerHTML = '<span class="muted">暂无建议：'+esc(a ? (a.noTargetReason||'无') : '未开启（游戏内按 F8 或改 Advisor/Enabled）')+'</span>';
+    return;
+  }
+  const dcol = a.dangerScore>0.75?'var(--bad)':a.dangerScore>0.45?'#fb923c':a.dangerScore>0.18?'var(--warn)':'var(--hp)';
+  $('advDanger').innerHTML = '危险度 <b style="color:'+dcol+'">'+(a.dangerScore*100).toFixed(0)+'% '+esc(a.dangerLabel||'')+'</b>';
+
+  let h = '<div class="row" style="margin-bottom:6px"><b style="color:#8ff0cd;font-size:14px;flex:1">→ '+esc(a.targetName||('E'+a.targetEntityIndex))+'</b>'+
+          '<span class="muted">实体 E'+a.targetEntityIndex+' · 距离 '+f(a.targetDistance,1)+'</span></div>';
+  h += '<div class="row" style="margin-bottom:6px">'+
+       '<span class="tag" style="color:#0d1016;background:'+(a.targetKillableNow?'var(--bad)':'var(--hp)')+';border-color:transparent;font-weight:600">'+
+       (a.targetKillableNow ? '下一击可击杀' : '还需 '+(a.targetHitsToKill>0?a.targetHitsToKill:'?')+' 击')+'</span>'+
+       '<span class="muted">血量 '+f(a.targetHp,0)+' / '+f(a.targetMaxHp,0)+'</span></div>';
+  if (a.targetWhy) h += '<div class="muted" style="margin-bottom:6px">理由：'+esc(a.targetWhy)+'</div>';
+  h += '<dl class="kv">'+
+       '<dt>建议瞄准</dt><dd>'+(a.hasAim?('('+f(a.aimX,2)+', '+f(a.aimY,2)+') 提前量 '+f(a.aimLeadSeconds,3)+' 秒'):'–')+'</dd>'+
+       '<dt>建议走位</dt><dd>('+f(a.moveX,2)+', '+f(a.moveY,2)+') <b>'+esc(a.moveLabel||'')+'</b></dd>'+
+       '<dt>威胁</dt><dd>'+a.threatCount+' 个近身 · '+a.incomingCount+' 发来弹</dd>'+
+       '</dl>';
+  if (a.ranking && a.ranking.length > 1){
+    h += '<div class="muted" style="margin-top:8px">候选排名（分数越高越该先打）</div>'+
+         '<table><thead><tr><th>#</th><th>目标</th><th>分</th><th>距离</th><th>需击</th><th></th></tr></thead><tbody>';
+    for (let i=0;i<a.ranking.length;i++){
+      const c = a.ranking[i];
+      h += '<tr><td>'+(i+1)+'</td><td style="text-align:left">'+esc(((c.name||'')||('E'+c.entityIndex)).slice(0,12))+'</td>'+
+           '<td>'+f(c.score,0)+'</td><td>'+f(c.distance,1)+'</td><td>'+(c.hitsToKill>0?c.hitsToKill:'–')+'</td>'+
+           '<td>'+(c.killableNow?'<span class="tag e">可秒杀</span>':'')+'</td></tr>';
+    }
+    h += '</tbody></table>';
+  }
+  body.innerHTML = h;
+}
+
+function renderAllies(){
+  const a = S.allies||[];
+  $('cardAlly').style.display = a.length ? '' : 'none';
+  if (!a.length) return;
+  $('allyN').textContent = a.length + ' 名';
+  let h = '<thead><tr><th>槽位</th><th>机甲</th><th>实体</th><th>血量</th><th style="width:70px"></th><th>距离</th><th>状态</th></tr></thead><tbody>';
+  for (const x of a){
+    h += '<tr><td>'+x.slotIndex+'</td><td>'+mechName(x.skillType)+'</td><td>E'+x.entityIndex+'</td>'+
+         '<td>'+f(x.hp,0)+'/'+f(x.maxHp,0)+'</td>'+
+         '<td><div class="mini"><i style="width:'+(x.hpPct*100).toFixed(0)+'%;background:var(--hp)"></i></div></td>'+
+         '<td>'+f(x.distanceToPlayer,1)+'</td>'+
+         '<td>'+(x.downed?'<span class="tag e">倒地待救</span>':'<span class="muted">正常</span>')+'</td></tr>';
+  }
+  $('tblAlly').innerHTML = h + '</tbody>';
+}
+
+function renderBosses(){
+  const b = S.bosses||[];
+  $('cardBoss').style.display = b.length ? '' : 'none';
+  if (!b.length) return;
+  $('bossN').textContent = b.length + ' 个';
+  let h = '';
+  for (const x of b){
+    h += '<div style="margin-bottom:8px"><div class="row" style="margin-bottom:3px">'+
+      '<b style="flex:1">'+(x.name||'&lt;无名首领&gt;')+'</b>'+
+      '<span class="muted">实体 E'+x.entityIndex+' · 第 '+x.stageIndex+' 关</span></div>'+
+      '<div class="row"><span class="barlbl">血量</span><div class="bar" style="flex:1">'+
+      '<i style="width:'+(x.hpPct*100).toFixed(1)+'%;background:var(--bad)"></i>'+
+      '<span>'+f(x.hp,0)+' / '+f(x.maxHp,0)+'　'+(x.hpPct*100).toFixed(1)+'%</span></div></div>'+
+      '<dl class="kv" style="margin-top:5px">'+
+      '<dt>AI 状态</dt><dd>模式 <b>'+x.aiMode+'</b> · 待执行指令 '+x.pendingCommand+' · 子计时 '+f(x.subTimer,2)+(x.stunned?' · <b style="color:var(--warn)">硬直中</b>':'')+'</dd>'+
+      '<dt>坐标 / 距离</dt><dd>('+f(x.posX,1)+', '+f(x.posY,1)+') · 距你 '+f(x.distanceToPlayer,1)+'</dd>'+
+      ((x.buffs&&x.buffs.length)?('<dt>状态</dt><dd>'+x.buffs.map(v=>cn(CN.buff,v.type)).join('、')+'</dd>'):'')+
+      '</dl></div>';
+  }
+  $('bossBody').innerHTML = h;
+}
+
+const EN_COLS = [
+  ['name','名字'],['entityIndex','实体'],['hp','血量'],['hpbar',''],
+  ['distanceToPlayer','距离'],['angleToPlayerDeg','角度'],
+  ['aiTags','AI 类型'],['armor','护甲'],
+  ['predictedNextDamage','预计伤害'],['predictedHpAfter','预计剩余'],['hitsToKill','需击'],
+  ['attackDamage','敌伤'],['moveSpeed','移速'],['pos','坐标']
+];
+function renderEnemies(){
+  const list = (S.enemies||[]).slice();
+  const hideDead = $('chkHideDead').checked;
+  const rows = list.filter(e => !hideDead || e.hp > 0);
+  rows.sort((a,b)=>{
+    let va = sortVal(a), vb = sortVal(b);
+    if (typeof va === 'string') return va.localeCompare(vb,'zh') * sortDir;
+    return ((va??Infinity)-(vb??Infinity)) * sortDir;
+  });
+
+  const total = S.world ? S.world.enemyHpTotal : 0;
+  $('enSummary').textContent = rows.length + ' / ' + list.length +
+      ' 只 · 精英 ' + (S.world?S.world.enemyCountElite:0) + ' · 总血量 ' + f(total,0);
+
+  let h = '<thead><tr>';
+  for (const [k,label] of EN_COLS){
+    if (!label){ h += '<th></th>'; continue; }
+    h += '<th data-k="'+k+'">'+label+(sortKey===k?(sortDir>0?' ▲':' ▼'):'')+'</th>';
+  }
+  h += '</tr></thead><tbody>';
+
+  for (const e of rows){
+    const dead = e.hp <= 0;
+    const pct = e.hpPct*100;
+    const killable = !!e.willDieFromNextHit;
+    h += '<tr data-idx="'+e.entityIndex+'" class="'+(e.isBoss?'boss':(e.isElite?'elite':''))+
+         (killable?' killable':'')+
+         (dead?' dead':'')+(pinned===e.entityIndex?' pinned':'')+'">'+
+      '<td>'+esc(e.name||'&lt;无名&gt;')+
+        (e.isElite?'<span class="tag e">精英</span>':'')+
+        (e.isBoss?'<span class="tag" style="color:var(--bad);border-color:var(--bad)">首领</span>':'')+
+        (killable?'<span class="tag" style="color:#fff;background:var(--bad);border-color:var(--bad)">可秒杀</span>':'')+
+        (e.hitStunned?'<span class="tag s">硬直</span>':'')+
+        (e.movementPaused?'<span class="tag">停顿</span>':'')+
+      '</td>'+
+      '<td class="muted">E'+e.entityIndex+'</td>'+
+      '<td>'+f(e.hp,0)+'<span class="muted">/'+f(e.maxHp,0)+'</span></td>'+
+      '<td><div class="mini"><i style="width:'+pct.toFixed(0)+'%;background:'+(pct<30?'var(--bad)':'var(--hp)')+'"></i></div></td>'+
+      '<td>'+f(e.distanceToPlayer,1)+'</td>'+
+      '<td class="muted">'+(Number.isNaN(e.angleToPlayerDeg)?'–':f(e.angleToPlayerDeg,0)+'°')+'</td>'+
+      '<td style="text-align:left">'+(e.aiTags||[]).map(t=>'<span class="tag" style="color:'+AI_COLOR[t]+'">'+cn(CN.ai,t)+'</span>').join('')+'</td>'+
+      '<td>'+(e.armor>0.01?(f(e.armor,0)+'<span class="muted"> ×'+(e.armorMultiplier*100).toFixed(0)+'%</span>'):'–')+'</td>'+
+      '<td'+(killable?' style="color:var(--bad);font-weight:600"':'')+'>'+f(e.predictedNextDamage,1)+
+        (e.predictedDamageSource==='模型'?'<span class="muted">估</span>':'')+'</td>'+
+      '<td'+(killable?' style="color:var(--bad);font-weight:600"':'')+'>'+f(e.predictedHpAfter,1)+'</td>'+
+      '<td>'+(e.hitsToKill>=0?e.hitsToKill+' 击':'–')+'</td>'+
+      '<td>'+e.attackDamage+'</td>'+
+      '<td>'+f(e.moveSpeed,1)+'</td>'+
+      '<td class="muted">('+f(e.posX,1)+', '+f(e.posY,1)+')</td>'+
+    '</tr>';
+  }
+  $('tblEn').innerHTML = h + '</tbody>';
+
+  $('tblEn').querySelectorAll('th[data-k]').forEach(th=>{
+    th.onclick = ()=>{ const k=th.dataset.k; if(sortKey===k) sortDir*=-1; else {sortKey=k;sortDir=1;} renderEnemies(); };
+  });
+  $('tblEn').querySelectorAll('tbody tr').forEach(tr=>{
+    tr.onclick = ()=>{ const i=+tr.dataset.idx; pinned = (pinned===i?null:i); renderEnemies(); };
+  });
+}
+function sortVal(e){
+  switch(sortKey){
+    case 'name': return e.name||'';
+    case 'hp': return e.hp;
+    case 'hpbar': return e.hpPct;
+    case 'pos': return e.posX;
+    case 'aiTags': return (e.aiTags||[]).map(t=>cn(CN.ai,t)).join();
+    default: return e[sortKey];
+  }
+}
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function renderProjectiles(){
+  const p = S.projectiles||[];
+  $('projN').textContent = p.length + ' 个';
+  if (!p.length){ $('tblProj').innerHTML = '<tbody><tr><td class="muted" style="text-align:left;padding:8px">当前场上没有弹幕 / 范围伤害</td></tr></tbody>'; return; }
+  let h = '<thead><tr><th>类型</th><th>实体</th><th>归属</th><th>伤害</th><th>速度</th><th>剩余寿命</th><th>距你</th><th>坐标</th></tr></thead><tbody>';
+  for (const x of p){
+    h += '<tr><td style="text-align:left">'+esc(cn(CN.atk,x.attackType))+'</td><td class="muted">E'+x.entityIndex+'</td>'+
+         '<td class="muted">'+(x.ownerEntityIndex>=0?('E'+x.ownerEntityIndex):'–')+'</td>'+
+         '<td>'+f(x.damage,1)+'</td><td>'+f(x.moveSpeed,1)+'</td><td>'+f(x.lifeRemaining,2)+' 秒</td>'+
+         '<td>'+f(x.distanceToPlayer,1)+'</td><td class="muted">('+f(x.posX,1)+', '+f(x.posY,1)+')</td></tr>';
+  }
+  $('tblProj').innerHTML = h+'</tbody>';
+}
+
+// ---------------------------------------------------------------- 事件流
+function pushLog(html, cls){
+  const d = document.createElement('div');
+  if (cls) d.className = cls;
+  const t = new Date();
+  d.innerHTML = '<b>'+t.toTimeString().slice(0,8)+'</b> '+html;
+  const box = $('log');
+  box.insertBefore(d, box.firstChild);
+  while (box.childNodes.length > 220) box.removeChild(box.lastChild);
+  logCount++; $('logN').textContent = logCount;
+}
+
+function diffEvents(){
+  const p = localPlayer();
+  if (p && p.damageTakenThisFrame && p.damageTakenThisFrame.length){
+    const sum = p.damageTakenThisFrame.reduce((a,b)=>a+b,0);
+    pushLog('你受到 <b>'+f(sum,1)+'</b> 点伤害（'+p.damageTakenThisFrame.length+' 笔）→ 剩余血量 '+f(p.hp,0)+'/'+f(p.maxHp,0), 'dmg');
+  }
+  if (p && prevKill !== null && p.killCount > prevKill){
+    pushLog('击杀 +'+(p.killCount-prevKill)+'，累计 <b>'+p.killCount+'</b>', 'kill');
+  }
+  if (p) prevKill = p.killCount;
+
+  const cur = new Map();
+  for (const e of (S.enemies||[])){
+    cur.set(e.entityIndex, e);
+    if (e.damageTakenThisFrame && e.damageTakenThisFrame.length){
+      const sum = e.damageTakenThisFrame.reduce((a,b)=>a+b,0);
+      const killed = sum >= e.hp - 1e-3 && e.hp > 0;
+      pushLog((killed?'<b>击杀</b> ':'命中 ')+esc(e.name||('E'+e.entityIndex))+
+              '，造成 <b>'+f(sum,1)+'</b>'+(killed?'':' → 剩余 '+f(e.hp-sum,0)), killed?'kill':'dmg');
+    }
+  }
+  for (const [idx, prev] of prevEnemies){
+    if (!cur.has(idx) && prev.hp > 0) pushLog('目标消失 <span class="muted">'+esc(prev.name||('E'+idx))+'</span>（大概率已死亡）', 'kill');
+  }
+  for (const [idx,e] of cur) prevEnemies.set(idx, {hp:e.hp, name:e.name});
+  for (const k of Array.from(prevEnemies.keys())) if (!cur.has(k)) prevEnemies.delete(k);
+}
+
+// ---------------------------------------------------------------- 雷达
+const cv = $('radar'), cx = cv.getContext('2d');
+function drawRadar(){
+  const W = cv.width, H = cv.height, R = W/2 - 14;
+  cx.clearRect(0,0,W,H);
+  const p = localPlayer();
+
+  cx.save(); cx.translate(W/2, H/2);
+
+  let range = +$('radarRange').value;
+  if (!range){
+    let m = 20;
+    for (const e of (S&&S.enemies||[])) if (e.hasPosition) m = Math.max(m, Math.hypot(e.posX-(p?p.posX:0), e.posY-(p?p.posY:0)));
+    range = Math.ceil(m*1.15/10)*10;
+  }
+  const sc = R / range;
+
+  cx.strokeStyle = '#1b2432'; cx.lineWidth = 1;
+  for (let i=1;i<=4;i++){ cx.beginPath(); cx.arc(0,0,R*i/4,0,Math.PI*2); cx.stroke(); }
+  cx.beginPath(); cx.moveTo(-R,0); cx.lineTo(R,0); cx.moveTo(0,-R); cx.lineTo(0,R); cx.stroke();
+  cx.fillStyle = '#4d5b70'; cx.font = '10px sans-serif'; cx.textAlign='center';
+  for (let i=1;i<=4;i++) cx.fillText((range*i/4).toFixed(0), R*i/4, -3);
+
+  if (!p){ cx.restore(); cx.fillStyle='#8895a8'; cx.font='13px sans-serif'; cx.textAlign='center';
+           cx.fillText('等待玩家实体…', W/2, H/2+40); return; }
+
+  const toRadar = (x,y) => [ (x-p.posX)*sc, -(y-p.posY)*sc ];   // 屏幕 Y 向下，世界 Y 向上
+
+  if (p.hasAim){
+    const [ax,ay] = toRadar(p.aimX, p.aimY);
+    cx.strokeStyle = '#5aa9ff88'; cx.lineWidth = 1;
+    cx.beginPath(); cx.moveTo(0,0); cx.lineTo(ax,ay); cx.stroke();
+    cx.beginPath(); cx.arc(ax,ay,3,0,Math.PI*2); cx.stroke();
+  }
+
+  if (p.detectionRadius>0){
+    cx.strokeStyle = '#fbbf2444'; cx.setLineDash([4,4]); cx.lineWidth = 1;
+    cx.beginPath(); cx.arc(0,0,p.detectionRadius*sc,0,Math.PI*2); cx.stroke(); cx.setLineDash([]);
+  }
+
+  const showNames = $('chkNames').checked;
+  const drawn = [];
+
+  for (const q of (S.projectiles||[])){
+    const [x,y] = toRadar(q.posX,q.posY);
+    if (Math.hypot(x,y) > R) continue;
+    cx.fillStyle = '#fde68a'; cx.beginPath(); cx.arc(x,y,2,0,Math.PI*2); cx.fill();
+  }
+
+  for (const a of (S.allies||[])){
+    const [x,y] = toRadar(a.posX,a.posY);
+    if (Math.hypot(x,y) > R) continue;
+    cx.fillStyle = '#34d399'; cx.beginPath(); cx.arc(x,y,4,0,Math.PI*2); cx.fill();
+    drawn.push({x,y,r:6,e:{entityIndex:a.entityIndex,name:'友军 · 槽位'+a.slotIndex,hp:a.hp,maxHp:a.maxHp,distanceToPlayer:a.distanceToPlayer,aiTags:[a.skillType]}});
+  }
+
+  for (const e of (S.enemies||[])){
+    if (!e.hasPosition) continue;
+    const [x,y] = toRadar(e.posX,e.posY);
+    const off = Math.hypot(x,y) > R;
+    const ex = off ? x/Math.hypot(x,y)*(R-4) : x;
+    const ey = off ? y/Math.hypot(x,y)*(R-4) : y;
+    const c = enemyColor(e);
+    const r = e.isBoss ? 9 : (e.isElite ? 6.5 : 4.2);
+
+    cx.globalAlpha = off ? 0.4 : 1;
+    cx.fillStyle = c;
+    if (e.isBoss){
+      cx.save(); cx.translate(ex,ey); cx.rotate(Math.PI/4); cx.fillRect(-r,-r,r*2,r*2); cx.restore();
+    } else {
+      cx.beginPath(); cx.arc(ex,ey,r,0,Math.PI*2); cx.fill();
+    }
+    if (e.isElite){ cx.strokeStyle='#fff8'; cx.lineWidth=1.5; cx.beginPath(); cx.arc(ex,ey,r+2.5,0,Math.PI*2); cx.stroke(); }
+    if (e.hpPct < 0.999){
+      cx.strokeStyle = '#0009'; cx.lineWidth = 2.4;
+      cx.beginPath(); cx.arc(ex,ey,r+4.5,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.max(0,e.hpPct)); cx.stroke();
+    }
+    if (showNames && !off){
+      cx.fillStyle = '#c7d2e0'; cx.font='10px "Microsoft YaHei UI",sans-serif'; cx.textAlign='left';
+      cx.fillText((e.name||'').slice(0,10), ex+r+3, ey+3);
+    }
+    cx.globalAlpha = 1;
+    drawn.push({x:ex,y:ey,r:r+5,e});
+  }
+
+  for (const b of (S.bosses||[])){
+    const [x,y] = toRadar(b.posX,b.posY);
+    cx.strokeStyle='#ef444466'; cx.lineWidth=1.5; cx.beginPath(); cx.moveTo(0,0); cx.lineTo(x,y); cx.stroke();
+  }
+
+  let ang = Math.atan2(p.moveDirY, p.moveDirX);
+  if (!isFinite(ang) || (p.moveDirX===0 && p.moveDirY===0)) ang = Math.PI/2;
+  cx.save(); cx.rotate(-ang);
+  cx.fillStyle = '#5aa9ff'; cx.beginPath(); cx.moveTo(9,0); cx.lineTo(-6,5.5); cx.lineTo(-3,0); cx.lineTo(-6,-5.5);
+  cx.closePath(); cx.fill();
+  cx.strokeStyle='#fff'; cx.lineWidth=1; cx.stroke(); cx.restore();
+
+  // ---- 只读建议层：推荐目标 / 瞄准点 / 走位方向
+  const adv = S.advice;
+  if (adv && adv.active){
+    const G = '#40f2b8';
+    if (adv.hasAim){
+      const [ax,ay] = toRadar(adv.aimX, adv.aimY);
+      cx.strokeStyle = G+'55'; cx.lineWidth = 1;
+      cx.beginPath(); cx.moveTo(0,0); cx.lineTo(ax,ay); cx.stroke();
+      cx.strokeStyle = G; cx.lineWidth = 1.6;
+      cx.beginPath();
+      cx.moveTo(ax-6,ay); cx.lineTo(ax+6,ay);
+      cx.moveTo(ax,ay-6); cx.lineTo(ax,ay+6);
+      cx.stroke();
+    }
+    for (const e of (S.enemies||[])){
+      if (e.entityIndex !== adv.targetEntityIndex || !e.hasPosition) continue;
+      let [x,y] = toRadar(e.posX, e.posY);
+      const d = Math.hypot(x,y);
+      if (d > R){ const k = (R-6)/d; x *= k; y *= k; }
+      const rr = e.isBoss ? 13 : (e.isElite ? 11 : 9);
+      cx.strokeStyle = G; cx.lineWidth = 2;
+      cx.beginPath(); cx.arc(x,y,rr,0,Math.PI*2); cx.stroke();
+      cx.beginPath(); cx.arc(x,y,rr+4,0,Math.PI*2); cx.stroke();
+      cx.fillStyle = G; cx.font='11px "Microsoft YaHei UI",sans-serif'; cx.textAlign='left';
+      cx.fillText('推荐目标', x+rr+7, y-2);
+      break;
+    }
+    if (adv.hasMove){
+      const len = Math.min(R*0.55, 62);
+      const ex = adv.moveX*len, ey = -adv.moveY*len;
+      cx.strokeStyle = G; cx.lineWidth = 2.5;
+      cx.beginPath(); cx.moveTo(0,0); cx.lineTo(ex,ey); cx.stroke();
+      cx.save(); cx.translate(ex,ey); cx.rotate(Math.atan2(-adv.moveY, adv.moveX));
+      cx.fillStyle = G; cx.beginPath(); cx.moveTo(8,0); cx.lineTo(-4,5); cx.lineTo(-4,-5);
+      cx.closePath(); cx.fill(); cx.restore();
+      cx.fillStyle = G; cx.font='11px "Microsoft YaHei UI",sans-serif'; cx.textAlign='left';
+      cx.fillText(adv.moveLabel||'', ex+9, ey+4);
+    }
+  }
+
+  cx.restore();
+  radarHits = drawn;
+  radarCenter = {x:W/2,y:H/2};
+}
+
+cv.addEventListener('mousemove', ev=>{
+  const rect = cv.getBoundingClientRect();
+  const mx = (ev.clientX-rect.left) * (cv.width/rect.width);
+  const my = (ev.clientY-rect.top)  * (cv.height/rect.height);
+  let best = null, bd = 1e9;
+  for (const h of radarHits){
+    const d = Math.hypot(h.x+radarCenter.x-mx, h.y+radarCenter.y-my);
+    if (d < h.r+4 && d < bd){ bd = d; best = h; }
+  }
+  const tip = $('tip');
+  if (best){
+    const e = best.e;
+    const aiTxt = (e.aiTags||[]).map(t=>cn(CN.ai,t)).join(' + ');
+    tip.innerHTML = '<b>'+esc(e.name||('E'+e.entityIndex))+'</b> <span class="muted">实体 E'+e.entityIndex+'</span><br>'+
+      '血量 '+f(e.hp,0)+'/'+f(e.maxHp,0)+'（'+(e.hpPct*100).toFixed(0)+'%）<br>'+
+      '距离 '+f(e.distanceToPlayer,1)+' · 角度 '+(Number.isNaN(e.angleToPlayerDeg)?'–':f(e.angleToPlayerDeg,0)+'°')+'<br>'+
+      '坐标 ('+f(e.posX,1)+', '+f(e.posY,1)+', '+f(e.posZ,1)+')<br>'+
+      'AI 类型 '+aiTxt+(e.isElite?' · <b style="color:var(--elite)">精英</b>':'')+'<br>'+
+      (e.attackDamage!==undefined?('伤害 '+e.attackDamage+' · 冷却 '+f(e.attackCooldown,2)+' 秒<br>'):'')+
+      (e.moveSpeed!==undefined?('移速 '+f(e.moveSpeed,2)+'<br>'):'')+
+      (e.targetEntityIndex>=0?('当前目标 实体 E'+e.targetEntityIndex+'<br>'):'')+
+      ((e.buffs&&e.buffs.length)?('状态 '+e.buffs.map(b=>cn(CN.buff,b.type)).join('、')+'<br>'):'')+
+      '<span class="muted">在右侧表格点行可钉住该行</span>';
+    tip.style.display='block';
+    const box = $('radarBox').getBoundingClientRect();
+    tip.style.left = Math.min(ev.clientX-box.left+14, box.width-300)+'px';
+    tip.style.top  = (ev.clientY-box.top+14)+'px';
+    cv.style.cursor='pointer';
+  } else { $('tip').style.display='none'; cv.style.cursor='crosshair'; }
+});
+cv.addEventListener('mouseleave', ()=>{ $('tip').style.display='none'; });
+
+// ---------------------------------------------------------------- 控件
+$('btnClearLog').onclick = ()=>{ $('log').innerHTML=''; logCount=0; $('logN').textContent='0'; };
+$('chkPause').onchange = ()=>{ if(!$('chkPause').checked) tick(); };
+$('radarRange').onchange = ()=>drawRadar();
+$('chkNames').onchange = ()=>drawRadar();
+$('chkHideDead').onchange = ()=>renderEnemies();
+
+$('btnSnap').onclick = async ()=>{
+  $('btnSnap').disabled = true;
+  try{ const r = await fetch(ORIGIN+'/snapshot',{cache:'no-store'}); S = await r.json(); onSnapshot();
+       pushLog('已强制重新抓取快照'); }
+  catch(e){ pushLog('强制抓取失败：'+e.message,'dmg'); }
+  $('btnSnap').disabled = false;
+};
+
+$('btnDeep').onclick = async ()=>{
+  const b = $('btnDeep'); b.disabled = true; b.textContent = '转储中…';
+  try{
+    const r = await fetch(ORIGIN+'/deep?enemies=6&depth=4',{cache:'no-store'});
+    const j = await r.json();
+    if (j.deep && j.deep.players && j.deep.players[0]) deepPlayer = j.deep.players[0];
+    if (S) { S = j; onSnapshot(); }
+    const nc = deepPlayer ? Object.keys(deepPlayer).filter(k=>!k.startsWith('__')).length : 0;
+    pushLog('深度转储完成：自身 <b>'+nc+'</b> 个组件全字段，敌人 '+(j.deep?j.deep.enemiesDumped:0)+'/'+(j.deep?j.deep.enemiesTotal:0)+' 只');
+    window.__lastDeep = j;
+    console.log('深度转储结果', j);
+  }catch(e){ pushLog('深度转储失败：'+e.message,'dmg'); }
+  b.disabled = false; b.textContent = '深度转储';
+};
+
+$('btnSave').onclick = ()=>{
+  if (!S){ pushLog('还没有可导出的快照','dmg'); return; }
+  const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'combat_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json';
+  a.click(); URL.revokeObjectURL(a.href);
+};
+
+document.addEventListener('keydown', ev=>{
+  if (ev.key === ' '){ ev.preventDefault(); $('chkPause').checked = !$('chkPause').checked; }
+  if (ev.key.toLowerCase() === 'd') $('btnDeep').click();
+  if (ev.key.toLowerCase() === 'r') $('btnSnap').click();
+});
+
+buildLegend();
+pushLog('面板已连接，开始每 '+REFRESH_MS+' 毫秒轮询 <code>/state</code>');
+tick();
+</script>
+</body>
+</html>

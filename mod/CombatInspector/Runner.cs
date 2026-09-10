@@ -1,0 +1,592 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using Unity.Entities;
+using Unity.Mathematics;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace CombatInspector
+{
+    /// <summary>
+    /// The MonoBehaviour that owns the capture loop, the hotkeys, the file output and the HTTP
+    /// endpoint. All ECS access happens here, on the main thread, inside Update().
+    /// </summary>
+    public sealed class Runner : MonoBehaviour
+    {
+        public static Runner Instance { get; private set; }
+
+        public void SetOverlayVisible(bool v) { _overlay.Visible = v; }
+        public bool OverlayVisible { get { return _overlay.Visible; } }
+
+        [Header("capture")]
+        public float CaptureInterval = 0.25f;
+        public float FileWriteInterval = 1f;
+        public int MaxEnemies = 600;
+        public int MaxProjectiles = 400;
+        public bool IncludeComponentNames = false;
+
+        [Header("http")]
+        public bool HttpEnabled = true;
+        public int HttpPort = 8790;
+
+        [Header("output")]
+        public string OutDir;
+        public bool WriteJsonFile = true;
+        public bool WriteCsvFile = true;
+
+        [Header("hotkeys")]
+        public Key OverlayKey = Key.F9;
+        public Key DumpKey = Key.F10;
+        public Key RadarKey = Key.F11;
+        public Key BarsKey = Key.F12;
+        public Key AdvisorKey = Key.F8;
+        public Key AutoAimKey = Key.F7;
+
+        [Header("advisor（只读建议层）")]
+        public bool AdvisorEnabled = true;
+        public float AdvisorMaxEngage = 40f;
+        public float AdvisorThreatRadius = 9f;
+        public float AdvisorKiteDistance = 8f;
+
+        [Header("auto-aim（第②步：只接管瞄准）")]
+        public bool AutoAimEnabled = false;
+        public float AutoAimMaxDistance = 45f;
+
+        [Header("radar")]
+        public bool RadarVisible = true;
+        public float RadarSize = 300f;
+        public float RadarRange = 0f;      // 0 = 自动
+        public bool RadarNames = false;
+
+        [Header("health bars")]
+        public bool BarsEnabled = true;
+        public int BarsMaxCount = 40;
+        public float BarsMaxDistance = 70f;
+        public float BarsHeadOffsetY = 0.95f;
+        public bool BarsShowText = true;
+        public bool BarsShowPrediction = true;
+        public bool BarsLeaderLine = true;
+
+        private readonly Overlay _overlay = new Overlay();
+        private readonly RadarOverlay _radar = new RadarOverlay();
+        private readonly HealthBars _bars = new HealthBars();
+        private StateHttpServer _http;
+        private CombatSnapshot _latest;
+        private float _nextCapture;
+        private float _nextFileWrite;
+        private string _statusLine = "starting...";
+        private long _captureCount;
+        private string _lastError;
+
+        /// <summary>
+        /// Push the public config fields into the sub-windows / scanner.
+        /// Called from Awake AND again by Plugin after it assigns the config values —
+        /// AddComponent runs Awake immediately with field defaults, so without the second
+        /// call a config like Radar/VisibleByDefault=false would be silently ignored.
+        /// </summary>
+        public void ApplySettings()
+        {
+            CombatScanner.MaxEnemies = Mathf.Clamp(MaxEnemies, 1, 20000);
+            CombatScanner.MaxProjectiles = Mathf.Max(0, MaxProjectiles);
+            CombatScanner.IncludeComponentNames = IncludeComponentNames;
+
+            _radar.Visible = RadarVisible;
+            _radar.Size = Mathf.Clamp(RadarSize, 160f, 700f);
+            _radar.FixedRange = Mathf.Max(0f, RadarRange);
+            _radar.ShowNames = RadarNames;
+
+            _bars.Enabled = BarsEnabled;
+            _bars.MaxCount = Mathf.Clamp(BarsMaxCount, 1, 400);
+            _bars.MaxDistance = Mathf.Max(0f, BarsMaxDistance);
+            _bars.HeadOffsetY = BarsHeadOffsetY;
+            _bars.ShowText = BarsShowText;
+            _bars.ShowPrediction = BarsShowPrediction;
+            _bars.ShowLeaderLine = BarsLeaderLine;
+
+            TacticsAdvisor.MaxEngageDistance = Mathf.Max(5f, AdvisorMaxEngage);
+            TacticsAdvisor.ThreatRadius = Mathf.Max(2f, AdvisorThreatRadius);
+            TacticsAdvisor.KiteDistance = Mathf.Max(1f, AdvisorKiteDistance);
+            _radar.ShowAdvice = AdvisorEnabled;
+            _bars.MarkAdvice = AdvisorEnabled;
+            _overlay.ShowAdvice = AdvisorEnabled;
+
+            AimOverrideSystem.MaxAimDistance = Mathf.Max(5f, AutoAimMaxDistance);
+            AimOverrideSystem.Active = AutoAimEnabled && AdvisorEnabled;
+        }
+
+        private bool _aimSystemAdded;
+
+        /// <summary>
+        /// 把瞄准接管系统注册进游戏的世界。只试一次；必须在世界创建之后调用。
+        /// </summary>
+        private void EnsureAimSystem()
+        {
+            if (_aimSystemAdded) return;
+            var world = World.DefaultGameObjectInjectionWorld;
+            if (world == null || !world.IsCreated) return;
+            _aimSystemAdded = true;
+            try
+            {
+                // 必须走类型管理路径。手工 AddSystemManaged(instance) 不会应用
+                // [UpdateInGroup]/[UpdateAfter] 属性 —— 系统会进 world 但不在任何会更新的组里，
+                // OnUpdate 永远不执行（就是这么踩的）。GetOrCreateSystemManaged<T>() 才按属性挂载。
+                world.GetOrCreateSystemManaged<AimOverrideSystem>();
+                Log("AimOverrideSystem 已注册进 " + world.Name +
+                    "（GetOrCreateSystemManaged，按属性排在 MouseInputSystem 之后、PlayerAttackSystem 之前）；世界系统数=" +
+                    world.Systems.Count);
+            }
+            catch (Exception ex)
+            {
+                Log("注册 AimOverrideSystem 失败：" + ex.Message);
+            }
+        }
+
+        // ---------------------------------------------------------------- unity lifecycle
+
+        private void Awake()
+        {
+            Instance = this;
+            if (string.IsNullOrEmpty(OutDir))
+                OutDir = Path.Combine(Application.dataPath, "..", "CombatInspectorOut");
+
+            ApplySettings();
+
+            try { Directory.CreateDirectory(OutDir); }
+            catch (Exception ex) { Log("could not create output dir: " + ex.Message); }
+
+            if (HttpEnabled)
+            {
+                _http = new StateHttpServer(HttpPort);
+                _http.Log = Log;
+                _http.DashboardHtml = LoadDashboardHtml();
+                if (!_http.Start()) { _http = null; HttpEnabled = false; }
+            }
+
+            Log("CombatInspector ready. " + OverlayKey + " = overlay, " + DumpKey + " = dump files, " +
+                RadarKey + " = radar, " + BarsKey + " = health bars. out=" + OutDir);
+        }
+
+        private void OnDestroy()
+        {
+            try { if (_http != null) _http.Dispose(); } catch { }
+            if (Instance == this) Instance = null;
+        }
+
+        private void Update()
+        {
+            try
+            {
+                HandleHotkeys();
+                DrainHttp();
+                EnsureAimSystem();
+
+                if (Time.unscaledTime >= _nextCapture)
+                {
+                    _nextCapture = Time.unscaledTime + Mathf.Max(0.02f, CaptureInterval);
+                    DoCapture(deep: false, enemies: 0, depth: 0, indent: false);
+                }
+
+                if (WriteJsonFile || WriteCsvFile)
+                {
+                    if (Time.unscaledTime >= _nextFileWrite)
+                    {
+                        _nextFileWrite = Time.unscaledTime + Mathf.Max(0.2f, FileWriteInterval);
+                        WriteFiles(deep: false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _lastError = ex.GetType().Name + ": " + ex.Message;
+                Log("Update failed: " + _lastError);
+            }
+        }
+
+        private void OnGUI()
+        {
+            // 血条先画，压在两个窗口下面
+            if (_latest != null)
+            {
+                try { _bars.Draw(_latest); }
+                catch (Exception ex) { Log("health bars draw failed: " + ex); }
+            }
+
+            // 雷达独立于主面板显示，默认右上角
+            if (_radar.Visible && _latest != null)
+            {
+                try { _radar.Draw(_latest); }
+                catch (Exception ex) { Log("radar draw failed: " + ex); }
+            }
+
+            if (!_overlay.Visible) return;
+            try
+            {
+                string httpInfo = _http != null
+                    ? "HTTP http://127.0.0.1:" + HttpPort + "/   (/state /snapshot /deep?enemies=8&depth=4 /dump)  served=" + _http.RequestsServed
+                    : "HTTP disabled";
+                string status = "captures=" + _captureCount + "  " + _statusLine +
+                                (AimOverrideSystem.Active
+                                    ? ("\n自动瞄准 开 · " + AimOverrideSystem.LastStatus +
+                                       " · 累计写入 " + AimOverrideSystem.TotalWrites)
+                                    : "\n自动瞄准 关（按 " + AutoAimKey + " 开启）") +
+                                (string.IsNullOrEmpty(_lastError) ? "" : "  lastError=" + _lastError);
+                _overlay.Draw(_latest, httpInfo + "\n" + status, OutDir);
+            }
+            catch (Exception ex)
+            {
+                GUI.Label(new Rect(10, 10, 600, 40), "CombatInspector overlay error: " + ex.Message);
+            }
+        }
+
+        // ---------------------------------------------------------------- hotkeys
+
+        private void HandleHotkeys()
+        {
+            var kb = Keyboard.current;
+            if (kb == null) return;
+
+            if (WasPressed(kb, OverlayKey))
+            {
+                _overlay.Visible = !_overlay.Visible;
+                Log("overlay " + (_overlay.Visible ? "shown" : "hidden"));
+            }
+            if (WasPressed(kb, DumpKey))
+            {
+                try
+                {
+                    WriteFiles(deep: true, deepEnemies: 8, deepDepth: 4);
+                    Log("wrote snapshot + deep dump to " + OutDir);
+                }
+                catch (Exception ex) { Log("dump failed: " + ex.Message); }
+            }
+            if (WasPressed(kb, RadarKey))
+            {
+                _radar.Visible = !_radar.Visible;
+                Log("radar " + (_radar.Visible ? "shown" : "hidden"));
+            }
+            if (WasPressed(kb, BarsKey))
+            {
+                _bars.Enabled = !_bars.Enabled;
+                Log("health bars " + (_bars.Enabled ? "shown" : "hidden"));
+            }
+            if (WasPressed(kb, AdvisorKey))
+            {
+                AdvisorEnabled = !AdvisorEnabled;
+                _radar.ShowAdvice = AdvisorEnabled;
+                _bars.MarkAdvice = AdvisorEnabled;
+                _overlay.ShowAdvice = AdvisorEnabled;
+                Log("advisor " + (AdvisorEnabled ? "on" : "off"));
+            }
+            if (WasPressed(kb, AutoAimKey))
+            {
+                AutoAimEnabled = !AutoAimEnabled;
+
+                // 接管瞄准依赖建议层给出的目标，开自动瞄准时顺带把建议层打开
+                if (AutoAimEnabled && !AdvisorEnabled)
+                {
+                    AdvisorEnabled = true;
+                    _radar.ShowAdvice = true;
+                    _bars.MarkAdvice = true;
+                    _overlay.ShowAdvice = true;
+                }
+
+                AimOverrideSystem.Active = AutoAimEnabled && AdvisorEnabled;
+                AimOverrideSystem.MaxAimDistance = Mathf.Max(5f, AutoAimMaxDistance);
+                Log("自动瞄准 " + (AimOverrideSystem.Active
+                    ? "开：接管 MouseTarget（移动和技能仍由你操作）"
+                    : "关：鼠标已交还给你"));
+            }
+        }
+
+        private static bool WasPressed(Keyboard kb, Key k)
+        {
+            try
+            {
+                var c = kb[k];
+                return c.wasPressedThisFrame;
+            }
+            catch { return false; }
+        }
+
+        // ---------------------------------------------------------------- capture
+
+        private string DoCapture(bool deep, int enemies, int depth, bool indent)
+        {
+            CombatScanner.MaxEnemies = MaxEnemies;
+            CombatScanner.MaxProjectiles = MaxProjectiles;
+            CombatScanner.IncludeComponentNames = IncludeComponentNames;
+
+            var snap = CombatScanner.Capture();
+            _latest = snap;
+            _captureCount++;
+
+            // 先算预测，再序列化，这样 JSON / 仪表盘 / 血条看到的是同一份预测值
+            try { DamageTracker.Update(snap); }
+            catch (Exception ex) { snap.notes.Add("damage prediction failed: " + ex.Message); }
+
+            if (AdvisorEnabled)
+            {
+                try { TacticsAdvisor.Compute(snap); }
+                catch (Exception ex) { snap.notes.Add("advisor failed: " + ex.Message); }
+            }
+
+            try { WireAutoAim(snap); }
+            catch (Exception ex) { snap.notes.Add("autoaim wiring failed: " + ex.Message); }
+
+            snap.screenWidth = Screen.width;
+            snap.screenHeight = Screen.height;
+            snap.radarInfo = _radar.Describe();
+            snap.barsInfo = _bars.Describe();
+            snap.damageTrackerEntries = DamageTracker.TrackedCount;
+
+            if (deep)
+            {
+                string err;
+                var d = DeepDumper.CaptureDeep(enemies, depth, out err);
+                if (!string.IsNullOrEmpty(err)) snap.notes.Add("deep: " + err);
+                snap.deep = d;
+            }
+
+            string json = MiniJson.Serialize(snap, indent);
+            if (_http != null && !deep && !indent)
+                _http.LatestStateJson = json;
+
+            _statusLine = snap.worldReady
+                ? string.Format(CultureInfo.InvariantCulture,
+                    "ok  players={0} allies={1} enemies={2} bosses={3} projectiles={4}",
+                    snap.players.Count, snap.allies.Count, snap.enemies.Count, snap.bosses.Count, snap.projectiles.Count)
+                : "world not ready";
+
+            return json;
+        }
+
+        /// <summary>把建议目标交给瞄准接管系统，并记录量化诊断（接管到底有没有生效）。</summary>
+        private void WireAutoAim(CombatSnapshot snap)
+        {
+            var p = LocalPlayerOf(snap);
+            var adv = snap.advice;
+
+            if (adv != null && adv.active)
+            {
+                AimOverrideSystem.TargetIndex = adv.targetEntityIndex;
+                for (int i = 0; i < snap.enemies.Count; i++)
+                {
+                    if (snap.enemies[i].entityIndex == adv.targetEntityIndex)
+                    {
+                        AimOverrideSystem.TargetVersion = snap.enemies[i].entityVersion;
+                        break;
+                    }
+                }
+                if (p != null && p.projectileSpeed > 1f) AimOverrideSystem.ProjectileSpeed = p.projectileSpeed;
+                AimOverrideSystem.LocalSlot = snap.inLobby ? snap.localSlot : -1;
+
+                // 游戏里实际的 MouseTarget 与建议瞄准点差多少：接管生效时应明显收敛
+                if (p != null && p.hasAim && adv.hasAim)
+                {
+                    float dx = p.aimX - adv.aimX, dy = p.aimY - adv.aimY;
+                    adv.aimDiff = Mathf.Sqrt(dx * dx + dy * dy);
+                }
+            }
+            else
+            {
+                AimOverrideSystem.TargetIndex = -1;
+            }
+
+            snap.autoAimInfo = "enabled=" + AimOverrideSystem.Active +
+                " 状态=" + AimOverrideSystem.LastStatus +
+                " 本帧写入=" + AimOverrideSystem.LastWrites +
+                " 累计=" + AimOverrideSystem.TotalWrites +
+                " 目标=E" + AimOverrideSystem.TargetIndex + "v" + AimOverrideSystem.TargetVersion +
+                " 上次瞄准=(" + AimOverrideSystem.LastAimX.ToString("F2", CultureInfo.InvariantCulture) +
+                ", " + AimOverrideSystem.LastAimY.ToString("F2", CultureInfo.InvariantCulture) + ")" +
+                " 提前=" + AimOverrideSystem.LastLeadSeconds.ToString("F3", CultureInfo.InvariantCulture) + "s" +
+                " 弹速=" + AimOverrideSystem.ProjectileSpeed.ToString("F1", CultureInfo.InvariantCulture);
+
+            float2 pm = Navigation.PlayMin, pM = Navigation.PlayMax;
+            snap.navInfo = "可玩区=" + (Navigation.HasPlayArea
+                    ? ("(" + pm.x.ToString("F1", CultureInfo.InvariantCulture) + "," + pm.y.ToString("F1", CultureInfo.InvariantCulture) + ")~(" +
+                       pM.x.ToString("F1", CultureInfo.InvariantCulture) + "," + pM.y.ToString("F1", CultureInfo.InvariantCulture) + ")")
+                    : "未取得") +
+                " 墙段=" + Navigation.WallCount +
+                " 受阻方向=" + Navigation.BlockedCount + "/" + Navigation.Directions +
+                " 其中生物=" + Navigation.CreatureBlockedCount +
+                " 有通路=" + Navigation.AnyOpen +
+                " 障碍命中=" + Navigation.TotalRayHits + "/" + Navigation.RefreshCount + "次刷新" +
+                " 物理单例=" + (Navigation.PhysicsSingletonFound ? "已取到" : "没取到") +
+                " 探测异常=" + Navigation.ProbeExceptionCount +
+                (string.IsNullOrEmpty(Navigation.LastError) ? "" : " 首个异常=" + Navigation.LastError);
+        }
+
+        private static PlayerSnapshot LocalPlayerOf(CombatSnapshot s)
+        {
+            if (s == null || s.players == null) return null;
+            for (int i = 0; i < s.players.Count; i++) if (s.players[i].isLocal) return s.players[i];
+            return s.players.Count > 0 ? s.players[0] : null;
+        }
+
+        private void DrainHttp()
+        {
+            if (_http == null) return;
+            MainThreadRequest req;
+            while (_http.Pending.TryDequeue(out req))
+            {
+                try
+                {
+                    switch (req.Kind)
+                    {
+                        case "snapshot":
+                            req.ResultJson = DoCapture(deep: false, enemies: 0, depth: 0, indent: false);
+                            break;
+                        case "deep":
+                            req.ResultJson = DoCapture(deep: true, enemies: req.Enemies, depth: req.Depth, indent: true);
+                            break;
+                        case "dump":
+                            WriteFiles(deep: true, deepEnemies: Math.Max(1, req.Enemies), deepDepth: Math.Max(1, req.Depth));
+                            req.ResultJson = "{\"ok\":true,\"dir\":\"" + StateHttpServer.JsonEscape(Norm(OutDir)) + "\"}";
+                            break;
+                        default:
+                            req.Error = "unknown request kind: " + req.Kind;
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    req.Error = ex.GetType().Name + ": " + ex.Message;
+                    Log("http request '" + req.Kind + "' failed: " + req.Error);
+                }
+                finally
+                {
+                    try { req.Done.Set(); } catch { }
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------- files
+
+        private void WriteFiles(bool deep, int deepEnemies = 8, int deepDepth = 4)
+        {
+            if (string.IsNullOrEmpty(OutDir)) return;
+            try { Directory.CreateDirectory(OutDir); } catch { return; }
+
+            var snap = _latest;
+            if (snap == null) return;
+
+            if (deep)
+            {
+                var fresh = DoCapture(deep: true, enemies: deepEnemies, depth: deepDepth, indent: true);
+                WriteAllTextSafe(Path.Combine(OutDir, "latest_deep.json"), fresh);
+                snap = _latest;
+            }
+
+            if (WriteJsonFile && snap != null)
+            {
+                string json = MiniJson.Serialize(snap, true);
+                WriteAllTextSafe(Path.Combine(OutDir, "latest.json"), json);
+            }
+
+            if (WriteCsvFile && snap != null)
+                WriteAllTextSafe(Path.Combine(OutDir, "enemies.csv"), BuildCsv(snap));
+        }
+
+        private void WriteAllTextSafe(string path, string content)
+        {
+            try
+            {
+                string tmp = path + ".tmp";
+                File.WriteAllText(tmp, content, new UTF8Encoding(false));
+                if (File.Exists(path)) File.Delete(path);
+                File.Move(tmp, path);
+            }
+            catch (Exception ex) { Log("write failed for " + path + ": " + ex.Message); }
+        }
+
+        private static string BuildCsv(CombatSnapshot s)
+        {
+            var sb = new StringBuilder();
+            sb.Append("entityIndex,name,hp,maxHp,hpPct,posX,posY,posZ,distanceToPlayer,angleToPlayerDeg,")
+              .Append("aiTags,isElite,isBoss,moveSpeed,attackDamage,attackCooldown,targetEntityIndex,")
+              .Append("lastHitByEntityIndex,hitStunned,movementPaused,buffs,damageTakenThisFrame,tags\n");
+
+            var inv = CultureInfo.InvariantCulture;
+            for (int i = 0; i < s.enemies.Count; i++)
+            {
+                var e = s.enemies[i];
+                sb.Append(e.entityIndex).Append(',')
+                  .Append(Csv(e.name)).Append(',')
+                  .Append(e.hp.ToString("F2", inv)).Append(',')
+                  .Append(e.maxHp.ToString("F2", inv)).Append(',')
+                  .Append(e.hpPct.ToString("F4", inv)).Append(',')
+                  .Append(e.posX.ToString("F3", inv)).Append(',')
+                  .Append(e.posY.ToString("F3", inv)).Append(',')
+                  .Append(e.posZ.ToString("F3", inv)).Append(',')
+                  .Append(e.distanceToPlayer.ToString("F3", inv)).Append(',')
+                  .Append((float.IsNaN(e.angleToPlayerDeg) ? 0f : e.angleToPlayerDeg).ToString("F1", inv)).Append(',')
+                  .Append(Csv(string.Join("+", e.aiTags.ToArray()))).Append(',')
+                  .Append(e.isElite ? 1 : 0).Append(',')
+                  .Append(e.isBoss ? 1 : 0).Append(',')
+                  .Append(e.moveSpeed.ToString("F3", inv)).Append(',')
+                  .Append(e.attackDamage).Append(',')
+                  .Append(e.attackCooldown.ToString("F3", inv)).Append(',')
+                  .Append(e.targetEntityIndex).Append(',')
+                  .Append(e.lastHitByEntityIndex).Append(',')
+                  .Append(e.hitStunned ? 1 : 0).Append(',')
+                  .Append(e.movementPaused ? 1 : 0).Append(',')
+                  .Append(Csv(JoinBuffs(e.buffs))).Append(',')
+                  .Append(Csv(JoinFloats(e.damageTakenThisFrame))).Append(',')
+                  .Append(Csv(string.Join("+", e.tags.ToArray())))
+                  .Append('\n');
+            }
+            return sb.ToString();
+        }
+
+        private static string JoinBuffs(List<BuffEntry> b)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < b.Count; i++) { if (i > 0) sb.Append('|'); sb.Append(b[i].type); }
+            return sb.ToString();
+        }
+
+        private static string JoinFloats(List<float> v)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < v.Count; i++) { if (i > 0) sb.Append('|'); sb.Append(v[i].ToString("F1", CultureInfo.InvariantCulture)); }
+            return sb.ToString();
+        }
+
+        private static string Csv(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            if (s.IndexOfAny(new[] { ',', '"', '\n', '\r' }) < 0) return s;
+            return "\"" + s.Replace("\"", "\"\"") + "\"";
+        }
+
+        private static string Norm(string p)
+        {
+            try { return Path.GetFullPath(p).Replace('\\', '/'); } catch { return p; }
+        }
+
+        private void Log(string msg)
+        {
+            try { Plugin.LogInfo(msg); }
+            catch { Debug.Log("[CombatInspector] " + msg); }
+        }
+
+        /// <summary>The web dashboard ships inside the mod assembly, so there is nothing to deploy.</summary>
+        private static string LoadDashboardHtml()
+        {
+            try
+            {
+                var asm = typeof(Runner).Assembly;
+                using (var s = asm.GetManifestResourceStream("CombatInspector.dashboard.html"))
+                {
+                    if (s == null) return null;
+                    using (var sr = new StreamReader(s, Encoding.UTF8)) return sr.ReadToEnd();
+                }
+            }
+            catch { return null; }
+        }
+    }
+}

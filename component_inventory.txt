@@ -1,0 +1,1274 @@
+﻿[IBufferElementData] BeaconBuffOwned  (fields=1)
+    BeaconBuffKind Kind
+[IBufferElementData] BossStageConfigEntry  (fields=5)
+    int StageIndex | Entity BossPrefab | FixedString64Bytes DisplayName | float SpawnTimeSeconds | float SpawnDistance
+[IBufferElementData] BuffState  (fields=3)
+    BuffType BuffType | float BuffLevel | float BuffTimer
+[IBufferElementData] DamageThisFrame  (fields=1)
+    float Value
+[IBufferElementData] EnemySpawnNormalTierIndex  (fields=1)
+    byte PoolIndex
+[IBufferElementData] EnemySpawnPoolEntry  (fields=8)
+    Entity Prefab | byte IsSpecial | byte IsEventOnly | int UnlockAtPlayerLevel | int MaxOnField | int SpawnAfterNormalGenerations | int ReplaceBlendOverPlayerLevels | FixedString64Bytes PrefabName
+[IBufferElementData] EnemySpawnSpecialRuntimeState  (fields=2)
+    byte PoolIndex | int NormalsSinceLastSpawn
+[IBufferElementData] EnemySpawnTimelineSegment  (fields=5)
+    float StartTime | float EndTime | int MaxOnField | ushort FirstWeightIndex | ushort WeightCount
+[IBufferElementData] EnemySpawnTimelineStageRange  (fields=3)
+    int StageIndex | ushort FirstSegmentIndex | ushort SegmentCount
+[IBufferElementData] EnemySpawnTimelineWeight  (fields=2)
+    byte PoolIndex | float Weight
+[IBufferElementData] EnemySpawnZoneVertex  (fields=1)
+    float2 Position
+[IBufferElementData] IronDetonationDirectionCooldown  (fields=1)
+    double ExpirationTime
+[IBufferElementData] IronRailgunReflectSegmentPlan  (fields=11)
+    float3 SpawnOrigin | float AngleRad | float BeamLengthWorld | float ScaleX | float3 ReflectHitWorld | float2 ReflectEdgeNormal | byte ReflectEdge | float3 BounceHitWorld | float2 BounceEdgeNormal | float SpawnDelay | int ReflectionIndex
+[IBufferElementData] ItemDropPoolEntry  (fields=3)
+    Entity Prefab | ItemType ItemType | float Weight
+[IBufferElementData] PlayerPerk  (fields=2)
+    int PerkID | byte Level
+[IBufferElementData] WeatherSmokePrefabElement  (fields=1)
+    Entity Prefab
+[IComponentData] AnimationFreezeTime  (fields=1)
+    float Value
+[IComponentData] AnimationIndexOverride  (fields=1)
+    float Value
+[IComponentData] AOEAttackInterval  (fields=2)
+    float Timer | float MaxTimer
+[IComponentData] AoeDamageApplyVfxFollowData  (fields=2)
+    Entity TargetEnemy | float YDownOffset
+[IComponentData] AoeDamageApplyVfxPrefab  (fields=1)
+    Entity Value
+[IComponentData] AoeDamageApplyVfxSpawnSettings  (fields=1)
+    float YDownOffset
+[IComponentData] ApplyChargedLightningOnHitData  (fields=1)
+    float DamagePerStack
+[IComponentData] ApplyChargedStackOnHitData  (fields=1)
+    int StackPerHit
+[IComponentData] ApplyChargedStackOnHitTag  (fields=0)
+    
+[IComponentData] ArmorFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] AttackCritDamageMul  (fields=1)
+    float Value
+[IComponentData] AttackCritData  (fields=1)
+    float CritRate
+[IComponentData] AttackData  (fields=3)
+    AttackType AttackType | float MoveSpeed | float AttackDamage
+[IComponentData] AttackFollowMouse  (fields=2)
+    float FollowSpeed | float OffsetDistance
+[IComponentData] AttackKnockbackOnHitData  (fields=1)
+    float KnockbackDistance
+[IComponentData] AttackOverTimer  (fields=1)
+    float Value
+[IComponentData] AttackOwner  (fields=1)
+    Entity Value
+[IComponentData] BaseColorOverride  (fields=1)
+    float4 Value
+[IComponentData] BaseLifeRegenData  (fields=1)
+    float Value
+[IComponentData] BeaconAttackMulData  (fields=2)
+    float KillMul | float LowHpMul
+[IComponentData] BeaconExpAndLevelMoveData  (fields=1)
+    float TempMoveRemain
+[IComponentData] BeaconExtraPerkOnLevelData  (fields=1)
+    int LevelUpsSinceExtra
+[IComponentData] BeaconKillDamageData  (fields=2)
+    int Stacks | int KillsSinceStack
+[IComponentData] BeaconKillHealData  (fields=1)
+    int KillsSinceHeal
+[IComponentData] BeaconLowHpDamageTag  (fields=0)
+    
+[IComponentData] BeaconMetaLootBonusTag  (fields=0)
+    
+[IComponentData] BeaconMiniTurretLifetime  (fields=1)
+    float Remain
+[IComponentData] BeaconMiniTurretSpawnData  (fields=1)
+    float CooldownRemain
+[IComponentData] BeDamagedThisFrame  (fields=0)
+    
+[IComponentData] BeingDroneFleetData  (fields=34)
+    Entity DronePrefab | Entity MeleeDronePrefab | Entity BulletPrefab | Entity PierceBulletPrefab | Entity PressureFieldPrefab | float PressureFieldLife | Entity GravityFieldPrefab | Entity MuzzleFlashPrefab | float MuzzleFlashScale | float BulletSpawnYOffset | int BaseDroneCount | float ChargeTime | float FlySpeed | float ReturnSpeed | float AimRingRadius | float DockRadius | int ShotsPerSortie | float BulletMoveSpeed | float DetectionRadius | float PopDistance | float PopPauseDuration | float ShotPauseDuration | float FanHalfAngleRad | float PopStagger | float CurveBulge | float PopEjectSpeed | byte AllowDetached | CollisionFilter CollisionFilter | byte PendingInstantCharge | int BaseDroneCountBase | float ChargeTimeBase | float FlySpeedBase | float AimRingRadiusBase | int ShotsPerSortieBase
+[IComponentData] BeingDroneState  (fields=23)
+    Entity Owner | int SlotIndex | BeingDronePhase Phase | float ChargeTimer | float PhaseTimer | int ShotsRemaining | float3 AimPoint | uint RngState | float3 PathStart | float3 PathControl | float PathT | float PathLen | float FaceAng | byte PendingDespawn | byte UseMeleeVisual | float AwayTimer | float OrbitAngle | float OrbitProgress | byte OrbitShotDone | float OrbitGunTimer | Entity HuntTarget | byte IsTempDrone | byte PendingDestroy
+[IComponentData] BeingDroneTag  (fields=0)
+    
+[IComponentData] BeingGravityFieldData  (fields=6)
+    Entity Owner | float Radius | float Pull | float SpawnFieldMul | float Life | byte FollowAim
+[IComponentData] BeingGravityFieldTag  (fields=0)
+    
+[IComponentData] BeingMechConfigData  (fields=4)
+    float 瀛愬脊鍙戝皠楂樺害鍋忕Щ | float 鍏呰兘鏃堕棿 | float 鍋滈潬鍗婂緞 | CollisionFilter CollisionFilter
+[IComponentData] BeingPerkApplyBaseData  (fields=6)
+    float InjuryMitigationValueBase | float BaseLifeRegenValue | float CharacterMaxHPValue | float AttackPowerBase | double SkillCdBase | double SkillDurationBase
+[IComponentData] BeingPerkRuntimeData  (fields=66)
+    byte PsiFormation | byte SpiritLock | byte Overload | byte Collapse | byte Silent | byte Expedition | byte OrbitAim | byte MeleeOrbit | byte NearGuard | byte BurstFire | byte PierceBeam | byte ScatterRemote | byte PressureAura | byte GravityCollapse | byte CriticalPressure | byte Proliferation | byte GhostFleet | byte CriticalResonance | float SpiritMaxMul | float SpiritDroneBonusMul | float FlySpeedMul | float ChargeSpeedMul | float DroneDamageMul | float AimRangeMul | float CritDamageBonus | float SpeedPerDrone | float OvercapDmgPerPct | float OvercapSlowPerPct | float ExpeditionDmgPerSec | float ExpeditionRangePerSec | float ExpeditionCap | float SilentRadius | float SilentBreakMul | float CollapseExplodeAtkMul | float CollapseFieldSlow | float CollapseFieldDmgMul | float CollapseFieldRadius | float BurstDamageMul | float PierceDamageMul | int PierceCount | int ExtraProjectiles | float RemoteChargeEfficiency | float OrbitDpsAtkMul | float OrbitRangeMul | float OrbitNearShotRadius | float BulletRangeMul | int OrbitLaps | float MeleeRangeMul | float NearGuardDamageMul | float NearGuardOrbitRadius | float PressureRadius | float PressureSlow | float PressureDmgMul | float PressureRepel | float GravityRadius | float GravityPull | float GravitySpawnFieldMul | float CritPressureRangePerClear | float CritPressureDmgPerClear | int ProlifChargesNeeded | float GhostDrainPerSec | int GhostCap | float ResonanceCountMul | float ResonanceSpeedMul | float ResonanceDrainPerSec | byte SortieAutoAim
+[IComponentData] BeingPierceRemaining  (fields=1)
+    int Value
+[IComponentData] BeingPressureFieldData  (fields=9)
+    Entity Owner | float Radius | float Slow | float DmgMul | float Repel | float Life | byte FollowOwner | byte IsMaxField | float EffectScale
+[IComponentData] BeingPressureFieldTag  (fields=0)
+    
+[IComponentData] BeingSpiritData  (fields=13)
+    float Value | float MaxValue | float GrowthBase | float LowHpGrowthFactor | float CalmDecayPerSec | float PressureHoldHpRatio | int BonusPerTierDrone | float BonusPerTierFlySpeed | float BonusPerTierCrit | int BonusDroneCount | float BonusFlySpeed | float BonusCrit | float MaxValueBase
+[IComponentData] BeingUltimateData  (fields=10)
+    int TempDroneCount | float FlySpeedMul | byte AutoAim | byte PendingSpiritGrowth | int ProlifTempCount | int GhostTempCount | int ChargeCompleteCounter | byte ResonanceActive | float CritPressureRangeBonus | float CritPressureDamageBonus
+[IComponentData] Boss1AIConfig  (fields=8)
+    float PursuitDistance | float MeleeDistance | float PhaseChangeSeconds | float PhaseChangeFxDelaySeconds | Entity PhaseChangeFxPrefab | float MeleeRetreatFailSeconds | float RandomMoveMinSeconds | float RandomMoveMaxSeconds
+[IComponentData] Boss1ConfigData  (fields=36)
+    float DashChargeSeconds | float DashDurationSeconds | float DashRecoverySeconds | float DashSpeedMultiplier | Entity DashSlashAoePrefab | float DashSlashAoeRange | float DashSlashAttackDamage | Entity Skill1SpinSlashAoePrefab | float Skill1ChargeSeconds | float Skill1HoldSeconds | float Skill1AoeRange | float Skill1AttackDamage | Entity Skill2SwordQiPrefab | float Skill2FirstQiDelaySeconds | float Skill2SecondQiDelaySeconds | float Skill2HoldSeconds | float Skill2AttackDamage | Entity Skill3LandingMarkerPrefab | Entity Skill3ExplosionPrefab | float Skill3LandingDelaySeconds | float Skill3LandingRadius | int Skill3LandingCount | float Skill3LandingSpawnIntervalSeconds | float Skill3LandingGrowSeconds | float Skill3LandingStartScale | float Skill3LandingEndScale | float Skill3HoldSeconds | float Skill3ExplosionAttackDamage | float AiPursuitDistance | float AiMeleeDistance | float AiPhaseChangeSeconds | float AiPhaseChangeFxDelaySeconds | Entity AiPhaseChangeFxPrefab | float AiMeleeRetreatFailSeconds | float AiRandomMoveMinSeconds | float AiRandomMoveMaxSeconds
+[IComponentData] Boss1NormalAIData  (fields=16)
+    byte BossPhase | byte HalfHpPhaseTriggered | byte Activity | byte PreviousBrainMode | byte DashChainSkill1IfMelee | byte MeleeActionRolledThisEntry | byte PhaseChangeFxSpawned | byte PenaltyDash | byte PenaltySkill1 | byte PenaltySkill2 | byte PenaltySkill3 | byte PenaltyRetreat | byte PenaltyRandomMove | float ActivityTimer | float2 MoveDirection | uint RandomState
+[IComponentData] BossActionConfig  (fields=7)
+    float DashChargeSeconds | float DashDurationSeconds | float DashRecoverySeconds | float DashSpeedMultiplier | Entity DashSlashAoePrefab | float DashSlashAoeRange | float DashSlashAttackDamage
+[IComponentData] BossAnimEventPending  (fields=2)
+    BossAnimEventType EventType | byte HasEvent
+[IComponentData] BossAnimSyncData  (fields=6)
+    BossAnimTriggerKind CurrentTrigger | BossAnimTriggerKind PreviousTrigger | int ActionIndex | float Forward | byte ActionStartedThisFrame | byte FireCompletePulse
+[IComponentData] BossBrainData  (fields=12)
+    byte PendingCommand | byte Mode | byte DashSubPhase | byte Skill1SubPhase | byte Skill2SubPhase | byte Skill3SubPhase | byte Skill2QiFired | byte Skill3LandingsSpawned | float SubTimer | float2 LockedDirection | float MoveSpeedMultiplier | byte DashSlashActive
+[IComponentData] BossConfigHolderTag  (fields=0)
+    
+[IComponentData] BossConfigKindTag  (fields=1)
+    BossConfigKind Kind
+[IComponentData] BossDashSlashAoeTag  (fields=1)
+    Entity OwnerBoss
+[IComponentData] BossFacingData  (fields=2)
+    float Forward | byte Locked
+[IComponentData] BossManualTestAIEnabledTag  (fields=0)
+    
+[IComponentData] BossMissileLandingMarker  (fields=7)
+    float GrowSeconds | float Elapsed | float StartScale | float EndScale | Entity ExplosionPrefab | float ExplosionAttackDamageFallback | byte ExplosionSpawned
+[IComponentData] BossNormalAIEnabledTag  (fields=0)
+    
+[IComponentData] BossRunState  (fields=3)
+    int StageIndex | byte BossSpawned | Entity ActiveBossEntity
+[IComponentData] BossSkill1Config  (fields=5)
+    Entity SpinSlashAoePrefab | float ChargeSeconds | float HoldSeconds | float AoeRange | float AttackDamage
+[IComponentData] BossSkill2Config  (fields=5)
+    Entity SwordQiPrefab | float FirstQiDelaySeconds | float SecondQiDelaySeconds | float HoldSeconds | float AttackDamage
+[IComponentData] BossSkill3Config  (fields=11)
+    Entity LandingMarkerPrefab | Entity ExplosionPrefab | float LandingDelaySeconds | float LandingRadius | int LandingCount | float LandingSpawnIntervalSeconds | float LandingGrowSeconds | float LandingStartScale | float LandingEndScale | float HoldSeconds | float ExplosionAttackDamage
+[IComponentData] BossTag  (fields=1)
+    int StageIndex
+[IComponentData] BossVisualPrefabRef  (fields=1)
+    UnityObjectRef<GameObject> VisualPrefab
+[IComponentData] BurnDamageFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] BurnDurationFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] BurnHitFrequencyFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] BurningAttackData  (fields=9)
+    Entity AttackPrefab | float DamageMultiplier | double DamageInterval | float DamageIntervalBase | double CurationTime | double CurationTimeBase | float DetectionSize | float3 DetectionSizeBase | CollisionFilter CollisionFilter
+[IComponentData] BurnRangeFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] CameraTarget  (fields=1)
+    UnityObjectRef<Transform> CameraTransform
+[IComponentData] CharacterCurrentHP  (fields=1)
+    float Value
+[IComponentData] CharacterMaxHP  (fields=2)
+    float Value | float FinalValue
+[IComponentData] CharacterMoveDirection  (fields=1)
+    float2 Value
+[IComponentData] CharacterMoveSpeed  (fields=2)
+    float Value | float ValueBase
+[IComponentData] ChipMechanicState  (fields=10)
+    ulong AffixMask | float StillSeconds | float DotAcc | float ShockwaveCd | float LethalInvulnCd | float LethalInvulnRemain | float LastAspdMul | int SkillCastCount | int LastKillCount | byte ReviveUsed
+[IComponentData] ChipRuntimeAttackMul  (fields=1)
+    float Value
+[IComponentData] ChipRuntimeAttackSpeedMul  (fields=1)
+    float Value
+[IComponentData] ChipRuntimeMoveMul  (fields=1)
+    float Value
+[IComponentData] CritDamageData  (fields=2)
+    float Value | float ChipValue
+[IComponentData] CritRateData  (fields=1)
+    float Value
+[IComponentData] CurrentMechChoiceSingleton  (fields=1)
+    PlayerSkillType Value
+[IComponentData] DashMeleeEnemyTag  (fields=0)
+    
+[IComponentData] DashMeleeStateData  (fields=8)
+    byte Phase | float PhaseTimerRemaining | float MovePhaseDuration | float ChargePhaseDuration | float DashPhaseDuration | float DashSpeedMultiplier | byte HasChargePhase | float2 LockedDashDirection
+[IComponentData] DashState  (fields=0)
+    
+[IComponentData] DefaultBaseColor  (fields=1)
+    float4 Value
+[IComponentData] DepthTag  (fields=0)
+    
+[IComponentData] DestroyEntityFlag  (fields=0)
+    
+[IComponentData] DevInfiniteSurvivalTag  (fields=0)
+    
+[IComponentData] EightDirectionAnimationTag  (fields=0)
+    
+[IComponentData] EliteEnemyTag  (fields=0)
+    
+[IComponentData] EnemyAoePlayerHitGate  (fields=0)
+    
+[IComponentData] EnemyAttackData  (fields=2)
+    int Damage | float CooldownTime
+[IComponentData] EnemyChargedStackData  (fields=1)
+    int StackCount
+[IComponentData] EnemyChargedVFXEntityRef  (fields=1)
+    Entity Value
+[IComponentData] EnemyCooldownExpirationTimestamp  (fields=1)
+    double Value
+[IComponentData] EnemyCurrentTarget  (fields=1)
+    Entity Value
+[IComponentData] EnemyDisplayName  (fields=1)
+    FixedString64Bytes Value
+[IComponentData] EnemyDualPhaseMaterialsBaked  (fields=3)
+    UnityObjectRef<Material> Phase0 | UnityObjectRef<Material> Phase1 | UnityObjectRef<Material> Phase2
+[IComponentData] EnemyDualPhaseRenderTargetEntity  (fields=1)
+    Entity Target
+[IComponentData] EnemyDualVisualPhaseIndex  (fields=1)
+    byte Phase
+[IComponentData] EnemyHitFlashTimer  (fields=1)
+    float Remaining
+[IComponentData] EnemyMovementPaused  (fields=0)
+    
+[IComponentData] EnemySpawnData  (fields=12)
+    Entity ReaperPrefab | float SpawnInterval | float SpawnIntervalMin | int MaxLevelForSpawnSpeed | float SpawnFillRateOfMaxPerSecond | float SpawnDistance | float CoopExtraMaxMulPerExtraPlayer | int SpawnMaxCount | uint RandomSeed | float InitialReaperSpawnTimer | UnityObjectRef<GameObject> 绮捐嫳HUDPrefabGo | float3 绮捐嫳HUD鍋忕Щ
+[IComponentData] EnemySpawnPoolIndex  (fields=1)
+    byte PoolIndex
+[IComponentData] EnemySpawnState  (fields=5)
+    float SpawnTimer | int SpawnCurrentCount | float ReaperSpawnTimer | Random Random | int EliteHandledSegmentIndex
+[IComponentData] EnemySpawnZoneData  (fields=3)
+    EnemySpawnZoneKind Kind | float2 AabbMin | float2 AabbMax
+[IComponentData] EnemyTag  (fields=0)
+    
+[IComponentData] EnemyTauntLock  (fields=2)
+    Entity Value | float Remaining
+[IComponentData] EventFlyAcrossTag  (fields=2)
+    float2 MoveDir | float Speed
+[IComponentData] EventInvincibleTag  (fields=0)
+    
+[IComponentData] EventInvincibleTimerData  (fields=3)
+    float Remaining | byte RewardAirdropOnEnd | float AirdropInset
+[IComponentData] EventRingConvergeTag  (fields=3)
+    float2 Center | float StopDistance | float Speed
+[IComponentData] ExplosionDamageFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] ExpOrbValue  (fields=1)
+    float Value
+[IComponentData] ExpRequiredFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] FacingDirectionOverride  (fields=1)
+    float Value
+[IComponentData] FloatingMechSpawnVfxTag  (fields=0)
+    
+[IComponentData] FloatingProjectileTag  (fields=0)
+    
+[IComponentData] FlyingMeleeAmbientSfxData  (fields=3)
+    float IntervalMin | float IntervalMax | float NextPlayTime
+[IComponentData] FlyingMeleeEnemyCollisionPatchedTag  (fields=0)
+    
+[IComponentData] FlyingMeleeEnemyTag  (fields=0)
+    
+[IComponentData] FlyingMeleeSteerData  (fields=4)
+    float2 Heading | float SteerTimerAccumulator | float SteerInterval | float MaxSteerRadiansPerTick
+[IComponentData] FollowMuzzleSpawnPointData  (fields=4)
+    Entity PlayerEntity | Entity PrefabEntity | float SpawnHeightOffset | byte UseHeavyMuzzleOffsets
+[IComponentData] FollowMuzzleSpawnPointTag  (fields=0)
+    
+[IComponentData] FollowPlayer  (fields=3)
+    float3 Offset | float SmoothTime | Entity Owner
+[IComponentData] FollowPlayerTag  (fields=0)
+    
+[IComponentData] FootHaloUnderPlayerTag  (fields=0)
+    
+[IComponentData] FootVfxDepthInitPending  (fields=0)
+    
+[IComponentData] FriendlyTargetableTag  (fields=0)
+    
+[IComponentData] FriendlyUnitTag  (fields=0)
+    
+[IComponentData] GameObjectSyncTarget  (fields=2)
+    UnityObjectRef<GameObject> GameObjectRef | UnityObjectRef<Animator> AnimatorRef
+[IComponentData] GemPrefab  (fields=1)
+    Entity Value
+[IComponentData] HitAnimePrefab  (fields=1)
+    Entity Value
+[IComponentData] HitAnimeTag  (fields=0)
+    
+[IComponentData] HitAnimeTimer  (fields=1)
+    float Value
+[IComponentData] HitStunTimer  (fields=1)
+    float Remaining
+[IComponentData] InitializeBossVisualSync  (fields=0)
+    
+[IComponentData] InitializeCameraTargetTag  (fields=0)
+    
+[IComponentData] InitializeCharacterFlag  (fields=0)
+    
+[IComponentData] InitializeGameObjectSync  (fields=0)
+    
+[IComponentData] InitializePlayerMechTag  (fields=0)
+    
+[IComponentData] InjuryMitigation  (fields=2)
+    float Value | float ValueBase
+[IComponentData] InterferenceFloaterData  (fields=6)
+    float SpawnX | float TravelDistance | float AoeInterval | float NextAoeTime | Entity AoePrefab | float MoveSpeed
+[IComponentData] InterferenceFloaterTag  (fields=0)
+    
+[IComponentData] IronBulletRainData  (fields=4)
+    int Stack | int MaxStackBase | float StackTimer | float DecayTimer
+[IComponentData] IronDeploymentStanceData  (fields=4)
+    int Stack | int MaxStackBase | float StackTimer | float MoveAccumulatedTime
+[IComponentData] IronDeploymentStanceVFXEntityRef  (fields=1)
+    Entity Value
+[IComponentData] IronDetonationData  (fields=6)
+    Entity ExplosionPrefab | float ExplosionRange | Entity ShockwavePrefab | float ShockwaveStartScale | float ShockwaveGrowSpeed | double ShockwaveCooldownExpiration
+[IComponentData] IronDetonationKnockbackOnHitData  (fields=2)
+    float3 SourcePosition | float KnockbackForce
+[IComponentData] IronHeavyMissileExplosionOnHitData  (fields=5)
+    Entity PlayerEntity | Entity AttackPrefab | float AttackDamage | float Range | float CritRate
+[IComponentData] IronHeavyMissilePenetrationData  (fields=1)
+    int ExplosionsRemaining
+[IComponentData] IronHeavyWeaponData  (fields=11)
+    byte Active | Entity HeavyAttackPrefab | float PlatingCostFraction | float PlatingCostFractionBase | float DamageMultiplier | float HeavyBulletMoveSpeed | float HeavyBulletLifetime | MechEightDirectionOffsets HeavyProjectileSpawn8DirectionOffsets | float HeavyProjectileSpawnYOffset | double NextToggleTime | double HeavyCooldownExpiration
+[IComponentData] IronMassVacuumVFXEntityRef  (fields=1)
+    Entity Value
+[IComponentData] IronMechConfigData  (fields=5)
+    float 鏀诲嚮闂撮殧鏃堕棿 | MechEightDirectionOffsets 瀛愬脊鍙戝皠8鏂瑰悜鍋忕Щ | float 瀛愬脊鍙戝皠楂樺害鍋忕Щ | float 涓诲姩寮曠垎鑼冨洿 | CollisionFilter CollisionFilter
+[IComponentData] IronOverloadShootingData  (fields=3)
+    int Stack | int MaxStackBase | float StackTimer
+[IComponentData] IronPerk50MissileExplosionData  (fields=2)
+    Entity ExplosionPrefab | float ExplosionRangeBase
+[IComponentData] IronPerk53BomberCarrierData  (fields=6)
+    Entity PlayerEntity | float SpawnTimer | float PlatingConsumed | float AttackPower | float DamageMultiplier | float ForwardAngleRad
+[IComponentData] IronPerk53ConfigData  (fields=5)
+    Entity MainShellPrefab | float MainShellDurationBase | Entity SplitShellPrefab | float SpawnIntervalBase | float SplitShellMoveSpeed
+[IComponentData] IronPerk59RailgunConfigData  (fields=11)
+    Entity RailgunPrefab | Entity ReflectedRailgunPrefab | Entity ChargeVfxPrefab | float ChargeDuration | Entity DissipationHitAnimePrefab | Entity HitSplashVfxPrefab | float DissipationLeadTime | float SegmentDisplayDuration | float LengthScale | float PrefabLengthBase | float WidthBase
+[IComponentData] IronPerkApplyBaseData  (fields=5)
+    float PlatingMaxValueBase | float InjuryMitigationValueBase | float BaseLifeRegenValue | float CharacterMaxHPValue | float DetectionRadiusBase
+[IComponentData] IronPlatingData  (fields=3)
+    float Value | float MaxValueBase | float MaxValue
+[IComponentData] IronPlatingRegenData  (fields=1)
+    float RegenRateBase
+[IComponentData] IronPlatingShieldVFXEntityRef  (fields=3)
+    Entity 鍒濈骇鎶ょ浘 | Entity 澶氶噸鐖嗙偢鎶ょ浘 | Entity 涓诲姩寮曠垎鎶ょ浘
+[IComponentData] IronRailgunChargeState  (fields=5)
+    float TimerRemaining | float3 SpawnOrigin | float AngleRad | float PlatingCost | Entity ChargeVfxEntity
+[IComponentData] IronRailgunDissipationData  (fields=4)
+    Entity Prefab | float LeadTime | float SpawnHeightOffset | byte HasSpawned
+[IComponentData] IronRailgunMeltHitRestoreData  (fields=1)
+    float RestoreAmount
+[IComponentData] IronRailgunOwnerData  (fields=13)
+    Entity PlayerEntity | float AngleRad | float3 NonUniformScale | float BeamLengthWorld | float3 SpawnOrigin | float PlatingConsumed | float AttackPower | byte ReflectBouncesLeft | byte HasReflected | int ReflectionIndex | float3 ReflectHitWorld | float2 ReflectEdgeNormal | byte ReflectEdge
+[IComponentData] IronRailgunReflectChainState  (fields=4)
+    Entity PlayerEntity | double ChainStartTime | int NextSpawnIndex | float PlatingConsumed
+[IComponentData] IronRailgunReflectData  (fields=3)
+    int ReflectionIndex | int ReflectionsRemaining | byte HasReflected
+[IComponentData] IronRailgunReflectDelayData  (fields=1)
+    float ReadyAfterTime
+[IComponentData] IronShockwaveExpandData  (fields=3)
+    float StartScale | float GrowSpeed | float Elapsed
+[IComponentData] ItemDropConfigSingletonTag  (fields=0)
+    
+[IComponentData] ItemDropSettings  (fields=4)
+    float DropChancePerKill | float Exp1Grant | float Exp2Grant | float Exp3Grant
+[IComponentData] ItemFlyingToPlayer  (fields=3)
+    Entity TargetPlayer | float PhaseElapsed | float FlySpeed
+[IComponentData] ItemTag  (fields=1)
+    ItemType ItemType
+[IComponentData] LastHitBy  (fields=1)
+    Entity Value
+[IComponentData] LinkedBaseColorInitPending  (fields=1)
+    float4 Value
+[IComponentData] MapBoundaryWallData  (fields=4)
+    MapBoundaryWallSide Side | float2 SegmentStart | float2 SegmentEnd | float2 InwardNormal
+[IComponentData] MapBoundaryWallRuntime  (fields=1)
+    Entity ActiveWarningEntity
+[IComponentData] MapBoundaryWallTag  (fields=0)
+    
+[IComponentData] MapBoundaryWarningConfigData  (fields=1)
+    float 杈圭晫鍐呬晶鍋忕Щ
+[IComponentData] MapBoundaryWarningConfigHolderTag  (fields=0)
+    
+[IComponentData] MapBoundaryWarningFollowData  (fields=1)
+    Entity WallEntity
+[IComponentData] MapBoundaryWarningVfxTag  (fields=0)
+    
+[IComponentData] MaxHPFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] MechCombatTag  (fields=0)
+    
+[IComponentData] MechConfigHolderTag  (fields=0)
+    
+[IComponentData] MechHudFillData  (fields=3)
+    byte HpPct | byte SkillFill | byte AttackFill
+[IComponentData] MechSharedConfigData  (fields=3)
+    float 瑙掕壊瀛愬脊鍙戝皠Y鍋忕Щ | float 绉诲姩鑴氬悗鐑熼浘鍚戜笅鍋忕Щ | float 绉诲姩鑴氬悗鐑熼浘鐢熸垚闂撮殧
+[IComponentData] MeleeEnemyTag  (fields=0)
+    
+[IComponentData] MetaIndustryCritRate  (fields=1)
+    float Value
+[IComponentData] MetaLifeRegenMul  (fields=1)
+    float Multiplier
+[IComponentData] MetaPickupRangeBonus  (fields=1)
+    float Multiplier
+[IComponentData] MetaSkillCooldownMul  (fields=1)
+    float Multiplier
+[IComponentData] MouseTarget  (fields=1)
+    float3 WorldPosition
+[IComponentData] MoveSpeedFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] MuzzleSpawnPointSnapshot  (fields=2)
+    float3 SpawnPosition | float AimAngleRad
+[IComponentData] NetworkClientPresentationTag  (fields=0)
+    
+[IComponentData] NetworkDroneReturning  (fields=0)
+    
+[IComponentData] NetworkGhost  (fields=3)
+    ushort Id | byte Kind | ushort Type
+[IComponentData] NetworkGhostInterp  (fields=10)
+    float3 Pos | float3 FromPos | float3 ToPos | float3 Vel | byte Yaw | byte FromYaw | byte HpPct | float RecvTime | float Interval | byte AnimFlags
+[IComponentData] NetworkGhostPresentation  (fields=0)
+    
+[IComponentData] NetworkMechAnimLatch  (fields=3)
+    byte Attack | byte Skill | byte DashJet
+[IComponentData] NetworkMechFrozen  (fields=0)
+    
+[IComponentData] NetworkMechSlot  (fields=1)
+    byte Value
+[IComponentData] NetworkSpawnPrefabId  (fields=1)
+    ushort Value
+[IComponentData] PassiveRegenData  (fields=6)
+    float RegenRate | float RegenRateBase | float ActivationDelay | float ActivationDelayBase | float Timer | bool IsActive
+[IComponentData] PassiveRegenFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] PassiveRegenVFXEntityRef  (fields=1)
+    Entity Value
+[IComponentData] PlatingFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] PlayerAttackData  (fields=10)
+    Entity AttackPrefab | float AttackPower | float AttackPowerBase | float AttackMoveSpeed | float CooldownTimeBase | float CooldownTime | float DetectionRadius | float ProjectileSpawnYOffset | MechEightDirectionOffsets ProjectileSpawn8DirectionOffsets | CollisionFilter CollisionFilter
+[IComponentData] PlayerAttackFactorData  (fields=5)
+    float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
+[IComponentData] PlayerCooldownExpirationTimestamp  (fields=1)
+    double Value
+[IComponentData] PlayerKillCount  (fields=1)
+    int Value
+[IComponentData] PlayerLevel  (fields=3)
+    int Level | float Exp | float MaxExp
+[IComponentData] PlayerLevelUP  (fields=1)
+    float Value
+[IComponentData] PlayerLevelUpVfxData  (fields=5)
+    UnityObjectRef<GameObject> PrefabGo | UnityObjectRef<GameObject> WhitePrefabGo | UnityObjectRef<GameObject> BluePrefabGo | UnityObjectRef<GameObject> GoldPrefabGo | float ShowScale
+[IComponentData] PlayerMoveTrailSmokeData  (fields=6)
+    Entity Prefab | float BackOffset | float DownOffset | float ShowScale | float SpawnInterval | float Cooldown
+[IComponentData] PlayerSkill  (fields=13)
+    PlayerSkillType Type | SkillCDType CDType | bool IsActive | double duration鎸佺画鏃堕棿 | double durationBase | float Damage | double CDtime | double CDtimeBase | double CDtimer | int MaxChargingTimes | bool CanSkill | bool CDingSkill | int SkillTimes
+[IComponentData] PlayerSpawnData  (fields=6)
+    UnityObjectRef<GameObject> PlayerPrefabSun | UnityObjectRef<GameObject> PlayerPrefabStorm | UnityObjectRef<GameObject> PlayerPrefabIron | UnityObjectRef<GameObject> PlayerPrefabReserved4 | UnityObjectRef<GameObject> PlayerPrefabReserved5 | UnityObjectRef<GameObject> PlayerPrefabBeing
+[IComponentData] PlayerSpawnPointData  (fields=2)
+    float3 Position | quaternion Rotation
+[IComponentData] PlayerSpawnPointTag  (fields=0)
+    
+[IComponentData] PlayerSyncData  (fields=8)
+    bool IsAttack | bool IsSkill | bool IsFreeMove | bool StormBall57FreeMoveActive | int AttackSfxId | int AttackSfxVariant | float Health | float MaxHealth
+[IComponentData] PlayerTag  (fields=0)
+    
+[IComponentData] ProjectileGroundDepthOffset  (fields=1)
+    float Value
+[IComponentData] ProjectileHitSfxData  (fields=1)
+    int Variant
+[IComponentData] RangedEnemyData  (fields=9)
+    Entity ProjectilePrefab | float FireInterval | float MoveDuration | float ShootDuration | int ProjectileCount | float ProjectileSpreadRadians | float PhaseTimer | bool IsInShootPhase | double NextFireTime
+[IComponentData] RangedEnemyTag  (fields=0)
+    
+[IComponentData] RuntimeClonedPhysicsColliderTag  (fields=0)
+    
+[IComponentData] SceneAirdropActivateAnimMeta  (fields=4)
+    float FramesPerSecond | float FrameCount | float AnimationCount | byte WrapRowPlay
+[IComponentData] SceneAirdropActivateVfxConfig  (fields=4)
+    UnityObjectRef<GameObject> RedPrefab | UnityObjectRef<GameObject> BluePrefab | UnityObjectRef<GameObject> GoldPrefab | float3 WorldOffset
+[IComponentData] SceneAirdropAnimFreezeData  (fields=1)
+    float FreezeElapsed
+[IComponentData] SceneAirdropCallInPending  (fields=3)
+    Entity AirdropPrefab | float3 GroundPosition | float Remaining
+[IComponentData] SceneAirdropCollisionCache  (fields=2)
+    CollisionFilter OriginalFilter | byte HasBackup
+[IComponentData] SceneAirdropConfigData  (fields=10)
+    float FallDuration | float LandDuration | float IdleMinDuration | float ActivateDuration | float ActivateTriggerDistanceSq | float FallHeight | float LandApproachHeight | float3 GroundPosition | byte DestroyAfterActivate | byte FreezeAfterActivate
+[IComponentData] SceneAirdropConfigDataSingleton  (fields=5)
+    Entity BeaconPrefab | Entity BeaconMarkerPrefab | Entity ResourcePodPrefab | Entity ResourcePodMarkerPrefab | Entity MiniTurretPrefab
+[IComponentData] SceneAirdropHudConfig  (fields=4)
+    UnityObjectRef<GameObject> Prefab | float FillDuration | float DrainDuration | float3 WorldOffset
+[IComponentData] SceneAirdropHudInstance  (fields=1)
+    UnityObjectRef<GameObject> Instance
+[IComponentData] SceneAirdropKindData  (fields=1)
+    byte Kind
+[IComponentData] SceneAirdropMarkerRef  (fields=1)
+    Entity Marker
+[IComponentData] SceneAirdropOpenProgress  (fields=2)
+    float Value | byte HudSpawned
+[IComponentData] SceneAirdropPhaseMaterialsBaked  (fields=4)
+    UnityObjectRef<Material> Phase0 | UnityObjectRef<Material> Phase1 | UnityObjectRef<Material> Phase2 | UnityObjectRef<Material> Phase3
+[IComponentData] SceneAirdropRenderTargetEntity  (fields=1)
+    Entity Target
+[IComponentData] SceneAirdropSequenceRestartData  (fields=2)
+    float SpawnTime | byte RemainFrames
+[IComponentData] SceneAirdropStateData  (fields=6)
+    byte Phase | float PhaseTimerRemaining | float IdleElapsed | float LandStartY | byte Initialized | byte Completed
+[IComponentData] SceneAirdropTag  (fields=0)
+    
+[IComponentData] SceneAirdropVisualPhaseIndex  (fields=1)
+    byte Phase
+[IComponentData] SpawnBurningFireFieldOnDestroyData  (fields=7)
+    Entity AttackPrefab | float AttackDamage | float Range | float Duration | float HitInterval | float CritRate | CollisionFilter CollisionFilter
+[IComponentData] SpawnIronMissileExplosionOnDestroyData  (fields=5)
+    Entity PlayerEntity | Entity AttackPrefab | float AttackDamage | float Range | float CritRate
+[IComponentData] SpawnStormNeedleOnDestroyData  (fields=6)
+    Entity AttackPrefab | float AttackDamage | float Range | int StackPerHit | float CritRate | float LightningDamagePerStack
+[IComponentData] SpawnTimeInitPending  (fields=2)
+    float Value | byte StripLinkedDepthTags
+[IComponentData] SpawnTimeOverride  (fields=1)
+    float Value
+[IComponentData] SpawnWallTurretExplosionOnDestroyData  (fields=4)
+    Entity AttackPrefab | float AttackDamage | float Range | byte PlayTownHitSfx
+[IComponentData] SquadAllyBrain  (fields=10)
+    int SlotIndex | byte WantSkill | byte Recalling | float2 SteerDir | float2 AimDir | float2 LockedFlee | float FleeLockRemain | float BoxLockRemain | sbyte OrbitSign | byte MoveMode
+[IComponentData] SquadAllyDownedData  (fields=1)
+    float RescueProgress
+[IComponentData] SquadAllyTag  (fields=0)
+    
+[IComponentData] StormAttack2CounterData  (fields=2)
+    int CurrentCount | int Threshold
+[IComponentData] StormAttack2ShootData  (fields=2)
+    float BulletMoveSpeed | float DamageMultiplier
+[IComponentData] StormChargeSlashData  (fields=2)
+    float ChargeTime | float MaxChargeTime
+[IComponentData] StormDashCollisionBackupData  (fields=2)
+    CollisionFilter OriginalFilter | byte HasBackup
+[IComponentData] StormDashLockData  (fields=1)
+    float2 Direction
+[IComponentData] StormLightningInvincibleTag  (fields=0)
+    
+[IComponentData] StormLightningInvincibleTimerData  (fields=1)
+    float Remaining
+[IComponentData] StormMechConfigData  (fields=6)
+    float 鏀诲嚮闂撮殧鏃堕棿 | MechEightDirectionOffsets 瀛愬脊鍙戝皠8鏂瑰悜鍋忕Щ | float 瀛愬脊鍙戝皠楂樺害鍋忕Щ | float 楂樺帇鍑婚拡鑼冨洿 | float 鍐插埡璺熼殢闆峰嚮鑼冨洿 | CollisionFilter CollisionFilter
+[IComponentData] StormMomentumBuffData  (fields=4)
+    int Stack | int MaxStack | float Timer | float DurationPerStack
+[IComponentData] StormMomentumVFXEntityRef  (fields=1)
+    Entity Value
+[IComponentData] StormPassiveAttackSpeedData  (fields=16)
+    int Stack | int MaxStack | int MaxStackBase | float Duration | float DurationBase | float Timer | float AttackSpeedPerStack | float AttackSpeedPerStackBase | float MoveSpeedPerStack | float MoveSpeedPerStackBase | float CritRatePerStack | float CritRatePerStackBase | float AttackDamagePerStack | float AttackDamagePerStackBase | float StackDecayAfterTimeout | float StackDecayAfterTimeoutBase
+[IComponentData] StormPerk30NeedleCounterData  (fields=3)
+    int CurrentCount | int Threshold | byte PendingEnhancedShot
+[IComponentData] StormPerkApplyBaseData  (fields=4)
+    float InjuryMitigationValueBase | float BaseLifeRegenValue | float CharacterMaxHPValue | float AttackPowerBaseValue
+[IComponentData] StormRpmVFXEntityRef  (fields=2)
+    Entity CappedStackEffect | Entity UnlimitedStackEffect
+[IComponentData] StormSwordQiFieldTag  (fields=0)
+    
+[IComponentData] SuicideBomberEnemyTag  (fields=0)
+    
+[IComponentData] SuicideBomberRuntimeData  (fields=2)
+    float TriggerDistanceSq | float WindupDuration
+[IComponentData] SuicideBomberStateData  (fields=3)
+    byte Stage | float WindupTimer | bool PendingExplosionSpawn
+[IComponentData] SuicideExplosionHitPrefab  (fields=1)
+    Entity Value
+[IComponentData] SunMechConfigData  (fields=9)
+    float 鏀诲嚮闂撮殧鏃堕棿 | MechEightDirectionOffsets 瀛愬脊鍙戝皠8鏂瑰悜鍋忕Щ | float 瀛愬脊鍙戝皠楂樺害鍋忕Щ | float 灏勭垎澶ф嫑钃勫姏寤惰繜 | float 灏勭垎澶ф嫑钃勫姏鑱氱劍杩囨浮鏃堕棿 | float 灏勭垎澶ф嫑鏀惧嚭瑙嗛噹灞曞紑涔樻暟 | float 灏勭垎澶ф嫑鏀惧嚭瑙嗛噹灞曞紑鏃堕棿 | UnityObjectRef<GameObject> 钀藉湴鐑熷皹鐗规晥PrefabGo | CollisionFilter CollisionFilter
+[IComponentData] SunPerk10IgniteTimerData  (fields=2)
+    float Timer | float Interval
+[IComponentData] SunPerk29FlameBulletCounter  (fields=2)
+    int CurrentCount | int Threshold
+[IComponentData] SunPerk32ExplosionData  (fields=2)
+    Entity ExplosionPrefab | CollisionFilter CollisionFilter
+[IComponentData] SunPerk38SplitCounter  (fields=2)
+    int CurrentCount | int Threshold
+[IComponentData] SunPerk53BulletCounter  (fields=1)
+    int CurrentCount
+[IComponentData] SunPerk59StillTimerData  (fields=1)
+    float Timer
+[IComponentData] SunPerk62DeploymentData  (fields=1)
+    float TimerRemaining
+[IComponentData] SunPerk65ChainData  (fields=10)
+    float TimerRemaining | int SpawnedCircleCount | float NextSpawnTimer | int TotalCircleCount | float Damage | float RangeBase | float Duration | float HitInterval | float CritRate | Entity AttackPrefab
+[IComponentData] SunPerk7FireFieldTag  (fields=0)
+    
+[IComponentData] SunSkillData  (fields=3)
+    Entity SkillPrefab | Entity NowEntity | CollisionFilter CollisionFilter
+[IComponentData] SunUltimateBeamAimTag  (fields=1)
+    Entity Owner
+[IComponentData] SunUltimateChargeState  (fields=2)
+    float TimerRemaining | Entity ChargeVfxEntity
+[IComponentData] SuppressEnemyDeathRewardsTag  (fields=0)
+    
+[IComponentData] TimelessKeep  (fields=0)
+    
+[IComponentData] UpperLayerDepthBias  (fields=1)
+    float Value
+[IComponentData] VfxFacingInitPending  (fields=1)
+    float Value
+[IComponentData] VfxSpawnDepthSettings  (fields=2)
+    VfxSpawnDepthLayer Layer | float UpperLayerSortYOffset
+[IComponentData] WallTurretAttackData  (fields=14)
+    Entity ProjectilePrefab | float AttackPower | float BulletMoveSpeed | Entity ExplosionPrefab | float ExplosionRange | float FireInterval | float DetectionRadius | float SectorHalfAngleRad | float BakeFacingAngleRad | int BakeDirectionIndex | CollisionFilter CollisionFilter | float ProjectileSpawnYOffset | double NextFireTime | byte UseEightDirectionAnimation
+[IComponentData] WallTurretTag  (fields=0)
+    
+[IComponentData] WeatherConfigTag  (fields=0)
+    
+[IComponentData] WeatherSmokeConfigData  (fields=11)
+    byte Enabled | int MaxCount | float SpawnInterval | float SpawnRadiusMin | float SpawnRadiusMax | float DespawnDistance | float MoveSpeedMin | float MoveSpeedMax | float ScaleMin | float ScaleMax | double NextSpawnTime
+[IComponentData] WeatherSmokeMoveData  (fields=1)
+    float2 VelocityXy
+[IComponentData] WeatherSmokeTag  (fields=0)
+    
+[ISystem] AnimationFreezeWhenPausedSystem  (fields=0)
+    
+[ISystem] AoeDamageApplyVfxFollowSystem  (fields=0)
+    
+[ISystem] AttackCheckSystem  (fields=0)
+    
+[ISystem] AttackFollowSystem  (fields=0)
+    
+[ISystem] BaseLifeRegenSystem  (fields=0)
+    
+[ISystem] BeaconLowHpDamageSystem  (fields=0)
+    
+[ISystem] BeaconMiniTurretLifetimeSystem  (fields=0)
+    
+[ISystem] BeaconMiniTurretSpawnSystem  (fields=0)
+    
+[ISystem] BeaconTempMoveSpeedSystem  (fields=0)
+    
+[ISystem] BeingDroneSystem  (fields=0)
+    
+[ISystem] BeingFieldSystem  (fields=0)
+    
+[ISystem] BossAISystem  (fields=0)
+    
+[ISystem] BossMissileLandingSystem  (fields=0)
+    
+[ISystem] BossSpawnSystem  (fields=0)
+    
+[ISystem] BossSyncSystem  (fields=0)
+    
+[ISystem] CameraInitializationSystem  (fields=0)
+    
+[ISystem] CharacterBuffCheckSystem  (fields=0)
+    
+[ISystem] CharacterInitializationSystem  (fields=0)
+    
+[ISystem] CharacterMoveSystem  (fields=0)
+    
+[ISystem] ChipMechanicInvertSystem  (fields=0)
+    
+[ISystem] ChipMechanicMulSystem  (fields=0)
+    
+[ISystem] CollectItemDistanceSystem  (fields=0)
+    
+[ISystem] CollectItemSystem  (fields=0)
+    
+[ISystem] DashMeleeEnemySystem  (fields=0)
+    
+[ISystem] DepthSystem  (fields=0)
+    
+[ISystem] DestroyEntitySystem  (fields=0)
+    
+[ISystem] DevInfiniteSurvivalMaintainSystem  (fields=0)
+    
+[ISystem] ECSToUISystem  (fields=0)
+    
+[ISystem] EnemyAggroAssignSystem  (fields=0)
+    
+[ISystem] EnemyAttackSystem  (fields=0)
+    
+[ISystem] EnemyHitFlashSystem  (fields=0)
+    
+[ISystem] EnemyHitStunSystem  (fields=0)
+    
+[ISystem] EnemyMoveToPlayerSystem  (fields=0)
+    
+[ISystem] EnemySpawnSystem  (fields=0)
+    
+[ISystem] EventFlyAcrossSteerSystem  (fields=0)
+    
+[ISystem] EventInvincibleTimerSystem  (fields=0)
+    
+[ISystem] EventRingConvergeSteerSystem  (fields=0)
+    
+[ISystem] ExpOrbFlyToPlayerSystem  (fields=0)
+    
+[ISystem] FireFieldAudioSystem  (fields=0)
+    
+[ISystem] FlyingMeleeAmbientSfxSystem  (fields=0)
+    
+[ISystem] FlyingMeleeEnemyCollisionSystem  (fields=0)
+    
+[ISystem] FlyingMeleeSteerSystem  (fields=0)
+    
+[ISystem] FollowMuzzleSpawnPointSystem  (fields=0)
+    
+[ISystem] FollowPlayerSystem  (fields=0)
+    
+[ISystem] GlobalTimeUpdateSystem  (fields=0)
+    
+[ISystem] HitAnimeSpawnTimePropagationSystem  (fields=0)
+    
+[ISystem] HitAnimeSystem  (fields=0)
+    
+[ISystem] InterferenceFloaterSystem  (fields=0)
+    
+[ISystem] IronDeploymentStanceVFXSystem  (fields=0)
+    
+[ISystem] IronMassVacuumSystem  (fields=0)
+    
+[ISystem] IronPerk53BomberShellSystem  (fields=0)
+    
+[ISystem] IronPlatingDamageAbsorbSystem  (fields=0)
+    
+[ISystem] IronPlatingShieldVFXSystem  (fields=0)
+    
+[ISystem] IronRailgunDissipationSystem  (fields=0)
+    
+[ISystem] IronRailgunMeltSystem  (fields=0)
+    
+[ISystem] IronRailgunReflectionSystem  (fields=0)
+    
+[ISystem] IronShockwaveExpandSystem  (fields=0)
+    
+[ISystem] ItemExpMergeSystem  (fields=0)
+    
+[ISystem] LevelUpSystem  (fields=0)
+    
+[ISystem] MapBoundaryWarningSystem  (fields=0)
+    
+[ISystem] MechLoopSfxSystem  (fields=0)
+    
+[ISystem] MouseInputSystem  (fields=0)
+    
+[ISystem] MoveCameraSystem  (fields=0)
+    
+[ISystem] MoveProjectileSystem  (fields=0)
+    
+[ISystem] PlayerAttackSystem  (fields=4)
+    AttackType AttackType | float MoveSpeed | float AttackDamage | float AttackDamageBase
+[ISystem] PlayerMoveTrailSmokeSystem  (fields=0)
+    
+[ISystem] PlayerSyncSystem  (fields=0)
+    
+[ISystem] ProcessDamageThisFrameSystem  (fields=0)
+    
+[ISystem] RandomEventExecuteSystem  (fields=0)
+    
+[ISystem] RangedEnemySystem  (fields=0)
+    
+[ISystem] SceneAirdropCallInSystem  (fields=0)
+    
+[ISystem] SceneAirdropPhaseSystem  (fields=0)
+    
+[ISystem] SceneAirdropVisualBakeSystem  (fields=0)
+    
+[ISystem] SquadAllyBrainSystem  (fields=0)
+    
+[ISystem] SquadAllyDownedSystem  (fields=0)
+    
+[ISystem] StormMomentumVFXSystem  (fields=0)
+    
+[ISystem] StormRpmVFXSystem  (fields=0)
+    
+[ISystem] SuicideBomberEnemySystem  (fields=0)
+    
+[ISystem] SunPerk10IgniteSystem  (fields=0)
+    
+[ISystem] SunPerk59StillSystem  (fields=0)
+    
+[ISystem] SunPerk62DeploymentSystem  (fields=0)
+    
+[ISystem] SunPerk65ChainSystem  (fields=0)
+    
+[ISystem] SunRecoverHPSystem  (fields=0)
+    
+[ISystem] WallTurretAttackSystem  (fields=0)
+    
+[ISystem] WallTurretInitFacingSystem  (fields=0)
+    
+[ISystem] WeatherSmokeSystem  (fields=0)
+    
+[MonoBehaviour] AOEAttackAuthoring  (fields=0)
+    
+[MonoBehaviour] AspectRatioLetterbox  (fields=0)
+    
+[MonoBehaviour] AudioManager  (fields=1)
+    int currentPlays1
+[MonoBehaviour] BaseHangarArmStaggerPlay  (fields=0)
+    
+[MonoBehaviour] BaseMechEvolutionTreeUI  (fields=0)
+    
+[MonoBehaviour] BaseMechHangarDetailUI  (fields=0)
+    
+[MonoBehaviour] BaseMechPortraitHoverFade  (fields=0)
+    
+[MonoBehaviour] BaseUIManager  (fields=1)
+    Animator baseUIAnimator
+[MonoBehaviour] BeaconBuffUiPresenter  (fields=0)
+    
+[MonoBehaviour] BeaconHudUI  (fields=0)
+    
+[MonoBehaviour] BeingDroneUIItem  (fields=0)
+    
+[MonoBehaviour] BossAnimationReceiver  (fields=1)
+    Animator animator
+[MonoBehaviour] BossAuthoring  (fields=3)
+    GameObject BossVisualPrefab | GameObject GemPrefab | GameObject DeathAnimePrefab
+[MonoBehaviour] BossConfigProviderAuthoring  (fields=0)
+    
+[MonoBehaviour] BossPrefabConfigManager  (fields=0)
+    
+[MonoBehaviour] ButtonSE  (fields=1)
+    bool isBack
+[MonoBehaviour] CameraTargetSingleton  (fields=0)
+    
+[MonoBehaviour] CharacterAuthoring  (fields=2)
+    float MoveSpeed | int HP
+[MonoBehaviour] CombatConfigUI  (fields=0)
+    
+[MonoBehaviour] CrossHairController  (fields=0)
+    
+[MonoBehaviour] DamageNumberManager  (fields=0)
+    
+[MonoBehaviour] DamageNumberView  (fields=0)
+    
+[MonoBehaviour] DepthTagAuthoring  (fields=0)
+    
+[MonoBehaviour] DevQuickEventPickerUI  (fields=0)
+    
+[MonoBehaviour] DevQuickPerkPickerUI  (fields=0)
+    
+[MonoBehaviour] DevTestTools  (fields=0)
+    
+[MonoBehaviour] DialogueManager  (fields=0)
+    
+[MonoBehaviour] DialoguePortraitView  (fields=0)
+    
+[MonoBehaviour] DialogueSpeakerItem  (fields=0)
+    
+[MonoBehaviour] EliteEnemyHudUI  (fields=0)
+    
+[MonoBehaviour] EnemyAuthoring  (fields=12)
+    Material DashMeleeMovementMaterial | Material DashMeleeChargeMaterial | Material DashMeleeDashMaterial | MeshRenderer DualPhaseMaterialTargetRenderer | GameObject SuicideExplosionHitPrefab | Material SuicideMovementMaterial | Material SuicideWindupMaterial | GameObject InterferenceAoePrefab | GameObject ProjectilePrefab | bool Use8DirectionAnimation | GameObject GemPrefab | GameObject DeathAnimePrefab
+[MonoBehaviour] EnemySpawnerAuthoring  (fields=12)
+    GameObject PlayerPrefab1 | GameObject PlayerPrefab2 | GameObject PlayerPrefab3 | GameObject PlayerPrefab4 | GameObject PlayerPrefab5 | GameObject PlayerPrefab6 | float ReaperSpawnTime | float SpawnInterval | float SpawnDistance | int SpawnMaxCount | uint RandomSeed | Vector3 绮捐嫳HUD鍋忕Щ
+[MonoBehaviour] EnemySpawnZoneAuthoring  (fields=0)
+    
+[MonoBehaviour] ESCMenuUIManager  (fields=5)
+    GameObject StoryUI | GameObject TechTreeUI | GameObject SettingUI | PerkBranchTreeUI perkBranchTreeUI | GameObject AnimeMask
+[MonoBehaviour] FloatingMechSpawnVfxAuthoring  (fields=0)
+    
+[MonoBehaviour] FollowMouseAuthoring  (fields=0)
+    
+[MonoBehaviour] FollowMuzzleSpawnPointAuthoring  (fields=0)
+    
+[MonoBehaviour] FriendlyUnitAuthoring  (fields=0)
+    
+[MonoBehaviour] GameLoadingUI  (fields=0)
+    
+[MonoBehaviour] GameManager  (fields=15)
+    GameObject MainUI | GameObject SelectLevelMenuUI | GameObject GamingUI | GameObject LevelUPUI | GameObject BaseMenuUI | GameObject SettingUI | GameObject LoseUI | GameObject ESCUI | ESCMenuUIManager ESCManager | bool isInGaming | bool isInHub | bool isPause | bool isCanPause | int nowSelectStage | PlayerSkillType nowSelectPlayerTyep
+[MonoBehaviour] GameOverLootRowUI  (fields=0)
+    
+[MonoBehaviour] GameOverSettleUI  (fields=0)
+    
+[MonoBehaviour] GameSettingsManager  (fields=0)
+    
+[MonoBehaviour] GameSubSceneManager  (fields=0)
+    
+[MonoBehaviour] GamingBuffSlot  (fields=0)
+    
+[MonoBehaviour] GamingUIManager  (fields=6)
+    Slider HPSlider | Slider ExpSlider | TextMeshProUGUI Level | Slider SkillSlider | Slider PassiveSlider | Slider AttackSlider
+[MonoBehaviour] GemAuthoring  (fields=0)
+    
+[MonoBehaviour] HitAnimeAuthoring  (fields=2)
+    float duration鎸佺画鏃堕棿 | ushort networkPrefabIdOverride
+[MonoBehaviour] HoverTooltipTrigger  (fields=0)
+    
+[MonoBehaviour] HoverTooltipWindow  (fields=0)
+    
+[MonoBehaviour] HubAvatarMotor  (fields=0)
+    
+[MonoBehaviour] HubAvatarRoster  (fields=0)
+    
+[MonoBehaviour] HubAvatarView  (fields=0)
+    
+[MonoBehaviour] HubCameraRig  (fields=0)
+    
+[MonoBehaviour] HubElevatorCabin  (fields=0)
+    
+[MonoBehaviour] HubHudUI  (fields=0)
+    
+[MonoBehaviour] HubInteractZone  (fields=0)
+    
+[MonoBehaviour] HubManager  (fields=0)
+    
+[MonoBehaviour] HubSceneAnchor  (fields=0)
+    
+[MonoBehaviour] InGameDialoguePortraitManager  (fields=0)
+    
+[MonoBehaviour] ItemDropConfigAuthoring  (fields=0)
+    
+[MonoBehaviour] LevelUPManager  (fields=1)
+    LevelUPSelect nowSelectPerkInfo
+[MonoBehaviour] LevelUPSelect  (fields=6)
+    TextMeshProUGUI Name | TextMeshProUGUI Info | TextMeshProUGUI FromSkill | Image bgImage | Image iconImage | UpgradeOption upgrade
+[MonoBehaviour] MainMenuMechIdleFloat  (fields=0)
+    
+[MonoBehaviour] MainMenuSettingsUIManager  (fields=0)
+    
+[MonoBehaviour] MapBoundaryAirWallAuthoring  (fields=0)
+    
+[MonoBehaviour] MapBoundaryWarningConfigAuthoring  (fields=0)
+    
+[MonoBehaviour] MapBoundaryWarningConfigManager  (fields=0)
+    
+[MonoBehaviour] MapBoundaryWarningVfxAuthoring  (fields=0)
+    
+[MonoBehaviour] MechConfigProviderAuthoring  (fields=0)
+    
+[MonoBehaviour] MechEightDirectionSpawnAnchors  (fields=0)
+    
+[MonoBehaviour] MechPrefabConfigManager  (fields=0)
+    
+[MonoBehaviour] MetaChipBoardFocusProxy  (fields=0)
+    
+[MonoBehaviour] MetaChipBoardUI  (fields=0)
+    
+[MonoBehaviour] MetaChipInventoryStore  (fields=0)
+    
+[MonoBehaviour] MetaChipListItemUI  (fields=0)
+    
+[MonoBehaviour] MetaChipPageUI  (fields=0)
+    
+[MonoBehaviour] MetaEvolutionBranchPageUI  (fields=0)
+    
+[MonoBehaviour] MetaEvolutionSlotFocusHook  (fields=0)
+    
+[MonoBehaviour] MetaUpgradeBranchPageUI  (fields=0)
+    
+[MonoBehaviour] MetaUpgradeListItemSelectHook  (fields=0)
+    
+[MonoBehaviour] MetaUpgradeListItemUI  (fields=0)
+    
+[MonoBehaviour] MetaUpgradeOverviewItemUI  (fields=0)
+    
+[MonoBehaviour] MetaUpgradeProgressStore  (fields=0)
+    
+[MonoBehaviour] MetaUpgradeUIManager  (fields=0)
+    
+[MonoBehaviour] MissionManager  (fields=0)
+    
+[MonoBehaviour] MissionUIItem  (fields=0)
+    
+[MonoBehaviour] NetworkLobbyUI  (fields=0)
+    
+[MonoBehaviour] OnScreenConsoleText  (fields=0)
+    
+[MonoBehaviour] PerkBranchSlotFocusHook  (fields=0)
+    
+[MonoBehaviour] PerkBranchTreeUI  (fields=0)
+    
+[MonoBehaviour] PersistentSingleton  (fields=0)
+    
+[MonoBehaviour] PlayerAnimationReceiver  (fields=6)
+    Animator animator | Vector3 TargetPosition | Vector2 MoveDirection | float MoveSpeed | int AttackState | float MoveAmount
+[MonoBehaviour] PlayerAuthoring  (fields=0)
+    
+[MonoBehaviour] PlayerShadowSkew  (fields=0)
+    
+[MonoBehaviour] PlayerSpawnPointAuthoring  (fields=0)
+    
+[MonoBehaviour] PlayerWorldStatusUI  (fields=0)
+    
+[MonoBehaviour] ProjectileAuthoring  (fields=10)
+    bool UsePrefabAttackValue | AttackType AttackType | float MoveSpeed | int AttackDamage | float DestroyAfterTime | float AttackInterval | GameObject HitAnimePrefab | GameObject AoeDamageApplyVfxPrefab | float AoeDamageApplyVfxY鍚戜笅鍋忕Щ | ushort networkPrefabIdOverride
+[MonoBehaviour] RandomEventManager  (fields=0)
+    
+[MonoBehaviour] SceneAirdropAuthoring  (fields=3)
+    UnityEngine.Material 涓嬭惤鏉愯川 | UnityEngine.Material 钀藉湴鏉愯川 | Vector3 HUD涓栫晫鍋忕Щ
+[MonoBehaviour] SceneAirdropConfigAuthoring  (fields=0)
+    
+[MonoBehaviour] SelectLevelMenuNavigation  (fields=0)
+    
+[MonoBehaviour] SelectOnMenuShown  (fields=0)
+    
+[MonoBehaviour] SettingsTabVisual  (fields=0)
+    
+[MonoBehaviour] SquadSelectUI  (fields=0)
+    
+[MonoBehaviour] SteamManager  (fields=0)
+    
+[MonoBehaviour] SteamNetGameplay  (fields=0)
+    
+[MonoBehaviour] TutorialManager  (fields=0)
+    
+[MonoBehaviour] UIImageAlphaHitTest  (fields=0)
+    
+[MonoBehaviour] UIScrollRectSelectionFollower  (fields=0)
+    
+[MonoBehaviour] WallTurretAuthoring  (fields=2)
+    UnityEngine.Material 寰呮満鏉愯川 | UnityEngine.Material 鏀诲嚮鏉愯川
+[MonoBehaviour] WeatherConfigAuthoring  (fields=0)
+    
+[MonoBehaviour] WeatherManager  (fields=0)
+    
+[Other] AoeDamageApplyVfxJobRequest  (fields=6)
+    Entity VfxPrefab | Entity TargetEnemy | float3 Position | float SpawnTime | float YDownOffset | float Scale
+[Other] AttackCheckCommonJobFields  (fields=41)
+    ComponentLookup<AttackData> AttackDataLookup | ComponentLookup<AttackOwner> AttackOwnerLookup | ComponentLookup<AttackCritData> AttackCritDataLookup | ComponentLookup<CritDamageData> CritDamageDataLookup | ComponentLookup<ChipMechanicState> ChipMechanicStateLookup | ComponentLookup<CharacterCurrentHP> CharacterCurrentHPLookup | ComponentLookup<CharacterMaxHP> CharacterMaxHPLookup | ComponentLookup<BeingPierceRemaining> BeingPierceRemainingLookup | ComponentLookup<EnemyTag> EnemyLookup | ComponentLookup<FriendlyTargetableTag> PlayerLookup | ComponentLookup<InjuryMitigation> InjuryMitigationLookup | ComponentLookup<PlayerSkill> PlayerSkillLookup | ComponentLookup<MechCombatTag> MechCombatTagLookup | ComponentLookup<LastHitBy> LastHitByLookup | BufferLookup<PlayerPerk> PlayerPerkLookup | float ArmorPerHalfDamage | ComponentLookup<AOEAttackInterval> AOEAttackIntervalLookup | ComponentLookup<LocalToWorld> LocalToWorldLookup | ComponentLookup<LocalTransform> LocalTransformLookup | ComponentLookup<IronDetonationKnockbackOnHitData> IronDetonationKnockbackLookup | ComponentLookup<AttackKnockbackOnHitData> AttackKnockbackLookup | ComponentLookup<IronRailgunOwnerData> IronRailgunOwnerLookup | ComponentLookup<IronRailgunMeltHitRestoreData> IronRailgunMeltHitRestoreLookup | ComponentLookup<IronHeavyMissilePenetrationData> IronHeavyMissilePenetrationLookup | ComponentLookup<IronHeavyMissileExplosionOnHitData> IronHeavyMissileExplosionOnHitLookup | ComponentLookup<ProjectileHitSfxData> ProjectileHitSfxLookup | ComponentLookup<VfxSpawnDepthSettings> VfxSpawnDepthSettingsLookup | ComponentLookup<AoeDamageApplyVfxPrefab> AoeDamageApplyVfxPrefabLookup | ComponentLookup<AoeDamageApplyVfxSpawnSettings> AoeDamageApplyVfxSpawnSettingsLookup | Entity SharedAoeDamageApplyVfxPrefab | float SharedAoeDamageApplyVfxYDownOffset | ComponentLookup<PhysicsVelocity> PhysicsVelocityLookup | BufferLookup<DamageThisFrame> DamageBufferLookup | ComponentLookup<DestroyEntityFlag> DestroyEntityFlagLookup | ComponentLookup<EnemyAoePlayerHitGate> EnemyAoePlayerHitGateLookup | NativeQueue<DamageNumberJobRequest>.ParallelWriter DamageNumberQueue | NativeQueue<GameplaySfxBridge.CatalogSfxRequest>.ParallelWriter CatalogSfxRequestQueue | NativeQueue<IronRailgunMeltRestoreRequest>.ParallelWriter IronRailgunMeltRestoreQueue | NativeQueue<AoeDamageApplyVfxJobRequest>.ParallelWriter AoeDamageApplyVfxQueue | float CurrentTime | EntityCommandBuffer.ParallelWriter Ecb
+[Other] AttackCheckJobDefault  (fields=1)
+    AttackCheckCommonJobFields Common
+[Other] AttackCheckJobStorm  (fields=2)
+    AttackCheckCommonJobFields Common | AttackCheckStormJobFields Storm
+[Other] AttackCheckStormJobFields  (fields=8)
+    ComponentLookup<EnemyChargedStackData> EnemyChargedLookup | ComponentLookup<ApplyChargedStackOnHitTag> ApplyChargedStackOnHitLookup | ComponentLookup<ApplyChargedStackOnHitData> ApplyChargedStackOnHitDataLookup | ComponentLookup<ApplyChargedLightningOnHitData> ApplyChargedLightningOnHitDataLookup | float ChargedDamageTakenPerStack | NativeQueue<Entity>.ParallelWriter ChargedStackEnqueue | Entity ChargedLightningVfxPrefab | float ChargedLightningVfxScale
+[Other] AttackSpawnDepthMode  (fields=0)
+    
+[Other] AttackType  (fields=0)
+    
+[Other] BaseMechHangarProfileCatalog  (fields=0)
+    
+[Other] BeaconBuffKind  (fields=0)
+    
+[Other] BeingDroneDamageHit  (fields=2)
+    Entity Enemy | float Damage
+[Other] BeingDroneEnemySnap  (fields=3)
+    Entity Entity | float3 Pos | byte Priority
+[Other] BeingDroneExplodeRequest  (fields=3)
+    Entity Player | float3 Pos | float ExpeditionDmg
+[Other] BeingDroneFireRequest  (fields=5)
+    Entity Player | float3 Pos | float Angle | float ExpeditionDmg | int DroneCount
+[Other] BeingDroneOwnerFrame  (fields=24)
+    Entity Player | float3 PlayerPos | float3 AimWorld | float2 AimDir2 | float AimAng | BeingDroneFleetData Fleet | BeingPerkRuntimeData Rt | float AttackPower | int Desired | int OwnedActiveCount | float FlySpeed | float ReturnSpeed | float PopEjectSpeed | float Dt | float Elapsed | int ShotsPerSortie | byte UltimateActive | byte Instant | byte Detached | byte Collapse | byte RemoteCharge | byte HasHuntTarget | byte NearGuardIdle | byte ResonanceActive
+[Other] BeingDronePhase  (fields=0)
+    
+[Other] BeingDroneTickJob  (fields=7)
+    NativeArray<BeingDroneOwnerFrame> OwnerFrames | int OwnerCount | NativeArray<BeingDroneEnemySnap> Enemies | ComponentLookup<AttackData> AttackDataLookup | NativeQueue<BeingDroneFireRequest>.ParallelWriter Fires | NativeQueue<BeingDroneExplodeRequest>.ParallelWriter Explodes | NativeQueue<Entity>.ParallelWriter ChargeCompletes
+[Other] BeingHudBuffId  (fields=0)
+    
+[Other] BossActionContext  (fields=19)
+    EntityManager Em | EntityCommandBuffer Ecb | EntityCommandBuffer BeginEcb | Entity BossEntity | BossBrainData Brain | BossActionConfig ActionConfig | bool HasSkill1 | BossSkill1Config Skill1 | bool HasSkill2 | BossSkill2Config Skill2 | bool HasSkill3 | BossSkill3Config Skill3 | BossAnimSyncData Sync | BossFacingData Facing | CharacterMoveDirection MoveDir | float3 BossPos | float3 PlayerPos | float Elapsed | float Dt
+[Other] BossAnimEventType  (fields=0)
+    
+[Other] BossAnimTriggerKind  (fields=0)
+    
+[Other] BossConfigKind  (fields=0)
+    
+[Other] BufferJob  (fields=1)
+    float deltaTime
+[Other] BuffType  (fields=0)
+    
+[Other] ChipAffix  (fields=7)
+    string affixId | string displayCn | int tier | ChipAffixKind kind | ChipStatKind statKind | float rolledValue | string mechanicId
+[Other] ChipAffixKind  (fields=0)
+    
+[Other] ChipCombatBonuses  (fields=13)
+    float HpMul | float ArmorMul | float MoveSpeedMul | float AttackPowerMul | float AttackSpeedMul | float LifeRegenMul | float CritRate | float PickupRangeMul | float SkillCooldownMul | float ExpGainMul | float LootMul | float CritDamageAdd | float CritDamageOverride
+[Other] ChipDropSource  (fields=0)
+    
+[Other] ChipMechanicLoadout  (fields=4)
+    ulong AffixMask | float SellValueMul | float CombatTimeScale | float EnemyFieldMul
+[Other] ChipRuntimeInstance  (fields=7)
+    string instanceId | string shapeId | string nameCn | string nameEn | string hiddenAffixId | Sprite cellBgSprite | Sprite cellTileSprite
+[Other] ChipStatKind  (fields=0)
+    
+[Other] CollectItemJob  (fields=6)
+    NativeQueue<ItemPickupHit>.ParallelWriter Hits | ComponentLookup<ItemTag> ItemLookup | ComponentLookup<ItemFlyingToPlayer> ItemFlyingLookup | ComponentLookup<MechCombatTag> MechCombatLookup | ComponentLookup<DestroyEntityFlag> DestroyEntityLookup | NativeParallelHashSet<Entity>.ParallelWriter Claimed
+[Other] DamageNumberJobRequest  (fields=4)
+    float3 Position | float Value | byte IsCrit | byte IsDot
+[Other] DamageNumberSpawnRequest  (fields=4)
+    Vector3 WorldPos | float Value | bool IsCrit | bool IsDot
+[Other] DepthJobDefault  (fields=0)
+    
+[Other] DepthJobDefaultUpper  (fields=0)
+    
+[Other] DepthJobFloating  (fields=0)
+    
+[Other] DepthJobFloatingUpper  (fields=0)
+    
+[Other] EliteEnemyHudSystem  (fields=0)
+    
+[Other] EnemyAIType  (fields=0)
+    
+[Other] EnemyAttackJob  (fields=8)
+    ComponentLookup<FriendlyTargetableTag> FriendlyTargetableLookup | ComponentLookup<EnemyAttackData> AttackDataLookup | ComponentLookup<EnemyCooldownExpirationTimestamp> CooldownLookup | BufferLookup<DamageThisFrame> DamageBufferLookup | ComponentLookup<InjuryMitigation> InjuryMitigationLookup | ComponentLookup<HitStunTimer> HitStunLookup | float ArmorPerHalfDamage | double ElapsedTime
+[Other] EnemyDualMaterialPresentationSystem  (fields=0)
+    
+[Other] EnemyMoveToPlayerJob  (fields=5)
+    float2 FallbackPosition | ComponentLookup<EnemyCurrentTarget> TargetLookup | ComponentLookup<LocalTransform> TransformLookup | ComponentLookup<HitStunTimer> HitStunLookup | ComponentLookup<EnemyMovementPaused> PauseLookup
+[Other] EnemySpawnMainlineTimeline  (fields=0)
+    
+[Other] EnemySpawnPoolRowAuthoring  (fields=7)
+    GameObject Prefab | bool IsSpecialEnemy | bool IsEventOnlyEnemy | int UnlockAtPlayerLevel | int MaxOnField | int SpawnAfterNormalGenerations | int ReplaceBlendOverPlayerLevels
+[Other] EnemySpawnStageTimelineBinding  (fields=0)
+    
+[Other] EnemySpawnTimelineSegmentAuthoring  (fields=0)
+    
+[Other] EnemySpawnTimelineWeightAuthoring  (fields=1)
+    GameObject Prefab
+[Other] EnemySpawnZoneKind  (fields=0)
+    
+[Other] FlyingMeleeSteerJob  (fields=6)
+    float2 FallbackPosition | float DeltaTime | ComponentLookup<EnemyMovementPaused> PauseLookup | ComponentLookup<HitStunTimer> HitStunLookup | ComponentLookup<EnemyCurrentTarget> TargetLookup | ComponentLookup<LocalTransform> TransformLookup
+[Other] GameProgressChipEquip  (fields=4)
+    int mech | string instanceId | int boardX | int boardY
+[Other] GameProgressData  (fields=7)
+    int wreckage | int neuralSequence | bool evolutionDefaultsSeeded | bool dialoguePrefsMigrated | int evolutionUnlockScheme | int completedRunCount | int tutorialFeatureTier
+[Other] GameProgressLevelEntry  (fields=3)
+    int category | string upgradeId | int level
+[Other] GameProgressOwnedChip  (fields=6)
+    string instanceId | string shapeId | string nameCn | string nameEn | int cellsMask | string hiddenAffixId
+[Other] GameSettingsData  (fields=3)
+    int displayMode | bool hasSelectedMech | int selectedMech
+[Other] GamingBuffCatalog  (fields=0)
+    
+[Other] GamingBuffCategory  (fields=0)
+    
+[Other] GhostMotionClass  (fields=2)
+    GhostNetScope Scope | GhostPoseDriver Pose
+[Other] GhostNetScope  (fields=0)
+    
+[Other] GhostPoseDriver  (fields=0)
+    
+[Other] HoverTooltipKind  (fields=0)
+    
+[Other] HubInteractKind  (fields=0)
+    
+[Other] IMetaUpgradeProgressSource  (fields=0)
+    
+[Other] InitializePlayerMechFromConfigSystem  (fields=0)
+    
+[Other] IronHudBuffId  (fields=0)
+    
+[Other] IronRailgunMeltRestoreRequest  (fields=2)
+    Entity PlayerEntity | float RestoreAmount
+[Other] ItemPickupHit  (fields=2)
+    Entity Item | Entity Mech
+[Other] ItemType  (fields=0)
+    
+[Other] LevelUpVfxKind  (fields=0)
+    
+[Other] MapBoundaryWallSide  (fields=0)
+    
+[Other] MechEightDirectionOffsets  (fields=8)
+    float2 Dir0 | float2 Dir1 | float2 Dir2 | float2 Dir3 | float2 Dir4 | float2 Dir5 | float2 Dir6 | float2 Dir7
+[Other] MechEightDirectionOffsetTable  (fields=2)
+    Vector2 dir1鍙充笅 | Vector2 dir3鍙充笂
+[Other] MetaChipAffixDef  (fields=8)
+    string affixId | string nameCn | float valueMin | float valueMax | string mechanicId | string mechanicDisplayCn | float paramMin | float paramMax
+[Other] MetaChipBoardCatalog  (fields=0)
+    
+[Other] MetaChipBoardShape  (fields=0)
+    
+[Other] MetaChipCatalog  (fields=0)
+    
+[Other] MetaChipEquipped  (fields=4)
+    PlayerSkillType mech | string instanceId | int boardX | int boardY
+[Other] MetaChipMechBoardDef  (fields=2)
+    string nameCn | Sprite portraitSprite
+[Other] MetaChipShape  (fields=0)
+    
+[Other] MetaChipShapeDef  (fields=7)
+    string shapeId | string nameCn | string nameEn | Sprite cellBgSprite | Sprite cellTileSprite | int affixCountMinOverride | int affixCountMaxOverride
+[Other] MetaChipTierRule  (fields=1)
+    float clearRollWeight
+[Other] MetaUpgradeBranchCatalog  (fields=0)
+    
+[Other] MetaUpgradeCurrency  (fields=0)
+    
+[Other] MetaUpgradeIndustryBonuses  (fields=10)
+    float HpMul | float ArmorMul | float MoveSpeedMul | float SkillCooldownMul | float AttackPowerMul | float AttackSpeedMul | float LifeRegenMul | float CritRate | float PickupRangeMul | float BeaconWeightMul
+[Other] MissionCatalog  (fields=0)
+    
+[Other] MissionConditionType  (fields=0)
+    
+[Other] MissionDefinition  (fields=2)
+    string displayName | string description
+[Other] MissionFailType  (fields=0)
+    
+[Other] NetworkGhostApplySystem  (fields=0)
+    
+[Other] NetworkGhostAssignSystem  (fields=0)
+    
+[Other] NetworkMechInputSystem  (fields=0)
+    
+[Other] NetworkMetaLoadout  (fields=14)
+    byte Hp | byte Armor | byte Move | byte SkillCd | byte Firepower | byte FireCycle | byte Repair | byte Crit | byte Pickup | byte Beacon | byte WreckageGain | byte NeuralGain | byte Reroll | byte Banish
+[Other] PerkDrawStage  (fields=0)
+    
+[Other] PerkDrawWeightSettings  (fields=0)
+    
+[Other] PerkIconDatabase  (fields=0)
+    
+[Other] PerkVisualTier  (fields=0)
+    
+[Other] PlayerAnimationIndex  (fields=0)
+    
+[Other] PlayerDamageRecord  (fields=4)
+    Entity Entity | bool IsDamaged | bool IsRestore | float HpDamageDealt
+[Other] PlayerInputSystem  (fields=1)
+    float2 currentInput
+[Other] PlayerSkillType  (fields=0)
+    
+[Other] ProcessDamageJob  (fields=12)
+    ComponentLookup<EnemyTag> EnemyLookup | ComponentLookup<BeDamagedThisFrame> BeDamagedLookup | ComponentLookup<StormLightningInvincibleTag> StormInvincibleLookup | ComponentLookup<EventInvincibleTag> EventInvincibleLookup | ComponentLookup<DevInfiniteSurvivalTag> DevInfiniteSurvivalLookup | ComponentLookup<SquadAllyTag> SquadAllyLookup | ComponentLookup<NetworkMechSlot> NetworkMechSlotLookup | ComponentLookup<CharacterMaxHP> MaxHPLookup | ComponentLookup<ChipMechanicState> ChipMechanicLookup | bool DownNetworkMechs | NativeQueue<Entity>.ParallelWriter DamagedEnemies | NativeQueue<PlayerDamageRecord>.ParallelWriter PlayerRecords
+[Other] RailgunPlayEdge  (fields=0)
+    
+[Other] RandomEventCatalog  (fields=0)
+    
+[Other] RandomEventCategory  (fields=0)
+    
+[Other] RandomEventDefinition  (fields=11)
+    string displayName | string description | bool preventConsecutive | float minSessionSeconds | float maxSessionSeconds | bool oncePerRun | GameObject enemyPrefab | float flySpeed | GameObject swarmBugPrefabLow | GameObject swarmBugPrefabMid | GameObject swarmBugPrefabHigh
+[Other] RandomEventType  (fields=0)
+    
+[Other] SceneAirdropBeaconHudSystem  (fields=0)
+    
+[Other] SceneAirdropKind  (fields=0)
+    
+[Other] SceneAirdropMaterialPresentationSystem  (fields=0)
+    
+[Other] SfxCatalog  (fields=0)
+    
+[Other] SfxId  (fields=0)
+    
+[Other] SkillCDType  (fields=0)
+    
+[Other] SpawnPlayerFromConfigSystem  (fields=0)
+    
+[Other] SquadPerkTarget  (fields=5)
+    Entity Entity | PlayerSkillType Type | bool IsPlayer | int AllySlot | string TabLabel
+[Other] SteamNetReader  (fields=0)
+    
+[Other] SteamNetWriter  (fields=0)
+    
+[Other] StormHudBuffId  (fields=0)
+    
+[Other] SubSceneSystem  (fields=0)
+    
+[Other] SunHudBuffId  (fields=0)
+    
+[Other] SurvivorsInput  (fields=0)
+    
+[Other] TypeProbability  (fields=2)
+    UpgradeType type | float baseProbability
+[Other] UpgradeOption  (fields=22)
+    int id | string name | string description | string shortDescription | string sourceSkill | int slot | UpgradeType type | Sprite icon | float baseProbability | float weightMultiplier | byte maxLevel | byte currentLevel | bool isMaxLevel | float dynamicWeight | int branchId | bool useRequirement | UpgradeRequirementType requirementType | int requiredPerkId | byte requiredPerkLevel | int requiredBranchId | byte requiredBranchLevelTotal | int exclusiveGroupId
+[Other] UpgradeRequirementType  (fields=0)
+    
+[Other] UpgradeType  (fields=0)
+    
+[Other] VfxSpawnDepthInspector  (fields=2)
+    VfxSpawnDepthLayer 绾垫繁灞傜骇 | float 涓婂眰绾垫繁鍋忕Щ
+[Other] VfxSpawnDepthLayer  (fields=0)
+    
