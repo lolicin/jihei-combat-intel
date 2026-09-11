@@ -22,6 +22,15 @@ $wc = New-Object System.Net.WebClient
 $wc.Encoding = [System.Text.Encoding]::UTF8
 
 $frames = 0
+$okHttp = 0
+$parseFail = 0
+$noAdvice = 0
+$nullEnemies = 0
+$firstHttpErr = ''
+$firstParseErr = ''
+$maxTracker = 0
+$maxMeas = 0
+$srcTally = @{}
 $dmgFrames = 0
 $agree = 0
 $miss = 0
@@ -35,29 +44,50 @@ $failStreak = 0
 
 while ((Get-Date) -lt $deadline) {
     $json = $null
-    try { $json = $wc.DownloadString('http://127.0.0.1:8790/state'); $failStreak = 0 }
+    try { $json = $wc.DownloadString('http://127.0.0.1:8790/state'); $failStreak = 0; $okHttp++ }
     catch {
         $failStreak++
-        if ($failStreak -ge $FailTolerance) { "endpoint unreachable ${FailTolerance}x in a row - stopping"; break }
+        if (-not $firstHttpErr) { $firstHttpErr = $_.Exception.GetType().Name + ': ' + $_.Exception.Message }
+        if ($failStreak -ge $FailTolerance) { "endpoint unreachable ${FailTolerance}x in a row - stopping" ; break }
         Start-Sleep -Milliseconds $IntervalMs
         continue
     }
 
-    try { $s = $json | ConvertFrom-Json } catch { Start-Sleep -Milliseconds $IntervalMs; continue }
-    if (-not $s.advice) { Start-Sleep -Milliseconds $IntervalMs; continue }
+    $s = $null
+    try { $s = $json | ConvertFrom-Json }
+    catch {
+        $parseFail++
+        if (-not $firstParseErr) { $firstParseErr = $_.Exception.GetType().Name + ': ' + $_.Exception.Message }
+        Start-Sleep -Milliseconds $IntervalMs
+        continue
+    }
+    if (-not $s -or -not $s.advice) {
+        $noAdvice++
+        Start-Sleep -Milliseconds $IntervalMs
+        continue
+    }
+    if (-not $s.enemies) { $nullEnemies++ }
 
     $frames++
     $adv = $s.advice
 
-    # who actually took damage this frame, and how much
+    # who actually took damage this frame, and how much.
+    # NOTE: damageTakenThisFrame is a per-frame buffer the game clears before our
+    # Update() runs, so it is always empty - kept only as a cross-check. The real
+    # measured signal is avgHitDamage (HP-delta based) and the source label.
     $victims = @()
+    $measCount = 0
+    $measSum = 0.0
     foreach ($e in $s.enemies) {
         if ($e.damageTakenThisFrame -and $e.damageTakenThisFrame.Count -gt 0) {
             $sum = 0.0
             foreach ($d in $e.damageTakenThisFrame) { $sum += [double]$d }
             if ($sum -gt 0) { $victims += [pscustomobject]@{ idx = $e.entityIndex; dmg = $sum; killable = [bool]$e.willDieFromNextHit } }
         }
+        if ([double]$e.avgHitDamage -gt 0) { $measCount++; $measSum += [double]$e.avgHitDamage }
     }
+    $tgt = $null
+    foreach ($e in $s.enemies) { if ($e.entityIndex -eq $adv.targetEntityIndex) { $tgt = $e; break } }
 
     $rec = [ordered]@{
         t         = (Get-Date -Format 'HH:mm:ss.fff')
@@ -72,11 +102,24 @@ while ((Get-Date) -lt $deadline) {
         wallDist  = [math]::Round([double]$adv.wallDistance, 2)
         trapped   = [bool]$adv.trapped
         aimDiff   = [math]::Round([double]$adv.aimDiff, 3)
+        tracker   = $s.damageTrackerEntries
+        measCount = $measCount
+        measAvg   = if ($measCount -gt 0) { [math]::Round($measSum / $measCount, 1) } else { 0 }
+        tgtSrc    = if ($tgt) { $tgt.predictedDamageSource } else { '' }
+        tgtMeas   = if ($tgt) { [math]::Round([double]$tgt.avgHitDamage, 1) } else { 0 }
         victims   = @($victims | ForEach-Object { $_.idx })
         victimsDmg = @($victims | ForEach-Object { [math]::Round($_.dmg, 1) })
         ranking   = @($adv.ranking | ForEach-Object { $_.entityIndex })
     }
     ($rec | ConvertTo-Json -Compress) | Add-Content -LiteralPath $OutFile -Encoding UTF8
+
+    if ([int]$rec.tracker -gt $maxTracker) { $maxTracker = [int]$rec.tracker }
+    if ([int]$rec.measCount -gt $maxMeas) { $maxMeas = [int]$rec.measCount }
+    if ($rec.tgtSrc) {
+        $sk = [string]$rec.tgtSrc
+        if (-not $srcTally.ContainsKey($sk)) { $srcTally[$sk] = 0 }
+        $srcTally[$sk]++
+    }
 
     if ($adv.active -and $adv.ranking) {
         foreach ($c in $adv.ranking) {
@@ -104,6 +147,24 @@ while ((Get-Date) -lt $deadline) {
 
 "`n=== decision log summary ==="
 "samples            : $frames"
+"`n--- pipeline (read this when samples=0; the three causes no longer look alike) ---"
+"http ok            : $okHttp"
+"json parse failed  : $parseFail"
+"advice missing     : $noAdvice"
+"enemies missing    : $nullEnemies"
+"first http error   : $firstHttpErr"
+"first parse error  : $firstParseErr"
+$verdict = if ($frames -gt 0) { 'OK - got samples' }
+elseif ($okHttp -eq 0) { 'ENDPOINT DOWN - game not running or Http/Enabled=false' }
+elseif ($parseFail -gt 0) { 'PARSE FAILED - got bytes but could not deserialise' }
+elseif ($noAdvice -gt 0) { 'NO ADVICE - Advisor/Enabled off, or not in a run' }
+else { 'UNKNOWN - no samples and no counter explains it' }
+"VERDICT            : $verdict"
+
+"`n--- measured damage path (the actual question) ---"
+"trackerEntries max : $maxTracker"
+"measCount max      : $maxMeas   (enemies with avgHitDamage>0)"
+"target source tags : " + (($srcTally.GetEnumerator() | ForEach-Object { "$($_.Key) x$($_.Value)" }) -join '   ')
 "frames w/ damage   : $dmgFrames"
 "agreed w/ advice   : $agree"
 "disagreed          : $miss"

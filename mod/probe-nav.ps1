@@ -56,7 +56,7 @@ while ((Get-Date) -lt $deadline) {
             "--- $t  enemies=$($s.enemies.Count)"
             "    navInfo : $($s.navInfo)"
             if ($s.advice) {
-                "    墙距=$([math]::Round($s.advice.wallDistance,2)) 通畅=$([math]::Round($s.advice.pathClearance,2)) 避墙修正=$($s.advice.moveAdjustedForWalls) 被困=$($s.advice.trapped) 走位=$($s.advice.moveLabel)"
+                "    wallDist=$([math]::Round($s.advice.wallDistance,2)) clearance=$([math]::Round($s.advice.pathClearance,2)) wallAdjusted=$($s.advice.moveAdjustedForWalls) trapped=$($s.advice.trapped) moveLabel=$($s.advice.moveLabel)"
             }
             "    autoAim : $($s.autoAimInfo)"
         } else { $seen[$key]++ }
