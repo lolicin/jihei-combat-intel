@@ -1,9 +1,11 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using HarmonyLib;
 #if BEPINEX6
 using BepInEx.Unity.Mono;
 #endif
@@ -167,6 +169,8 @@ namespace CombatInspector
             // Awake already ran with field defaults; re-apply now that config values are in.
             _runner.ApplySettings();
 
+            TryInstallAimPatch();
+
             // Overlay default visibility is applied after Awake has built the Overlay instance.
             var start = go.AddComponent<ApplyOverlayVisibility>();
             start.visible = cOverlayVisible.Value;
@@ -181,6 +185,49 @@ namespace CombatInspector
             LogInfo("  advisor : " + (_runner.AdvisorEnabled ? "on (read-only suggestions)" : "off"));
             LogInfo("  bars    : " + (_runner.BarsEnabled ? "on (max " + _runner.BarsMaxCount + ", dist " + _runner.BarsMaxDistance + ")" : "off"));
         }
+
+        /// <summary>
+        /// 挂接管瞄准的 Harmony postfix。手动 Patch 而不用 PatchAll：目标方法找不到时要**明确报出来**，
+        /// 而不是静默不生效 —— 这一整个排错过程最大的教训就是静默失败。
+        /// </summary>
+        private void TryInstallAimPatch()
+        {
+            try
+            {
+                var t = AccessTools.TypeByName("MouseInputSystem");
+                if (t == null)
+                {
+                    LogWarn("接管瞄准不可用：找不到 MouseInputSystem 类型");
+                    AimOverrideSystem.LastStatus = "补丁未挂载（找不到 MouseInputSystem）";
+                    return;
+                }
+
+                // 优先 Entities 为 unmanaged ISystem 生成的静态入口（postfix 不涉及 struct 装箱），
+                // 退而求其次试用户写的 OnUpdate(ref SystemState)。
+                MethodInfo target = AccessTools.Method(t, "__codegen__OnUpdate")
+                                 ?? AccessTools.Method(t, "OnUpdate");
+                if (target == null)
+                {
+                    LogWarn("接管瞄准不可用：MouseInputSystem 上没有可补丁的 OnUpdate");
+                    AimOverrideSystem.LastStatus = "补丁未挂载（无可补丁方法）";
+                    return;
+                }
+
+                var postfix = AccessTools.Method(typeof(AimTakeoverPatch), "Postfix");
+                var harmony = new Harmony("com.jhx9676.mechcore.combatinspector.autoaim");
+                harmony.Patch(target, null, new HarmonyMethod(postfix));
+
+                _aimPatched = true;
+                LogInfo("  aimpatch: " + t.Name + "." + target.Name + " postfix 已挂载（F7 开启接管瞄准）");
+            }
+            catch (Exception ex)
+            {
+                LogWarn("挂接管瞄准补丁失败：" + ex.GetType().Name + ": " + ex.Message);
+                AimOverrideSystem.LastStatus = "补丁挂载失败：" + ex.GetType().Name;
+            }
+        }
+
+        private bool _aimPatched;
 
         private static string Safe(string p)
         {

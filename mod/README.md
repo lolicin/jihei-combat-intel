@@ -475,9 +475,9 @@ damage = baseDamage * pow(0.5f, 目标护甲 / PerkConfig.ArmorPerHalfDamage)
    - **建议走位**：威胁斥力（敌人伤害 × 我护甲减免 × 距离衰减）+ 与焦点目标保持风筝距离 + 垂直于来袭弹道闪避，归一化后给中文标签（后撤拉开距离 / 前压接近目标 / 侧向绕圈 / 规避）
    - **危险度** 0-100% + 档位（安全/注意/危险/危急）、近身威胁数、来袭弹数
    - 展示位置：主浮层「战术建议」块、雷达（青双环=推荐目标、青叉=瞄准点、青箭头=走位）、血条（推荐目标加绿方括号与"推荐"前缀）、仪表盘「战术建议」卡片与雷达叠加
-2. **⚠️ 已实现但当前版本未生效 —— 接管瞄准**（`AimOverrideSystem.cs`，热键 `F7`）。
-   写 `MouseTarget` 的逻辑、提前量解算、目标失效自动放手、联机槽位过滤都已完成，
-   但**托管 `SystemBase` 在这个世界里始终不被驱动**，详见 §7.5。
+2. **🔶 接管瞄准**（`AimOverrideSystem.cs` + `AimTakeoverPatch.cs`，热键 `F7`）：写 `MouseTarget` 的逻辑、
+   拦截提前量解算、目标失效自动放手都已完成。第一版做成托管 `SystemBase`，实测**这个世界根本不驱动它**
+   （见 §7.4）；现已改为 Harmony postfix 补 `MouseInputSystem`，**待实机确认**。
 3. **待做 —— 接管移动 + 技能**：全自动。
 
 ### 7.3 地图边界与障碍感知（走位必须知道哪里走不通）
@@ -560,14 +560,30 @@ autoAimInfo: enabled=True  状态=未运行（OnUpdate 从未执行）  本帧�
 > 和 OnUpdate 里写的"未启用"完全一样，导致"没跑"和"跑了但关着"分不开；改成
 > "未运行（OnUpdate 从未执行）"后一眼定案。
 
-**下一步（唯一剩下的路）**：Harmony postfix 补 `MouseInputSystem.__codegen__OnUpdate(IntPtr self, IntPtr state)`，
-在原方法返回后写 `MouseTarget`。它天然位于"输入解析之后、`PlayerAttackSystem` 读取之前"，不用跟世界循环较劲。
-已知风险：postfix 里用 `EntityManager.SetComponentData` 可能撞 job safety（`MouseInputSystem` 自己声明了
-`MouseTarget` 的 RW 句柄）；真撞上就退化成用 `state` 指针走 unsafe 直接写 chunk 内存。
+**已改用 Harmony postfix**（`AimTakeoverPatch.cs`）：补
+`MouseInputSystem.__codegen__OnUpdate(IntPtr self, IntPtr state)` —— Entities 为 unmanaged ISystem
+生成的入口，是个 `internal static` 方法，所以 postfix 不涉及 struct 实例装箱。时机天然位于
+"输入解析之后、`PlayerAttackSystem` 读取之前"，不用跟世界循环较劲。
+
+安全性有依据而非侥幸：`MouseInputSystem` 在自己的 OnUpdate 里已经调过
+`CompleteDependencyBeforeRW<MouseTarget>()`（`MouseInputSystem.cs:271`），所以 postfix 执行时
+没有未完成 job 持有 `MouseTarget`，用 `EntityManager.SetComponentData` 直接写是安全的。
+
+挂载用**手动 `harmony.Patch()` 而不是 `PatchAll`**：目标类型/方法找不到时要**明确写日志报出来**，
+绝不再留静默失败（这是本节最大的教训）。判据也换成可量化计数器：
+
+```
+autoAimInfo: enabled=True 状态=接管中（补丁写入） 补丁执行=N 本帧写入=1 累计写入=M
+             机甲=E164v… 目标=E277v… 上次瞄准=(x,y) 提前=0.477s 弹速=20.0
+```
+
+- `补丁执行` 恒为 0 → postfix 根本没被调用（补丁没挂上 / 方法名不对），看启动日志的 `aimpatch:` 行
+- `补丁执行` 增长但 `aimDiff` 不收敛 → 写入被后面的系统覆盖，改去补更靠后的时机
+- `状态=写入异常` + `异常=…` → 撞了 job safety，退化成用 `state` 指针走 unsafe 直接写 chunk 内存
 
 ### 7.5 待办
 
-- **接管瞄准**：改走 Harmony postfix（见 §7.4）
+- **接管瞄准**：Harmony postfix 已实现，**待实机确认**（看上面三个计数器）
 - 接管移动（写 `CharacterMoveDirection`）——有了路径感知才敢做
 - 接管技能释放
 - 芯片免死/无敌 Tag 纳入预测，消除"可秒杀"误报
@@ -690,7 +706,8 @@ H:\hnworkspace\yxykgame\
         ├── DamageTracker.cs          实测优先的伤害预测（滚动统计 + 模型兜底）
         ├── TacticsAdvisor.cs         只读战术建议（集火目标 / 提前量瞄准 / 走位 / 危险度）
         ├── Navigation.cs             地图边界 + 障碍感知（可玩区/墙段/16方向射线）
-        ├── AimOverrideSystem.cs      第②步：接管瞄准（逻辑完整，但托管 SystemBase 不被驱动，见 §7.4）
+        ├── AimOverrideSystem.cs      接管瞄准的状态与执行逻辑（静态类；曾是 SystemBase，见 §7.4）
+        ├── AimTakeoverPatch.cs       Harmony postfix 补 MouseInputSystem，驱动上面的逻辑
         ├── Cjk.cs                    IMGUI 中文字体与样式（默认皮肤字体不含中文字形）
         ├── MiniJson.cs               零依赖 JSON 序列化（游戏更新删掉了 Newtonsoft）
         ├── StateHttpServer.cs        TcpListener 极简 HTTP + 主线程请求队列

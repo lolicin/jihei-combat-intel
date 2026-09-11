@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -117,30 +118,67 @@ namespace CombatInspector
             AimOverrideSystem.Active = AutoAimEnabled && AdvisorEnabled;
         }
 
-        private bool _aimSystemAdded;
-
         /// <summary>
-        /// 把瞄准接管系统注册进游戏的世界。只试一次；必须在世界创建之后调用。
+        /// 把快照里的 entityIndex 解析成真正的 Entity 句柄，交给接管瞄准用。
+        /// 每次抓取（4Hz）做一次即可：目标身份 4Hz 更新，但每帧都会重读它的当前位置，
+        /// 所以准星依然 60fps 平滑跟随。
         /// </summary>
-        private void EnsureAimSystem()
+        private void ResolveAimEntities(CombatSnapshot snap)
         {
-            if (_aimSystemAdded) return;
+            AimOverrideSystem.MechEntity = Entity.Null;
+            AimOverrideSystem.TargetEntity = Entity.Null;
+
             var world = World.DefaultGameObjectInjectionWorld;
             if (world == null || !world.IsCreated) return;
-            _aimSystemAdded = true;
-            try
+            var em = world.EntityManager;
+
+            var p = LocalPlayerOf(snap);
+            if (p != null)
             {
-                // 必须走类型管理路径。手工 AddSystemManaged(instance) 不会应用
-                // [UpdateInGroup]/[UpdateAfter] 属性 —— 系统会进 world 但不在任何会更新的组里，
-                // OnUpdate 永远不执行（就是这么踩的）。GetOrCreateSystemManaged<T>() 才按属性挂载。
-                world.GetOrCreateSystemManaged<AimOverrideSystem>();
-                Log("AimOverrideSystem 已注册进 " + world.Name +
-                    "（GetOrCreateSystemManaged，按属性排在 MouseInputSystem 之后、PlayerAttackSystem 之前）；世界系统数=" +
-                    world.Systems.Count);
+                using (var q = em.CreateEntityQuery(ComponentType.ReadOnly<PlayerTag>()))
+                {
+                    if (!q.IsEmptyIgnoreFilter)
+                    {
+                        using (var arr = q.ToEntityArray(Allocator.Temp))
+                        {
+                            for (int i = 0; i < arr.Length; i++)
+                            {
+                                if (arr[i].Index == p.entityIndex)
+                                {
+                                    AimOverrideSystem.MechEntity = arr[i];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            catch (Exception ex)
+
+            var adv = snap.advice;
+            if (adv != null && adv.active)
             {
-                Log("注册 AimOverrideSystem 失败：" + ex.Message);
+                int ti = adv.targetEntityIndex;
+                int tv = -1;
+                for (int i = 0; i < snap.enemies.Count; i++)
+                    if (snap.enemies[i].entityIndex == ti) { tv = snap.enemies[i].entityVersion; break; }
+
+                using (var q2 = em.CreateEntityQuery(ComponentType.ReadOnly<EnemyTag>()))
+                {
+                    if (!q2.IsEmptyIgnoreFilter)
+                    {
+                        using (var arr2 = q2.ToEntityArray(Allocator.Temp))
+                        {
+                            for (int i = 0; i < arr2.Length; i++)
+                            {
+                                if (arr2[i].Index == ti && (tv < 0 || arr2[i].Version == tv))
+                                {
+                                    AimOverrideSystem.TargetEntity = arr2[i];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -181,7 +219,6 @@ namespace CombatInspector
             {
                 HandleHotkeys();
                 DrainHttp();
-                EnsureAimSystem();
 
                 if (Time.unscaledTime >= _nextCapture)
                 {
@@ -333,7 +370,11 @@ namespace CombatInspector
                 catch (Exception ex) { snap.notes.Add("advisor failed: " + ex.Message); }
             }
 
-            try { WireAutoAim(snap); }
+            try
+            {
+                ResolveAimEntities(snap);
+                WireAutoAim(snap);
+            }
             catch (Exception ex) { snap.notes.Add("autoaim wiring failed: " + ex.Message); }
 
             snap.screenWidth = Screen.width;
@@ -363,7 +404,7 @@ namespace CombatInspector
             return json;
         }
 
-        /// <summary>把建议目标交给瞄准接管系统，并记录量化诊断（接管到底有没有生效）。</summary>
+        /// <summary>把建议目标参数交给接管瞄准，并记录量化诊断（接管到底有没有生效）。</summary>
         private void WireAutoAim(CombatSnapshot snap)
         {
             var p = LocalPlayerOf(snap);
@@ -371,17 +412,7 @@ namespace CombatInspector
 
             if (adv != null && adv.active)
             {
-                AimOverrideSystem.TargetIndex = adv.targetEntityIndex;
-                for (int i = 0; i < snap.enemies.Count; i++)
-                {
-                    if (snap.enemies[i].entityIndex == adv.targetEntityIndex)
-                    {
-                        AimOverrideSystem.TargetVersion = snap.enemies[i].entityVersion;
-                        break;
-                    }
-                }
                 if (p != null && p.projectileSpeed > 1f) AimOverrideSystem.ProjectileSpeed = p.projectileSpeed;
-                AimOverrideSystem.LocalSlot = snap.inLobby ? snap.localSlot : -1;
 
                 // 游戏里实际的 MouseTarget 与建议瞄准点差多少：接管生效时应明显收敛
                 if (p != null && p.hasAim && adv.hasAim)
@@ -390,20 +421,22 @@ namespace CombatInspector
                     adv.aimDiff = Mathf.Sqrt(dx * dx + dy * dy);
                 }
             }
-            else
-            {
-                AimOverrideSystem.TargetIndex = -1;
-            }
+
+            Entity mech = AimOverrideSystem.MechEntity;
+            Entity tgt = AimOverrideSystem.TargetEntity;
 
             snap.autoAimInfo = "enabled=" + AimOverrideSystem.Active +
                 " 状态=" + AimOverrideSystem.LastStatus +
+                " 补丁执行=" + AimOverrideSystem.PatchRunCount +
                 " 本帧写入=" + AimOverrideSystem.LastWrites +
-                " 累计=" + AimOverrideSystem.TotalWrites +
-                " 目标=E" + AimOverrideSystem.TargetIndex + "v" + AimOverrideSystem.TargetVersion +
+                " 累计写入=" + AimOverrideSystem.TotalWrites +
+                " 机甲=" + (mech == Entity.Null ? "无" : ("E" + mech.Index + "v" + mech.Version)) +
+                " 目标=" + (tgt == Entity.Null ? "无" : ("E" + tgt.Index + "v" + tgt.Version)) +
                 " 上次瞄准=(" + AimOverrideSystem.LastAimX.ToString("F2", CultureInfo.InvariantCulture) +
                 ", " + AimOverrideSystem.LastAimY.ToString("F2", CultureInfo.InvariantCulture) + ")" +
                 " 提前=" + AimOverrideSystem.LastLeadSeconds.ToString("F3", CultureInfo.InvariantCulture) + "s" +
-                " 弹速=" + AimOverrideSystem.ProjectileSpeed.ToString("F1", CultureInfo.InvariantCulture);
+                " 弹速=" + AimOverrideSystem.ProjectileSpeed.ToString("F1", CultureInfo.InvariantCulture) +
+                (string.IsNullOrEmpty(AimOverrideSystem.PatchError) ? "" : " 异常=" + AimOverrideSystem.PatchError);
 
             float2 pm = Navigation.PlayMin, pM = Navigation.PlayMax;
             snap.navInfo = "可玩区=" + (Navigation.HasPlayArea
