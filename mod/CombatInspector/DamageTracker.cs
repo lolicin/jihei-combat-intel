@@ -32,6 +32,8 @@ namespace CombatInspector
             public float max;
             public int framesWithDamage;
             public double lastTime;
+            public bool hasHp;
+            public float lastHp;
         }
 
         private static readonly Dictionary<int, Stat> _stats = new Dictionary<int, Stat>(256);
@@ -85,21 +87,34 @@ namespace CombatInspector
                 st.max = 0f;
                 st.framesWithDamage = 0;
                 st.lastTime = 0.0;
+                st.hasHp = false;
             }
 
-            if (e.damageTakenThisFrame != null && e.damageTakenThisFrame.Count > 0)
+            // 实测来源 = 相邻两次抓取之间的 HP 下降量。
+            //
+            // 为什么不用 DamageThisFrame：它是"每帧消费后即清空"的 buffer，而我们的抓取跑在
+            // MonoBehaviour Update()，早于本帧的 ECS 模拟，所以永远只能读到"上一帧已被清空"的空值
+            // —— 实测 5427 个样本零命中，整条实测路径从来没通过。HP 是持久状态，对时机完全免疫，
+            // 而且拿到的就是结算后真值（暴击、信标/芯片乘区、护甲减免全在里面）。
+            //
+            // 语义因此是"区间伤害"而非"单击伤害"：4Hz 采样可能把相邻几次命中并进同一个区间。
+            float drop = 0f;
+            if (st.hasHp && st.version == e.entityVersion)
             {
-                float sum = 0f;
-                for (int i = 0; i < e.damageTakenThisFrame.Count; i++) sum += e.damageTakenThisFrame[i];
-                if (sum > 0f)
-                {
-                    st.last = sum;
-                    if (sum > st.max) st.max = sum;
-                    st.recent.Enqueue(sum);
-                    while (st.recent.Count > RecentWindow) st.recent.Dequeue();
-                    st.framesWithDamage++;
-                    st.lastTime = now;
-                }
+                float d = st.lastHp - e.hp;
+                if (d > 0.01f) drop = d;      // HP 上升是回血/升级，不是伤害
+            }
+            st.lastHp = e.hp;
+            st.hasHp = true;
+
+            if (drop > 0f)
+            {
+                st.last = drop;
+                if (drop > st.max) st.max = drop;
+                st.recent.Enqueue(drop);
+                while (st.recent.Count > RecentWindow) st.recent.Dequeue();
+                st.framesWithDamage++;
+                st.lastTime = now;
             }
 
             e.lastHitDamage = st.last;
@@ -122,7 +137,7 @@ namespace CombatInspector
             if (avg > 0.01f)
             {
                 pred = avg;
-                src = (model > 0.01f) ? "实测" : "实测";
+                src = "实测·区间";
             }
             else if (model > 0.01f)
             {
