@@ -35,7 +35,10 @@ int levelBefore = em.GetComponentData<PlayerLevel>(player).Level;
 
 ## 2. 战斗数据字典
 
-`Assembly-CSharp.dll` 反编译后有 **1692 个类型**：297 个 `IComponentData`、16 个 `IBufferElementData`、86 个 `ISystem`、113 个 `MonoBehaviour`、53 个枚举。全部类型清单在 `../component_inventory.txt`。
+`Assembly-CSharp.dll` 反编译后（2026-09-20 构建）有 **1806 个类型**（去编译器噪声后 1176）：
+301 个 `IComponentData`、17 个 `IBufferElementData`、87 个 `ISystem`、17 个 `SystemBase`、
+149 个 `MonoBehaviour`。全部类型清单在 `../component_inventory.txt`（由
+`mod/tools/refresh-research.ps1` 重新生成，随游戏更新刷新）。
 
 以下是战斗相关的核心部分（字段名均为反编译得到的**真实字段名**）。
 
@@ -560,8 +563,10 @@ autoAimInfo: enabled=True  状态=未运行（OnUpdate 从未执行）  本帧�
 | `world.GetOrCreateSystemManaged<T>()`（走类型管理路径，理论上才应用排序属性） | 世界系统数 65，OnUpdate 仍不跑 |
 | 去掉两个跨类型锚点，只留 `[UpdateInGroup(SimulationSystemGroup, OrderLast=true)]` | 仍不跑 |
 
-结论：**问题不在注册路径也不在排序锚点，而是托管 `SystemBase` 根本没进这个世界的更新循环**
-（该世界由 unmanaged `ISystem` 驱动）。
+结论（2026-09-20 更新后修正过措辞）：**问题不在注册路径也不在排序锚点，而是这个手挂的托管
+`SystemBase` 没进 `SimulationSystemGroup` 的更新循环**。注意限定：游戏里**确实存在**托管
+SystemBase（如 `EliteEnemyHudSystem : SystemBase`，挂在 `PresentationSystemGroup`），所以不是
+"这个世界不用 SystemBase"，而是"往 SimulationSystemGroup 里手挂托管系统不被驱动"。
 
 > 教训两条。① `AddSystemManaged` 是**静默失败**的典型：注册返回成功、日志漂亮、实际什么都不干。
 > 没有 `累计写入` 这种可量化计数器，就会去瞎改瞄准逻辑而永远发现不了系统压根没跑。
@@ -685,6 +690,31 @@ enemy : hp=20/20 armor=0 armorMul=1.000 pred=30.0 src=模型 after=0.0 die=true 
 雷达窗第一版漏设中文字体导致乱码，修复方式见 3.1 ④ 的说明；修复版已部署
 （`mod/out/_deploy_watch.txt` 记录：deployed=True，字节数与构建产物一致）。
 
+### 第二次游戏更新（2026-09-20）
+
+`Assembly-CSharp.dll` 变了（2,448,384 B），`Unity.Entities.dll` / `Unity.Physics.dll` 未变。
+**一键流程：`mod\tools\refresh-research.ps1`** —— 刷新引用、重建、重新反编译、
+重新生成 `types_all.txt` / `component_inventory.txt`、打印类型差异。
+
+本次结果：
+
+1. 重建 **0 编译错误**（libs 刷新经 SHA256 证实，不是拿旧 DLL 得出的假结论）；
+2. 类型 diff（滤掉编译器生成物后）：**旧 1011 → 新 1176，新增 166，删除仅 1**
+   —— 唯一删掉的 `Struct MetaLifeRegenMul` 未被本 mod 引用；
+3. 仅运行时假设逐一复核：Harmony 补丁目标 `MouseInputSystem.__codegen__OnUpdate` 仍在、
+   `CompleteDependencyBeforeRW<MouseTarget>()` 仍被调用两次、`PerkConfig.ArmorPerHalfDamage = 100f` 未变、
+   无敌/免死 Tag 都在（另多了一批联机无敌符号 `ClientHandleInvincible` 等）；
+4. 新增类型里的大头是 Hub 小游戏内容（台球/象棋/五子棋/银行/筹码）与 HUD（`EnemyScanHudSystem`、
+   `BeingLockOnHudSystem`、`BossHudMotion`），与战斗接管相关的是 `EightDirectionCharacterMoveJob`
+   （移动拆成 Job，关系到以后接管移动）；
+5. **托管 SystemBase 是存在的**（如 `EliteEnemyHudSystem : SystemBase`，挂在 PresentationSystemGroup），
+   佐证了 §7.4 的结论要加限定词：不被驱动的是 **SimulationSystemGroup 里手挂的**托管系统，
+   而不是"这个世界不用 SystemBase"；
+6. 新发现 `PlayerDamageRecord`（`ProcessDamageJob` 写入 `ProcessDamageNativeBridge.PlayerRecords`
+   静态队列）——但它记录的是**玩家受击**（`item3.Entity` 挂 PlayerTag），不是玩家打敌人；
+   `DamagedEnemies` 队列只有 Entity 没有伤害值。所以对"我方伤害预测"仍无更好的持久数据源，
+   HP 差值方案保留。
+
 ---
 
 ## 11. 工程结构
@@ -693,11 +723,12 @@ enemy : hp=20/20 armor=0 armorMul=1.000 pred=30.0 src=模型 after=0.0 die=true 
 H:\hnworkspace\yxykgame\
 ├── component_inventory.txt           全部组件/系统/枚举 + 字段清单
 ├── types_all.txt                     类型名总表
-├── decompiled\AssemblyCSharp\        （本地研究用，不随仓库发布：游戏反编译源码 773 个 .cs）
+├── decompiled\AssemblyCSharp\        （本地研究用，不随仓库发布：游戏反编译源码 886 个 .cs，2026-09-20 构建）
 └── mod\
     ├── gamepath.txt                  游戏安装路径（UTF-8，一行）
     ├── _common.ps1                   路径解析助手（脚本全 ASCII，避开 PS 5.1 的编码坑）
     ├── build.ps1                     刷新引用 DLL + 构建两个加载器变体
+    ├── tools\refresh-research.ps1    游戏更新后一键刷新：引用→重建→反编译→重生成两份清单→类型 diff
     ├── install.ps1                   装加载器 + 插件
     ├── uninstall.ps1                 卸载（-Full 回到原样）
     ├── vendor\                       BepInEx 5.4.23.5 / 6.0.0-pre.2 离线包

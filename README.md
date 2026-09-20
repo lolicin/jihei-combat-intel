@@ -75,6 +75,7 @@ docs/images/              仪表盘渲染截图（mock 数据）
 mod/
   CombatInspector/        mod 源码（17 个 .cs + dashboard.html）
   *.ps1                   构建 / 安装 / 卸载 / 部署哨兵 / 实机探针
+  tools/refresh-research.ps1   游戏更新后一键刷新：引用→重建→反编译→重生成清单→类型 diff
   README.md               完整技术文档
 ```
 
