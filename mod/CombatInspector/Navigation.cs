@@ -65,6 +65,7 @@ namespace CombatInspector
         public static bool PhysicsSingletonFound { get; private set; }
         public static string LastError { get; private set; }
         public static long ProbeExceptionCount { get; private set; }
+        public static long GroundSkippedCount { get; private set; }
 
         private static void NoteError(string where, Exception ex)
         {
@@ -237,8 +238,10 @@ namespace CombatInspector
                 float2 c = origin.xy + dir * dd;
                 var box = new Aabb
                 {
-                    Min = new float3(c.x - ProbeHalf, c.y - ProbeHalf, origin.z - 1f),
-                    Max = new float3(c.x + ProbeHalf, c.y + ProbeHalf, origin.z + 1f)
+                    // Z 带收窄到 ±0.3：这游戏 z 是渲染深度，地面/天花板平面在另一个 z 层，
+                    // ±1 会打到地面导致 16 方向全堵在第一步（实测 trapped 95%、wallDist 9.58 格）
+                    Min = new float3(c.x - ProbeHalf, c.y - ProbeHalf, origin.z - 0.3f),
+                    Max = new float3(c.x + ProbeHalf, c.y + ProbeHalf, origin.z + 0.3f)
                 };
 
                 var hits = new NativeList<int>(Allocator.Temp);
@@ -273,6 +276,15 @@ namespace CombatInspector
                             continue;
                     }
                     catch (Exception ex) { NoteError("读 CollisionResponse 失败:", ex); }
+
+                    // 排除体心 z 和玩家差太多的碰撞体（地面/天花板平面）——
+                    // WorldFromBody.pos 是刚体世界坐标，z 差 >0.5 说明不在玩家所在 z 层
+                    try
+                    {
+                        float bz = phys.Bodies[bi].WorldFromBody.pos.z;
+                        if (math.abs(bz - origin.z) > 0.5f) { GroundSkippedCount++; continue; }
+                    }
+                    catch { }
 
                     hitEntity = he;
                     blocked = true;

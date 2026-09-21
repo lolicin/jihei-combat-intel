@@ -135,6 +135,7 @@ namespace CombatInspector
             }
             st.lastHp = e.hp;
             st.hasHp = true;
+            st.lastTime = now;   // 每次看到就刷新，不然没掉血的帧 lastTime 停在 0 被 Prune 删掉
 
             if (drop > 0f)
             {
@@ -226,7 +227,8 @@ namespace CombatInspector
             List<int> dead = null;
             foreach (var kv in _stats)
             {
-                if (kv.Value.recent.Count == 0 || (now - kv.Value.lastTime) > HitForgetSeconds * 4.0)
+                // 只看过期，不看 recent 是否为空——活着的怪只是没掉过血，不该被删
+                if ((now - kv.Value.lastTime) > HitForgetSeconds * 4.0)
                 {
                     if (dead == null) dead = new List<int>(8);
                     dead.Add(kv.Key);

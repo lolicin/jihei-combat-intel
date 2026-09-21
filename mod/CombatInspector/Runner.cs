@@ -450,6 +450,7 @@ namespace CombatInspector
                 " 障碍命中=" + Navigation.TotalRayHits + "/" + Navigation.RefreshCount + "次刷新" +
                 " 物理单例=" + (Navigation.PhysicsSingletonFound ? "已取到" : "没取到") +
                 " 探测异常=" + Navigation.ProbeExceptionCount +
+                " 地面跳过=" + Navigation.GroundSkippedCount +
                 " 阻挡=[" + Navigation.DescribeBlockers() + "]" +
                 " 全局样本=" + DamageTracker.GlobalSamples +
                 (string.IsNullOrEmpty(Navigation.LastError) ? "" : " 首个异常=" + Navigation.LastError);
