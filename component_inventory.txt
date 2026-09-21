@@ -152,11 +152,11 @@
 [IComponentData] BeingPressureFieldTag  (fields=0)
 [IBufferElementData] BeingProlifDroneLife  (fields=1)
     float Remain
-[IComponentData] BeingSpiritData  (fields=13)
-    float Value | float MaxValue | float GrowthBase | float LowHpGrowthFactor | float CalmDecayPerSec | float PressureHoldHpRatio | int BonusPerTierDrone | float BonusPerTierFlySpeed | float BonusPerTierCrit | int BonusDroneCount | float BonusFlySpeed | float BonusCrit | float MaxValueBase
+[IComponentData] BeingSpiritData  (fields=12)
+    float Value | float MaxValue | float UltimateGrowthPerSec | float LowHpGrowthPerSec | float CalmDecayPerSec | int BonusPerTierDrone | float BonusPerTierFlySpeed | float BonusPerTierCrit | int BonusDroneCount | float BonusFlySpeed | float BonusCrit | float MaxValueBase
 [Other] BeingSpiritRuntime  (fields=0)
-[IComponentData] BeingUltimateData  (fields=10)
-    int TempDroneCount | float FlySpeedMul | byte AutoAim | byte PendingSpiritGrowth | int ProlifTempCount | int GhostTempCount | int ChargeCompleteCounter | byte ResonanceActive | float CritPressureRangeBonus | float CritPressureDamageBonus
+[IComponentData] BeingUltimateData  (fields=9)
+    int TempDroneCount | float FlySpeedMul | byte AutoAim | int ProlifTempCount | int GhostTempCount | int ChargeCompleteCounter | byte ResonanceActive | float CritPressureRangeBonus | float CritPressureDamageBonus
 [Other] Binding  (fields=0)
 [IComponentData] Boss1AIConfig  (fields=8)
     float PursuitDistance | float MeleeDistance | float PhaseChangeSeconds | float PhaseChangeFxDelaySeconds | Entity PhaseChangeFxPrefab | float MeleeRetreatFailSeconds | float RandomMoveMinSeconds | float RandomMoveMaxSeconds
@@ -247,6 +247,7 @@
 [IComponentData] CameraTarget  (fields=1)
     UnityObjectRef<Transform> CameraTransform
 [MonoBehaviour] CameraTargetSingleton  (fields=0)
+[SystemBase] CapturePlayerInRunStatEntrySystem  (fields=0)
 [Other] Card  (fields=4)
     RectTransform root | Image map | TMP_Text label | CanvasGroup group
 [Other] CatalogSfxRequest  (fields=4)
@@ -442,14 +443,15 @@
 [IComponentData] EnemyTag  (fields=0)
 [IComponentData] EnemyTauntLock  (fields=2)
     Entity Value | float Remaining
-[Other] Entry  (fields=5)
-    int id | BeaconBuffKind kind | string title | string description | Sprite icon
 [Other] Entry  (fields=2)
     string key | Sprite sprite
+[Other] Entry  (fields=5)
+    int id | BeaconBuffKind kind | string title | string description | Sprite icon
 [Other] Entry  (fields=6)
     bool isCommon | PlayerSkillType mech | int perkId | string perkName | Sprite sprite | Sprite inactiveSprite
 [Other] Entry  (fields=4)
     int id | string displayName | AudioClip[] variants | string variantNotes
+[Other] Enumerator  (fields=0)
 [Other] Enumerator  (fields=0)
 [Other] Enumerator  (fields=0)
 [Other] Enumerator  (fields=0)
@@ -661,8 +663,10 @@
 [IComponentData] FriendlyTargetableTag  (fields=0)
 [MonoBehaviour] FriendlyUnitAuthoring  (fields=0)
 [IComponentData] FriendlyUnitTag  (fields=0)
+[Other] GameLanguage  (fields=0)
 [Other] GameLevelLoadRuntime  (fields=0)
 [MonoBehaviour] GameLoadingUI  (fields=0)
+[Other] GameLoc  (fields=0)
 [MonoBehaviour] GameManager  (fields=15)
     GameObject MainUI | GameObject SelectLevelMenuUI | GameObject GamingUI | GameObject LevelUPUI | GameObject BaseMenuUI | GameObject SettingUI | GameObject LoseUI | GameObject ESCUI | ESCMenuUIManager ESCManager | bool isInGaming | bool isInHub | bool isPause | bool isCanPause | int nowSelectStage | PlayerSkillType nowSelectPlayerTyep
 [IComponentData] GameObjectSyncTarget  (fields=2)
@@ -685,8 +689,8 @@
     string instanceId | string shapeId | string nameCn | string nameEn | int cellsMask | string hiddenAffixId
 [Other] GameProgressStore  (fields=0)
 [Other] GameSavePaths  (fields=0)
-[Other] GameSettingsData  (fields=3)
-    int displayMode | bool hasSelectedMech | int selectedMech
+[Other] GameSettingsData  (fields=4)
+    int displayMode | bool hasSelectedMech | int selectedMech | int language
 [MonoBehaviour] GameSettingsManager  (fields=0)
 [Other] GameSettingsStore  (fields=0)
 [Other] GameSettingsVolumePrefs  (fields=0)
@@ -759,7 +763,9 @@
 [Other] HubLeaveTransition  (fields=0)
 [MonoBehaviour] HubManager  (fields=0)
 [Other] HubNet  (fields=0)
+[MonoBehaviour] HubNetworkPage  (fields=0)
 [MonoBehaviour] HubNpcBrain  (fields=0)
+[Other] HubNpcConversation  (fields=0)
 [MonoBehaviour] HubNpcMotor  (fields=0)
 [Other] HubNpcPose  (fields=7)
     byte ActorId | float X | float Y | float Z | bool FacingRight | bool Moving | bool Sitting
@@ -797,6 +803,8 @@
 [MonoBehaviour] HubWorldContent  (fields=0)
 [Other] HubWorldHost  (fields=0)
 [Other] HubWorldPrompt  (fields=0)
+[MonoBehaviour] HubWorldUiAnchor  (fields=1)
+    bool anchorBottom
 [Other] HudEntry  (fields=10)
     GamingBuffCategory Category | int Id | BeaconBuffKind Kind | int Stacks | bool ShowStacks | string Title | string Body | Sprite Icon | float Remain | float Duration
 [MonoBehaviour] InformationCenterUI  (fields=0)
@@ -974,6 +982,7 @@
 [Other] LineType  (fields=0)
 [IComponentData] LinkedBaseColorInitPending  (fields=1)
     float4 Value
+[MonoBehaviour] LocText  (fields=0)
 [MonoBehaviour] MainMenuMechIdleFloat  (fields=0)
 [MonoBehaviour] MainMenuSettingsUIManager  (fields=0)
 [MonoBehaviour] MapBoundaryAirWallAuthoring  (fields=0)
@@ -1126,6 +1135,8 @@
     ushort Value
 [Other] NetworkSpawnPrefabIdUtil  (fields=0)
 [SystemBase] NetworkStatusPresentationSystem  (fields=0)
+[Other] NpcCombatChatterState  (fields=0)
+[SystemBase] NpcCombatChatterSystem  (fields=0)
 [MonoBehaviour] OnScreenConsoleText  (fields=0)
 [Other] OptimizedPerkExtensions  (fields=0)
 [Other] OwnedBatchMaterials  (fields=0)
@@ -1175,6 +1186,8 @@
     Entity Entity | bool IsDamaged | bool IsRestore | float HpDamageDealt
 [SystemBase] PlayerInputSystem  (fields=1)
     float2 currentInput
+[IComponentData] PlayerInRunStatEntrySnapshot  (fields=15)
+    float MaxHp | float LifeRegen | float AttackPower | float AttackInterval | float DetectionRadius | float Armor | float MoveSpeed | float CritRate | float CritDamage | float SkillCooldown | float SkillDuration | float PickupRadius | float IronPlatingMax | float BeingSpiritMax | int BeingDroneCount
 [IComponentData] PlayerKillCount  (fields=1)
     int Value
 [IComponentData] PlayerLevel  (fields=3)
@@ -1238,180 +1251,242 @@
     Entity ProjectilePrefab | float FireInterval | float MoveDuration | float ShootDuration | int ProjectileCount | float ProjectileSpreadRadians | float PhaseTimer | bool IsInShootPhase | double NextFireTime
 [ISystem] RangedEnemySystem  (fields=0)
 [IComponentData] RangedEnemyTag  (fields=0)
+[Other] Registration  (fields=4)
+    Sprite sprite | Rect plate | Color labelColor | Color subtitleColor
 [Other] Request  (fields=17)
     Kind Kind | int EnemyPoolIndex | int Count | float RingRadius | float FlySpeed | float ConvergeStopDistance | float EffectDuration | float TideIntervalMul | float InvincibleDuration | bool RewardAirdropOnInvincibleEnd | float AirdropInset | byte SceneAirdropKind | float SceneAirdropMarkerSeconds | float JammerSpawnOffsetX | float JammerSpawnOffsetY | float SwarmClusterRadius | float SwarmSpawnDistance
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=6)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | BufferAccessor<PlayerPerk> item4_BufferAccessor | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=5)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=6)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | BufferAccessor<PlayerPerk> item2_BufferAccessor | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | BufferAccessor<PlayerPerk> item7_BufferAccessor | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=5)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=7)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr item6_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | EnabledMask item2_EnabledMask
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | EnabledMask item3_EnabledMask
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | EnabledMask item4_EnabledMask | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=6)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    EnabledMask item1_EnabledMask | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | EnabledMask item2_EnabledMask
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | BufferAccessor<PlayerPerk> item7_BufferAccessor | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=6)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | BufferAccessor<PlayerPerk> item2_BufferAccessor | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=7)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr item6_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | EnabledMask item3_EnabledMask
+[Other] ResolvedChunk  (fields=6)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    EnabledMask item1_EnabledMask | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | BufferAccessor<PlayerPerk> item4_BufferAccessor | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | EnabledMask item4_EnabledMask | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | EnabledMask item2_EnabledMask
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=3)
@@ -1419,141 +1494,83 @@
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | BufferAccessor<PlayerPerk> item2_BufferAccessor | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=6)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | EnabledMask item3_EnabledMask | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | BufferAccessor<PlayerPerk> item2_BufferAccessor | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | EnabledMask item2_EnabledMask
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=6)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=6)
     EnabledMask item1_EnabledMask | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [IComponentData] RuntimeClonedPhysicsColliderTag  (fields=0)
 [Other] RuntimeClonedPhysicsColliderUtil  (fields=0)
 [Other] RunTransitionSequence  (fields=0)
@@ -1806,6 +1823,7 @@
 [Other] UIModalArt  (fields=0)
 [MonoBehaviour] UIPanelMotion  (fields=0)
 [MonoBehaviour] UIScrollRectSelectionFollower  (fields=0)
+[Other] UIStateSpriteRegistration  (fields=0)
 [Other] UpgradeOption  (fields=22)
     int id | string name | string description | string shortDescription | string sourceSkill | int slot | UpgradeType type | Sprite icon | float baseProbability | float weightMultiplier | byte maxLevel | byte currentLevel | bool isMaxLevel | float dynamicWeight | int branchId | bool useRequirement | UpgradeRequirementType requirementType | int requiredPerkId | byte requiredPerkLevel | int requiredBranchId | byte requiredBranchLevelTotal | int exclusiveGroupId
 [Other] UpgradeOptionCsvParser  (fields=0)

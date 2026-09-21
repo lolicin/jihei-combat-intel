@@ -34,13 +34,23 @@ namespace CombatInspector
             public double lastTime;
             public bool hasHp;
             public float lastHp;
+            public float lastArmorMul = 1f;
         }
 
         private static readonly Dictionary<int, Stat> _stats = new Dictionary<int, Stat>(256);
 
+        // 全局归一化掉血样本（除以目标护甲倍率后的"护甲前伤害"），给没有自己实测数据的敌人兜底。
+        // 来源两类：存活怪的区间掉血 + 死亡怪（一刀死的小怪，从列表消失前最后一面 HP）。
+        private const int GlobalWindow = 32;
+        private static readonly Queue<float> _globalDrops = new Queue<float>();
+        private static double _globalLastTime = -1;
+
+        public static int GlobalSamples { get { return _globalDrops.Count; } }
+
         public static void Reset()
         {
             _stats.Clear();
+            _globalDrops.Clear();
         }
 
         public static int TrackedCount { get { return _stats.Count; } }
@@ -57,6 +67,24 @@ namespace CombatInspector
 
             for (int i = 0; i < snap.enemies.Count; i++)
                 Predict(snap.enemies[i], playerEstimate, atkCd, now);
+
+            // 死亡即样本：上次还在、这次从快照消失的敌人，把它最后的 HP 记为一刀致死的掉血。
+            // 不做这个，20 血小飞鸟这种"一区间内死亡+实体回收"的怪永远攒不出实测样本。
+            // 代价是"剩余血量"，低估真实单发伤害 —— 对"可秒杀"判断是保守方向，可接受。
+            // （实体离开扫描范围也会走到这里，属于已接受的近似：战斗密集区外的离场极少。）
+            var present = new HashSet<int>();
+            for (int i = 0; i < snap.enemies.Count; i++) present.Add(snap.enemies[i].entityIndex);
+            foreach (var kv in _stats)
+            {
+                var st = kv.Value;
+                if (present.Contains(kv.Key)) continue;
+                if (!st.hasHp || st.lastHp <= 0.01f) continue;
+                if ((now - st.lastTime) > HitForgetSeconds * 2.0) continue;
+
+                RecordSample(st, st.lastHp, st.lastArmorMul, now);
+                st.hasHp = false;
+                st.lastHp = 0f;
+            }
 
             Prune(now);
         }
@@ -98,6 +126,7 @@ namespace CombatInspector
             // 而且拿到的就是结算后真值（暴击、信标/芯片乘区、护甲减免全在里面）。
             //
             // 语义因此是"区间伤害"而非"单击伤害"：4Hz 采样可能把相邻几次命中并进同一个区间。
+            st.lastArmorMul = e.armorMultiplier;
             float drop = 0f;
             if (st.hasHp && st.version == e.entityVersion)
             {
@@ -109,12 +138,7 @@ namespace CombatInspector
 
             if (drop > 0f)
             {
-                st.last = drop;
-                if (drop > st.max) st.max = drop;
-                st.recent.Enqueue(drop);
-                while (st.recent.Count > RecentWindow) st.recent.Dequeue();
-                st.framesWithDamage++;
-                st.lastTime = now;
+                RecordSample(st, drop, e.armorMultiplier, now);
             }
 
             e.lastHitDamage = st.last;
@@ -130,6 +154,15 @@ namespace CombatInspector
             }
             e.avgHitDamage = avg;
 
+            // 该敌人自己没数据时，用全局归一化样本（别的怪的掉血 ÷ 它的护甲倍率）兜底
+            float globalAvg = 0f;
+            if (_globalDrops.Count > 0 && (now - _globalLastTime) <= HitForgetSeconds * 2.0)
+            {
+                float total = 0f;
+                foreach (float v in _globalDrops) total += v;
+                globalAvg = total / _globalDrops.Count * Mathf.Max(0.01f, e.armorMultiplier);
+            }
+
             float model = playerEstimate * e.armorMultiplier;
 
             float pred;
@@ -138,6 +171,11 @@ namespace CombatInspector
             {
                 pred = avg;
                 src = "实测·区间";
+            }
+            else if (globalAvg > 0.01f)
+            {
+                pred = globalAvg;
+                src = "实测·他样本";
             }
             else if (model > 0.01f)
             {
@@ -165,6 +203,21 @@ namespace CombatInspector
                 e.hitsToKill = (e.hp <= 0f) ? 0 : -1;
                 e.timeToKill = -1f;
             }
+        }
+
+        /// <summary>记一个掉血样本：进 per-enemy 滚动窗，并归一化后进全局窗（除以护甲倍率）。</summary>
+        private static void RecordSample(Stat st, float drop, float armorMul, double now)
+        {
+            st.last = drop;
+            if (drop > st.max) st.max = drop;
+            st.recent.Enqueue(drop);
+            while (st.recent.Count > RecentWindow) st.recent.Dequeue();
+            st.framesWithDamage++;
+            st.lastTime = now;
+
+            _globalDrops.Enqueue(drop / Mathf.Max(0.01f, armorMul));
+            while (_globalDrops.Count > GlobalWindow) _globalDrops.Dequeue();
+            _globalLastTime = now;
         }
 
         private static void Prune(double now)

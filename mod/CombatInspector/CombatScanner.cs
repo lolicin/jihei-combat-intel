@@ -227,7 +227,7 @@ namespace CombatInspector
             if (em.HasComponent<BeingSpiritData>(e))
             {
                 var sp = em.GetComponentData<BeingSpiritData>(e);
-                s.spirit = sp.Value; s.spiritMax = sp.MaxValue; s.spiritGrowth = sp.GrowthBase;
+                s.spirit = sp.Value; s.spiritMax = sp.MaxValue; s.spiritGrowth = sp.UltimateGrowthPerSec;
             }
 
             if (em.HasComponent<PassiveRegenData>(e))

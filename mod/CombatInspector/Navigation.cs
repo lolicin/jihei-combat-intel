@@ -45,6 +45,7 @@ namespace CombatInspector
         private static readonly bool[] _blocked = new bool[Directions];
         private static readonly float[] _clear = new float[Directions];
         private static readonly bool[] _isCreature = new bool[Directions];
+        private static readonly int[] _blockers = new int[Directions];   // 每个方向的阻挡实体 index，-1=无
 
         private static float _minX, _minY, _maxX, _maxY;
         private static bool _hasPlayArea;
@@ -75,6 +76,22 @@ namespace CombatInspector
         public static bool CreatureAt(int i) { return i >= 0 && i < Directions && _isCreature[i]; }
         public static float BlockedFraction(int i) { return (i >= 0 && i < Directions) ? _clear[i] : 0f; }
 
+        /// <summary>当前各方向的阻挡实体 index 列表（逗号分隔），用于诊断"挡住我的到底是什么"。</summary>
+        public static string DescribeBlockers()
+        {
+            var sb = new System.Text.StringBuilder();
+            bool first = true;
+            for (int i = 0; i < Directions; i++)
+            {
+                if (_blockers[i] < 0) continue;
+                if (!first) sb.Append(',');
+                sb.Append(_isCreature[i] ? 'c' : 't');   // creature / terrain
+                sb.Append(_blockers[i]);
+                first = false;
+            }
+            return sb.ToString();
+        }
+
         public static int CopyWallSegments(List<float4> dst)
         {
             dst.Clear();
@@ -95,6 +112,7 @@ namespace CombatInspector
                 _blocked[i] = false;
                 _isCreature[i] = false;
                 _clear[i] = ProbeDistance;
+                _blockers[i] = -1;
             }
 
             // ---- 1) 可玩区矩形
@@ -164,6 +182,7 @@ namespace CombatInspector
                     {
                         TotalRayHits++;
                         _clear[i] = d;
+                        _blockers[i] = hitEnt.Index;
 
                         bool creature = false;
                         try
@@ -244,6 +263,17 @@ namespace CombatInspector
                     Entity he = phys.Bodies[bi].Entity;
                     if (he.Equals(self)) continue;           // 自己的碰撞体
                     if (!em.Exists(he)) continue;
+
+                    // 排除 trigger / 不响应碰撞的体积（不阻挡移动，比如新加的机库大结构上的检测区）——
+                    // 之前"四面受阻"的元凶嫌疑。读不到时宁可算阻挡（fail-safe 方向）。
+                    try
+                    {
+                        var crp = phys.Bodies[bi].Collider.Value.GetCollisionResponse();
+                        if (crp == CollisionResponsePolicy.RaiseTriggerEvents || crp == CollisionResponsePolicy.None)
+                            continue;
+                    }
+                    catch (Exception ex) { NoteError("读 CollisionResponse 失败:", ex); }
+
                     hitEntity = he;
                     blocked = true;
                     break;
