@@ -29,8 +29,8 @@
     float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
 [MonoBehaviour] AspectRatioLetterbox  (fields=0)
 [Other] AssemblyTypeRegistry  (fields=0)
-[Other] AttackCheckCommonJobFields  (fields=41)
-    ComponentLookup<AttackData> AttackDataLookup | ComponentLookup<AttackOwner> AttackOwnerLookup | ComponentLookup<AttackCritData> AttackCritDataLookup | ComponentLookup<CritDamageData> CritDamageDataLookup | ComponentLookup<ChipMechanicState> ChipMechanicStateLookup | ComponentLookup<CharacterCurrentHP> CharacterCurrentHPLookup | ComponentLookup<CharacterMaxHP> CharacterMaxHPLookup | ComponentLookup<BeingPierceRemaining> BeingPierceRemainingLookup | ComponentLookup<EnemyTag> EnemyLookup | ComponentLookup<FriendlyTargetableTag> PlayerLookup | ComponentLookup<InjuryMitigation> InjuryMitigationLookup | ComponentLookup<PlayerSkill> PlayerSkillLookup | ComponentLookup<MechCombatTag> MechCombatTagLookup | ComponentLookup<LastHitBy> LastHitByLookup | BufferLookup<PlayerPerk> PlayerPerkLookup | float ArmorPerHalfDamage | ComponentLookup<AOEAttackInterval> AOEAttackIntervalLookup | ComponentLookup<LocalToWorld> LocalToWorldLookup | ComponentLookup<LocalTransform> LocalTransformLookup | ComponentLookup<IronDetonationKnockbackOnHitData> IronDetonationKnockbackLookup | ComponentLookup<AttackKnockbackOnHitData> AttackKnockbackLookup | ComponentLookup<IronRailgunOwnerData> IronRailgunOwnerLookup | ComponentLookup<IronRailgunMeltHitRestoreData> IronRailgunMeltHitRestoreLookup | ComponentLookup<IronHeavyMissilePenetrationData> IronHeavyMissilePenetrationLookup | ComponentLookup<IronHeavyMissileExplosionOnHitData> IronHeavyMissileExplosionOnHitLookup | ComponentLookup<ProjectileHitSfxData> ProjectileHitSfxLookup | ComponentLookup<VfxSpawnDepthSettings> VfxSpawnDepthSettingsLookup | ComponentLookup<AoeDamageApplyVfxPrefab> AoeDamageApplyVfxPrefabLookup | ComponentLookup<AoeDamageApplyVfxSpawnSettings> AoeDamageApplyVfxSpawnSettingsLookup | Entity SharedAoeDamageApplyVfxPrefab | float SharedAoeDamageApplyVfxYDownOffset | ComponentLookup<PhysicsVelocity> PhysicsVelocityLookup | BufferLookup<DamageThisFrame> DamageBufferLookup | ComponentLookup<DestroyEntityFlag> DestroyEntityFlagLookup | ComponentLookup<EnemyAoePlayerHitGate> EnemyAoePlayerHitGateLookup | NativeQueue<DamageNumberJobRequest>.ParallelWriter DamageNumberQueue | NativeQueue<GameplaySfxBridge.CatalogSfxRequest>.ParallelWriter CatalogSfxRequestQueue | NativeQueue<IronRailgunMeltRestoreRequest>.ParallelWriter IronRailgunMeltRestoreQueue | NativeQueue<AoeDamageApplyVfxJobRequest>.ParallelWriter AoeDamageApplyVfxQueue | float CurrentTime | EntityCommandBuffer.ParallelWriter Ecb
+[Other] AttackCheckCommonJobFields  (fields=52)
+    ComponentLookup<AttackData> AttackDataLookup | ComponentLookup<AttackOwner> AttackOwnerLookup | ComponentLookup<AttackCritData> AttackCritDataLookup | ComponentLookup<CritDamageData> CritDamageDataLookup | ComponentLookup<ChipMechanicState> ChipMechanicStateLookup | ComponentLookup<CharacterCurrentHP> CharacterCurrentHPLookup | ComponentLookup<CharacterMaxHP> CharacterMaxHPLookup | ComponentLookup<BeingPierceRemaining> BeingPierceRemainingLookup | ComponentLookup<SunPierceFalloffData> SunPierceFalloffLookup | ComponentLookup<EnemyTag> EnemyLookup | ComponentLookup<FriendlyTargetableTag> PlayerLookup | ComponentLookup<InjuryMitigation> InjuryMitigationLookup | ComponentLookup<PlayerSkill> PlayerSkillLookup | ComponentLookup<MechCombatTag> MechCombatTagLookup | ComponentLookup<LastHitBy> LastHitByLookup | BufferLookup<PlayerPerk> PlayerPerkLookup | float ArmorPerHalfDamage | ComponentLookup<AOEAttackInterval> AOEAttackIntervalLookup | ComponentLookup<LocalToWorld> LocalToWorldLookup | ComponentLookup<LocalTransform> LocalTransformLookup | ComponentLookup<IronDetonationKnockbackOnHitData> IronDetonationKnockbackLookup | ComponentLookup<AttackKnockbackOnHitData> AttackKnockbackLookup | ComponentLookup<IronRailgunOwnerData> IronRailgunOwnerLookup | ComponentLookup<IronRailgunMeltHitRestoreData> IronRailgunMeltHitRestoreLookup | ComponentLookup<IronHeavyMissilePenetrationData> IronHeavyMissilePenetrationLookup | ComponentLookup<IronHeavyMissileExplosionOnHitData> IronHeavyMissileExplosionOnHitLookup | ComponentLookup<ProjectileHitSfxData> ProjectileHitSfxLookup | ComponentLookup<VfxSpawnDepthSettings> VfxSpawnDepthSettingsLookup | ComponentLookup<AoeDamageApplyVfxPrefab> AoeDamageApplyVfxPrefabLookup | ComponentLookup<AoeDamageApplyVfxSpawnSettings> AoeDamageApplyVfxSpawnSettingsLookup | Entity SharedAoeDamageApplyVfxPrefab | float SharedAoeDamageApplyVfxYDownOffset | ComponentLookup<PhysicsVelocity> PhysicsVelocityLookup | ComponentLookup<SunVulnData> SunVulnLookup | ComponentLookup<SunFlameHitEffects> SunFlameHitEffectsLookup | NativeQueue<SunFlameHitRequest>.ParallelWriter SunFlameHitEnqueue | NativeQueue<CommonModuleHit>.ParallelWriter CommonHitEnqueue | ComponentLookup<CommonModuleAttack> CommonAttackLookup | ComponentLookup<CommonModuleEnemyStatus> CommonEnemyLookup | ComponentLookup<CommonModuleProtection> CommonProtectionLookup | NativeQueue<SunPierceSplitRequest>.ParallelWriter SunSplitEnqueue | float SunPhosVulnPerSec | float SunPhosVulnPerLv | BufferLookup<DamageThisFrame> DamageBufferLookup | ComponentLookup<DestroyEntityFlag> DestroyEntityFlagLookup | ComponentLookup<EnemyAoePlayerHitGate> EnemyAoePlayerHitGateLookup | NativeQueue<DamageNumberJobRequest>.ParallelWriter DamageNumberQueue | NativeQueue<GameplaySfxBridge.CatalogSfxRequest>.ParallelWriter CatalogSfxRequestQueue | NativeQueue<IronRailgunMeltRestoreRequest>.ParallelWriter IronRailgunMeltRestoreQueue | NativeQueue<AoeDamageApplyVfxJobRequest>.ParallelWriter AoeDamageApplyVfxQueue | float CurrentTime | EntityCommandBuffer.ParallelWriter Ecb
 [Other] AttackCheckDiagnostics  (fields=0)
 [Other] AttackCheckJobDefault  (fields=1)
     AttackCheckCommonJobFields Common
@@ -128,6 +128,7 @@
 [Other] BeingDroneTickLogic  (fields=0)
 [MonoBehaviour] BeingDroneUIItem  (fields=0)
 [Other] BeingDroneVisibility  (fields=0)
+[Other] BeingFieldCoverage  (fields=0)
 [ISystem] BeingFieldSystem  (fields=0)
 [IComponentData] BeingGravityFieldData  (fields=6)
     Entity Owner | float Radius | float Pull | float SpawnFieldMul | float Life | byte FollowAim
@@ -272,19 +273,22 @@
 [Other] ChipAffix  (fields=7)
     string affixId | string displayCn | int tier | ChipAffixKind kind | ChipStatKind statKind | float rolledValue | string mechanicId
 [Other] ChipAffixKind  (fields=0)
-[Other] ChipCombatBonuses  (fields=12)
-    float HpMul | float ArmorAdd | float MoveSpeedMul | float AttackPowerMul | float AttackSpeedMul | float LifeRegenAdd | float CritRate | float PickupRangeMul | float SkillCooldownMul | float ExpGainMul | float LootMul | float CritDamageAdd
+[Other] ChipBoardLiveState  (fields=0)
+[Other] ChipCombatBonuses  (fields=13)
+    float HpMul | float ArmorAdd | float MoveSpeedMul | float AttackPowerMul | float AttackSpeedMul | float LifeRegenAdd | float CritRate | float PickupRangeMul | float SkillCooldownMul | float SkillDurationMul | float ExpGainMul | float LootMul | float CritDamageAdd
 [Other] ChipDropSource  (fields=0)
+[Other] ChipLive  (fields=4)
+    float SetMul | bool SourceActive | bool ReceivingBonus | HashSet<string> ActiveSourceIds
 [Other] ChipMechanicDefaults  (fields=0)
 [Other] ChipMechanicIds  (fields=0)
 [ISystem] ChipMechanicInvertSystem  (fields=0)
-[Other] ChipMechanicLoadout  (fields=4)
-    ulong AffixMask | float SellValueMul | float CombatTimeScale | float EnemyFieldMul
+[Other] ChipMechanicLoadout  (fields=5)
+    ulong AffixMask | ulong AffixMaskHi | float SellValueMul | float CombatTimeScale | float EnemyFieldMul
 [ISystem] ChipMechanicMulSystem  (fields=0)
 [Other] ChipMechanicRuntime  (fields=0)
 [Other] ChipMechanicSession  (fields=0)
-[IComponentData] ChipMechanicState  (fields=10)
-    ulong AffixMask | float StillSeconds | float DotAcc | float ShockwaveCd | float LethalInvulnCd | float LethalInvulnRemain | float LastAspdMul | int SkillCastCount | int LastKillCount | byte ReviveUsed
+[IComponentData] ChipMechanicState  (fields=13)
+    ulong AffixMask | ulong AffixMaskHi | float StillSeconds | float DotAcc | float ShockwaveCd | float LethalInvulnCd | float LethalInvulnRemain | float PostUltRemain | float PostSkillVulnerabilityRemain | float LastAspdMul | int SkillCastCount | int LastKillCount | byte ReviveUsed
 [IComponentData] ChipRuntimeAttackMul  (fields=1)
     float Value
 [IComponentData] ChipRuntimeAttackSpeedMul  (fields=1)
@@ -302,6 +306,33 @@
 [Other] CollectSquadEnemiesJob  (fields=8)
     PhysicsWorldSingleton Physics | ComponentLookup<EnemyTag> Enemies | ComponentLookup<PhysicsVelocity> Velocities | float3 Origin | float Radius | CollisionFilter Filter | NativeList<float3> Positions | NativeList<float2> Speeds
 [MonoBehaviour] CombatConfigUI  (fields=0)
+[IComponentData] CommonBurstTail  (fields=1)
+    float DamageRemaining
+[IComponentData] CommonMirrorRecorded  (fields=0)
+[IComponentData] CommonMirrorSource  (fields=4)
+    Entity Source | Entity Decoy | float DamageRatio | byte Persistent
+[IComponentData] CommonModuleActor  (fields=18)
+    Entity Owner | int ModuleId | int Kind | float Life | float Age | float Cooldown | float Radius | float Damage | float Angle | float Growth | float TakenDamage | float3 Origin | float3 Destination | float2 Velocity | int Index | int Count | int Phase | Entity Partner
+[IComponentData] CommonModuleAttack  (fields=3)
+    Entity Owner | int ModuleId | byte Secondary
+[Other] CommonModuleConfig  (fields=0)
+[MonoBehaviour] CommonModuleConfigAuthoring  (fields=11)
+    GameObject drone | GameObject bullet | GameObject field | GameObject bug | GameObject explosion | GameObject lightning | GameObject decoy | GameObject blade | GameObject beam | GameObject warning | GameObject shield
+[IComponentData] CommonModuleEnemyStatus  (fields=13)
+    Entity ShuttleOwner | Entity FreezeOwner | Entity VoltageOwner | float ShuttleRemaining | float ShuttleAmp | float WeakenRemaining | float FreezeRemaining | float PermanentSlow | float FrostDamage | float VoltageTimer | float VoltageInterval | float DomainRemaining | float DomainAmp
+[Other] CommonModuleHit  (fields=4)
+    Entity Owner | Entity Enemy | int ModuleId | byte Secondary
+[IComponentData] CommonModulePrefabs  (fields=11)
+    Entity Drone | Entity Bullet | Entity Field | Entity Bug | Entity Explosion | Entity Lightning | Entity Decoy | Entity Blade | Entity Beam | Entity Warning | Entity Shield
+[IComponentData] CommonModuleProtection  (fields=5)
+    float ShieldRemaining | float ReductionRemaining | float DamageRemaining | float DamageBonus | byte ShieldCharges
+[ISystem] CommonModuleProtectionSystem  (fields=0)
+[Other] CommonModuleRuntime  (fields=0)
+[IComponentData] CommonModuleSnapshotTag  (fields=0)
+[SystemBase] CommonModuleSystem  (fields=0)
+[IBufferElementData] CommonModuleTimer  (fields=3)
+    int ModuleId | float Remaining | int Cycle
+[MonoBehaviour] CommonModuleVisualAuthoring  (fields=0)
 [Other] ConstantData0  (fields=0)
 [Other] ConstantData1  (fields=0)
 [Other] ConstantData2  (fields=0)
@@ -364,11 +395,23 @@
 [IComponentData] EnemyAoePlayerHitGate  (fields=0)
 [IComponentData] EnemyAttackData  (fields=2)
     int Damage | float CooldownTime
-[Other] EnemyAttackJob  (fields=8)
-    ComponentLookup<FriendlyTargetableTag> FriendlyTargetableLookup | ComponentLookup<EnemyAttackData> AttackDataLookup | ComponentLookup<EnemyCooldownExpirationTimestamp> CooldownLookup | BufferLookup<DamageThisFrame> DamageBufferLookup | ComponentLookup<InjuryMitigation> InjuryMitigationLookup | ComponentLookup<HitStunTimer> HitStunLookup | float ArmorPerHalfDamage | double ElapsedTime
+[Other] EnemyAttackJob  (fields=9)
+    ComponentLookup<CommonModuleEnemyStatus> CommonEnemyLookup | ComponentLookup<FriendlyTargetableTag> FriendlyTargetableLookup | ComponentLookup<EnemyAttackData> AttackDataLookup | ComponentLookup<EnemyCooldownExpirationTimestamp> CooldownLookup | BufferLookup<DamageThisFrame> DamageBufferLookup | ComponentLookup<InjuryMitigation> InjuryMitigationLookup | ComponentLookup<HitStunTimer> HitStunLookup | float ArmorPerHalfDamage | double ElapsedTime
 [ISystem] EnemyAttackSystem  (fields=0)
 [MonoBehaviour] EnemyAuthoring  (fields=12)
     Material DashMeleeMovementMaterial | Material DashMeleeChargeMaterial | Material DashMeleeDashMaterial | MeshRenderer DualPhaseMaterialTargetRenderer | GameObject SuicideExplosionHitPrefab | Material SuicideMovementMaterial | Material SuicideWindupMaterial | GameObject InterferenceAoePrefab | GameObject ProjectilePrefab | bool Use8DirectionAnimation | GameObject GemPrefab | GameObject DeathAnimePrefab
+[IComponentData] EnemyCampAnchor  (fields=6)
+    float2 Center | float AggroRadius | float LeashRadius | byte Phase | float ReturnTimer | float AlertUntil
+[ISystem] EnemyCampBehaviorSystem  (fields=0)
+[Other] EnemyCampCatalog  (fields=0)
+[Other] EnemyCampComposition  (fields=0)
+[MonoBehaviour] EnemyCampDirector  (fields=0)
+[IComponentData] EnemyCampMember  (fields=2)
+    Entity Anchor | float2 Home
+[Other] EnemyCampMinionEntry  (fields=0)
+[Other] EnemyCampRules  (fields=0)
+[ISystem] EnemyCampSpawnSystem  (fields=0)
+[Other] EnemyCampTier  (fields=0)
 [Other] EnemyChargedStackBridge  (fields=0)
 [IComponentData] EnemyChargedStackData  (fields=1)
     int StackCount
@@ -443,14 +486,38 @@
 [IComponentData] EnemyTag  (fields=0)
 [IComponentData] EnemyTauntLock  (fields=2)
     Entity Value | float Remaining
-[Other] Entry  (fields=2)
-    string key | Sprite sprite
-[Other] Entry  (fields=5)
-    int id | BeaconBuffKind kind | string title | string description | Sprite icon
+[ISystem] EnsureAttackTriggerColliderSystem  (fields=0)
+[IComponentData] EnsureAttackTriggerColliderTag  (fields=0)
 [Other] Entry  (fields=6)
     bool isCommon | PlayerSkillType mech | int perkId | string perkName | Sprite sprite | Sprite inactiveSprite
+[Other] Entry  (fields=5)
+    int id | BeaconBuffKind kind | string title | string description | Sprite icon
+[Other] Entry  (fields=2)
+    string key | Sprite sprite
 [Other] Entry  (fields=4)
     int id | string displayName | AudioClip[] variants | string variantNotes
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
+[Other] Enumerator  (fields=0)
 [Other] Enumerator  (fields=0)
 [Other] Enumerator  (fields=0)
 [Other] Enumerator  (fields=0)
@@ -644,13 +711,13 @@
 [IComponentData] FlyingMeleeEnemyTag  (fields=0)
 [IComponentData] FlyingMeleeSteerData  (fields=4)
     float2 Heading | float SteerTimerAccumulator | float SteerInterval | float MaxSteerRadiansPerTick
-[Other] FlyingMeleeSteerJob  (fields=6)
-    float2 FallbackPosition | float DeltaTime | ComponentLookup<EnemyMovementPaused> PauseLookup | ComponentLookup<HitStunTimer> HitStunLookup | ComponentLookup<EnemyCurrentTarget> TargetLookup | ComponentLookup<LocalTransform> TransformLookup
+[Other] FlyingMeleeSteerJob  (fields=8)
+    float2 FallbackPosition | float DeltaTime | ComponentLookup<EnemyMovementPaused> PauseLookup | ComponentLookup<HitStunTimer> HitStunLookup | ComponentLookup<EnemyCurrentTarget> TargetLookup | ComponentLookup<LocalTransform> TransformLookup | ComponentLookup<EnemyCampMember> CampMemberLookup | ComponentLookup<EnemyCampAnchor> CampAnchorLookup
 [ISystem] FlyingMeleeSteerSystem  (fields=0)
 [MonoBehaviour] FollowMouseAuthoring  (fields=0)
 [MonoBehaviour] FollowMuzzleSpawnPointAuthoring  (fields=0)
-[IComponentData] FollowMuzzleSpawnPointData  (fields=4)
-    Entity PlayerEntity | Entity PrefabEntity | float SpawnHeightOffset | byte UseHeavyMuzzleOffsets
+[IComponentData] FollowMuzzleSpawnPointData  (fields=6)
+    Entity PlayerEntity | Entity PrefabEntity | float SpawnHeightOffset | byte UseHeavyMuzzleOffsets | byte UseBodyCenterHeight | float SurfaceForwardOffset
 [ISystem] FollowMuzzleSpawnPointSystem  (fields=0)
 [IComponentData] FollowMuzzleSpawnPointTag  (fields=0)
 [Other] FollowMuzzleSpawnPointUtil  (fields=0)
@@ -677,8 +744,8 @@
 [Other] GameplaySfxBridge  (fields=0)
 [Other] GameProgressChipEquip  (fields=4)
     int mech | string instanceId | int boardX | int boardY
-[Other] GameProgressData  (fields=9)
-    int wreckage | int neuralSequence | bool evolutionDefaultsSeeded | bool dialoguePrefsMigrated | int evolutionUnlockScheme | int completedRunCount | int tutorialFeatureTier | int hubChips | int hubChipsConvertedToday
+[Other] GameProgressData  (fields=11)
+    int wreckage | int neuralSequence | bool evolutionDefaultsSeeded | bool dialoguePrefsMigrated | int lastSelectedStage | bool campaignVeteranUnlockPending | int evolutionUnlockScheme | int completedRunCount | int tutorialFeatureTier | int hubChips | int hubChipsConvertedToday
 [Other] GameProgressHubPose  (fields=5)
     bool saved | int floorId | float x | float y | float z
 [Other] GameProgressHubProp  (fields=4)
@@ -702,12 +769,16 @@
 [MonoBehaviour] GamingBuffSlot  (fields=0)
 [Other] GamingBuffText  (fields=0)
 [Other] GamingHudBarMotion  (fields=0)
+[Other] GamingHudChargeHints  (fields=0)
+[MonoBehaviour] GamingHudGaugeLabel  (fields=0)
 [MonoBehaviour] GamingPerkSlotProgressHud  (fields=0)
 [MonoBehaviour] GamingScreenWeatherFilter  (fields=0)
 [Other] GamingScreenWeatherFrames  (fields=1)
     Sprite[] frames
+[MonoBehaviour] GamingSunModuleHud  (fields=0)
 [MonoBehaviour] GamingUIManager  (fields=6)
     Slider HPSlider | Slider ExpSlider | TextMeshProUGUI Level | Slider SkillSlider | Slider PassiveSlider | Slider AttackSlider
+[Other] Gauge  (fields=0)
 [MonoBehaviour] GemAuthoring  (fields=0)
 [IComponentData] GemPrefab  (fields=1)
     Entity Value
@@ -717,6 +788,9 @@
 [Other] GhostNetScope  (fields=0)
 [Other] GhostPoseDriver  (fields=0)
 [ISystem] GlobalTimeUpdateSystem  (fields=0)
+[MonoBehaviour] HandPaintedWaterStudy  (fields=12)
+    Camera viewCamera | Material surfaceMaterial | Material actorMaterial | Material reflectionMaterial | SpriteRenderer actor | SpriteRenderer reflection | Sprite[] frames | Texture2D depthMask | bool rain | bool original | bool paused | float sampleTime
+[IComponentData] HealingBlockedTag  (fields=0)
 [MonoBehaviour] HitAnimeAuthoring  (fields=2)
     float duration持续时间 | ushort networkPrefabIdOverride
 [IComponentData] HitAnimePrefab  (fields=1)
@@ -770,6 +844,7 @@
 [Other] HubNpcPose  (fields=7)
     byte ActorId | float X | float Y | float Z | bool FacingRight | bool Moving | bool Sitting
 [MonoBehaviour] HubOccupancy  (fields=0)
+[Other] HubPilotNames  (fields=0)
 [Other] HubPlaceholderUtil  (fields=0)
 [Other] HubPose  (fields=0)
 [Other] HubPropFactory  (fields=0)
@@ -916,6 +991,7 @@
     Entity Prefab | float LeadTime | float SpawnHeightOffset | byte HasSpawned
 [ISystem] IronRailgunDissipationSystem  (fields=0)
 [Other] IronRailgunMeltBridge  (fields=0)
+[Other] IronRailgunMeltCoverage  (fields=0)
 [IComponentData] IronRailgunMeltHitRestoreData  (fields=1)
     float RestoreAmount
 [Other] IronRailgunMeltRestoreRequest  (fields=2)
@@ -969,8 +1045,8 @@
     float enemyHealth | float spawnSpeed | float enemyLimit
 [IComponentData] LevelEnemyHealthApplied  (fields=0)
 [SystemBase] LevelEnemyHealthSystem  (fields=0)
-[Other] LevelSceneEntry  (fields=11)
-    LevelDifficultySettings difficulty | string sceneName | string displayName | string openingDialogueKey | Sprite mapPreview | string localDate | float temperature | string weatherStatus | int settleWreckage | int settleNeural | GamingScreenWeatherFilter.Kind screenFilter
+[Other] LevelSceneEntry  (fields=12)
+    LevelDifficultySettings difficulty | string sceneName | string displayName | string openingDialogueKey | Sprite mapPreview | string localDate | float temperature | string weatherStatus | int settleWreckage | int settleNeural | GamingScreenWeatherFilter.Kind screenFilter | int chapter
 [MonoBehaviour] LevelUPManager  (fields=1)
     LevelUPSelect nowSelectPerkInfo
 [MonoBehaviour] LevelUPSelect  (fields=6)
@@ -982,6 +1058,9 @@
 [Other] LineType  (fields=0)
 [IComponentData] LinkedBaseColorInitPending  (fields=1)
     float4 Value
+[MonoBehaviour] LiveSceneWaterEffects  (fields=8)
+    Shader waterShader | Shader weatherShader | float effectTime | Camera gameCamera | Texture2D terrainArt | Texture2D terrainHeight | Vector4 terrainRect | Vector2 basinOrigin
+[MonoBehaviour] LiveSceneWaterImpacts  (fields=0)
 [MonoBehaviour] LocText  (fields=0)
 [MonoBehaviour] MainMenuMechIdleFloat  (fields=0)
 [MonoBehaviour] MainMenuSettingsUIManager  (fields=0)
@@ -1005,10 +1084,19 @@
 [IComponentData] MaxHPFactorData  (fields=5)
     float bonus1 | float bonus2 | float bonus3 | float bonus4 | float bonus5
 [Other] MechAction  (fields=0)
+[MonoBehaviour] MechAtmosphereBalance  (fields=0)
 [Other] MechBaseAttributeFields  (fields=0)
+[MonoBehaviour] MechBuildingGroundShadow  (fields=0)
+[IComponentData] MechBuildingVisualSource  (fields=0)
+[MonoBehaviour] MechChapterWeather  (fields=0)
+[MonoBehaviour] MechCombatLightField  (fields=0)
+[Other] MechCombatLightSample  (fields=4)
+    float3 Position | float Radius | Color Color | float Intensity
+[SystemBase] MechCombatLightSourceSystem  (fields=0)
 [IComponentData] MechCombatTag  (fields=0)
 [IComponentData] MechConfigHolderTag  (fields=0)
 [MonoBehaviour] MechConfigProviderAuthoring  (fields=0)
+[MonoBehaviour] MechContactAtmosphere  (fields=0)
 [Other] MechDisplayNames  (fields=0)
 [Other] MechEightDirectionOffsets  (fields=8)
     float2 Dir0 | float2 Dir1 | float2 Dir2 | float2 Dir3 | float2 Dir4 | float2 Dir5 | float2 Dir6 | float2 Dir7
@@ -1023,7 +1111,18 @@
 [ISystem] MechLoopSfxSystem  (fields=0)
 [Other] MechPickView  (fields=5)
     PlayerSkillType mech | Button button | Image mechIcon | Image driverPortrait | TextMeshProUGUI nameLabel
+[MonoBehaviour] MechPostUiIsolation  (fields=0)
 [MonoBehaviour] MechPrefabConfigManager  (fields=0)
+[MonoBehaviour] MechPuddleReflection  (fields=0)
+[MonoBehaviour] MechRainAtmosphere  (fields=0)
+[MonoBehaviour] MechRainOcclusion  (fields=0)
+[SystemBase] MechRainWeatherSuppressionSystem  (fields=0)
+[SystemBase] MechRenderCombatObserver  (fields=0)
+[MonoBehaviour] MechRenderPolish  (fields=4)
+    MechRenderPreset preset | bool gradingEnabled | bool rainEnabled | float clock
+[Other] MechRenderPreset  (fields=6)
+    Shader groundShader | Shader edgeShader | Shader contactDustShader | Shader rainShader | Shader geometryCaptureShader | Shader searchlightShader
+[MonoBehaviour] MechSearchlightField  (fields=0)
 [Other] MechSearchlightFields  (fields=0)
 [Other] MechSfx  (fields=0)
 [IComponentData] MechSharedConfigData  (fields=2)
@@ -1153,10 +1252,13 @@
 [MonoBehaviour] PerkBranchSlotFocusHook  (fields=0)
 [MonoBehaviour] PerkBranchTreeUI  (fields=0)
 [Other] PerkConfig  (fields=0)
+[MonoBehaviour] PerkDescriptionScroll  (fields=0)
 [Other] PerkDrawStage  (fields=0)
 [Other] PerkDrawWeightSettings  (fields=0)
+[Other] PerkEntryKind  (fields=0)
 [Other] PerkIconDatabase  (fields=0)
 [Other] PerkIconResolver  (fields=0)
+[Other] PerkUpgradePreview  (fields=0)
 [Other] PerkVisualTier  (fields=0)
 [MonoBehaviour] PersistentSingleton  (fields=0)
 [Other] Phase  (fields=0)
@@ -1205,8 +1307,8 @@
 [IBufferElementData] PlayerPerk  (fields=2)
     int PerkID | byte Level
 [MonoBehaviour] PlayerShadowSkew  (fields=0)
-[IComponentData] PlayerSkill  (fields=13)
-    PlayerSkillType Type | SkillCDType CDType | bool IsActive | double duration持续时间 | double durationBase | float Damage | double CDtime | double CDtimeBase | double CDtimer | int MaxChargingTimes | bool CanSkill | bool CDingSkill | int SkillTimes
+[IComponentData] PlayerSkill  (fields=14)
+    PlayerSkillType Type | SkillCDType CDType | bool IsActive | double duration持续时间 | double durationBase | float ChipDurationMul | float Damage | double CDtime | double CDtimeBase | double CDtimer | int MaxChargingTimes | bool CanSkill | bool CDingSkill | int SkillTimes
 [Other] PlayerSkillType  (fields=0)
 [IComponentData] PlayerSpawnData  (fields=6)
     UnityObjectRef<GameObject> PlayerPrefabSun | UnityObjectRef<GameObject> PlayerPrefabStorm | UnityObjectRef<GameObject> PlayerPrefabIron | UnityObjectRef<GameObject> PlayerPrefabReserved4 | UnityObjectRef<GameObject> PlayerPrefabReserved5 | UnityObjectRef<GameObject> PlayerPrefabBeing
@@ -1223,8 +1325,8 @@
 [MonoBehaviour] PlayerWorldStatusUI  (fields=0)
 [Other] PoolRow  (fields=1)
     GameObject Prefab
-[Other] ProcessDamageJob  (fields=12)
-    ComponentLookup<EnemyTag> EnemyLookup | ComponentLookup<BeDamagedThisFrame> BeDamagedLookup | ComponentLookup<StormLightningInvincibleTag> StormInvincibleLookup | ComponentLookup<EventInvincibleTag> EventInvincibleLookup | ComponentLookup<DevInfiniteSurvivalTag> DevInfiniteSurvivalLookup | ComponentLookup<SquadAllyTag> SquadAllyLookup | ComponentLookup<NetworkMechSlot> NetworkMechSlotLookup | ComponentLookup<CharacterMaxHP> MaxHPLookup | ComponentLookup<ChipMechanicState> ChipMechanicLookup | bool DownNetworkMechs | NativeQueue<Entity>.ParallelWriter DamagedEnemies | NativeQueue<PlayerDamageRecord>.ParallelWriter PlayerRecords
+[Other] ProcessDamageJob  (fields=13)
+    ComponentLookup<EnemyTag> EnemyLookup | ComponentLookup<BeDamagedThisFrame> BeDamagedLookup | ComponentLookup<StormLightningInvincibleTag> StormInvincibleLookup | ComponentLookup<EventInvincibleTag> EventInvincibleLookup | ComponentLookup<DevInfiniteSurvivalTag> DevInfiniteSurvivalLookup | ComponentLookup<SquadAllyTag> SquadAllyLookup | ComponentLookup<NetworkMechSlot> NetworkMechSlotLookup | ComponentLookup<CharacterMaxHP> MaxHPLookup | ComponentLookup<HealingBlockedTag> HealingBlockedLookup | ComponentLookup<ChipMechanicState> ChipMechanicLookup | bool DownNetworkMechs | NativeQueue<Entity>.ParallelWriter DamagedEnemies | NativeQueue<PlayerDamageRecord>.ParallelWriter PlayerRecords
 [Other] ProcessDamageNativeBridge  (fields=0)
 [ISystem] ProcessDamageThisFrameSystem  (fields=0)
 [Other] Profile  (fields=0)
@@ -1255,322 +1357,380 @@
     Sprite sprite | Rect plate | Color labelColor | Color subtitleColor
 [Other] Request  (fields=17)
     Kind Kind | int EnemyPoolIndex | int Count | float RingRadius | float FlySpeed | float ConvergeStopDistance | float EffectDuration | float TideIntervalMul | float InvincibleDuration | bool RewardAirdropOnInvincibleEnd | float AirdropInset | byte SceneAirdropKind | float SceneAirdropMarkerSeconds | float JammerSpawnOffsetX | float JammerSpawnOffsetY | float SwarmClusterRadius | float SwarmSpawnDistance
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=6)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | EnabledMask item2_EnabledMask
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | BufferAccessor<PlayerPerk> item7_BufferAccessor | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=6)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | BufferAccessor<PlayerPerk> item2_BufferAccessor | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=7)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr item6_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | EnabledMask item3_EnabledMask
-[Other] ResolvedChunk  (fields=6)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     EnabledMask item1_EnabledMask | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | BufferAccessor<PlayerPerk> item7_BufferAccessor | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=7)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr item6_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=6)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | BufferAccessor<BuffState> item5_BufferAccessor | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | EnabledMask item2_EnabledMask
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | BufferAccessor<PlayerPerk> item4_BufferAccessor | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | BufferAccessor<PlayerPerk> item2_BufferAccessor | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=5)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=5)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | EnabledMask item4_EnabledMask | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
+    IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | EnabledMask item2_EnabledMask
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=6)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=1)
-    IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | BufferAccessor<PlayerPerk> item2_BufferAccessor | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=1)
-    IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | BufferAccessor<DamageThisFrame> item2_BufferAccessor
+[Other] ResolvedChunk  (fields=8)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=8)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr item6_IntPtr | IntPtr item7_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=5)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | BufferAccessor<PlayerPerk> item4_BufferAccessor | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
+[Other] ResolvedChunk  (fields=4)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=3)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | BufferAccessor<PlayerPerk> item3_BufferAccessor
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=2)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=5)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=3)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=6)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=1)
     IntPtr item1_IntPtr
-[Other] ResolvedChunk  (fields=4)
-    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=4)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr | EnabledMask item3_EnabledMask | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr item2_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
-[Other] ResolvedChunk  (fields=6)
-    EnabledMask item1_EnabledMask | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
 [Other] ResolvedChunk  (fields=2)
     IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=1)
+    IntPtr item1_IntPtr
+[Other] ResolvedChunk  (fields=6)
+    EnabledMask item1_EnabledMask | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=6)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr item3_IntPtr | IntPtr item4_IntPtr | IntPtr item5_IntPtr | IntPtr Entity_IntPtr
+[Other] ResolvedChunk  (fields=2)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr
+[Other] ResolvedChunk  (fields=3)
+    IntPtr item1_IntPtr | IntPtr item2_IntPtr | IntPtr Entity_IntPtr
+[SystemBase] RetiredPhysicsColliderSystem  (fields=0)
+[IComponentData] RiverSliceColliderCleanup  (fields=1)
+    BlobAssetReference<Collider> Blob
+[SystemBase] RiverSliceColliderCleanupSystem  (fields=0)
+[MonoBehaviour] RiverSliceCollisions  (fields=1)
+    RiverSliceDefinition definition
+[Other] RiverSliceDefinition  (fields=1)
+    bool militaryPass
+[MonoBehaviour] RiverSliceEnvironment  (fields=0)
+[MonoBehaviour] RiverSliceProp  (fields=1)
+    Vector2 foot
+[MonoBehaviour] RiverSliceRuntime  (fields=11)
+    RiverSliceDefinition definition | Texture2D control | Texture2D puddles | Material groundMaterial | Material waterMaterial | Material propMaterial | Material bankMaterial | Material weatherMaterial | Transform authoredRoot | float clock | Camera gameCamera
+[IComponentData] RiverSliceStaticBody  (fields=0)
 [IComponentData] RuntimeClonedPhysicsColliderTag  (fields=0)
 [Other] RuntimeClonedPhysicsColliderUtil  (fields=0)
 [Other] RunTransitionSequence  (fields=0)
@@ -1643,6 +1803,8 @@
 [Other] SlotInput  (fields=8)
     byte Slot | uint Seq | float MoveX | float MoveY | float AimX | float AimY | byte Buttons | bool Frozen
 [Other] SlotKind  (fields=0)
+[Other] Snapshot  (fields=0)
+[Other] Snapshot  (fields=0)
 [Other] SnapshotClassifier  (fields=0)
 [IComponentData] SpawnBurningFireFieldOnDestroyData  (fields=7)
     Entity AttackPrefab | float AttackDamage | float Range | float Duration | float HitInterval | float CritRate | CollisionFilter CollisionFilter
@@ -1713,8 +1875,9 @@
 [Other] StormChargedLightningUtil  (fields=0)
 [IComponentData] StormChargeSlashData  (fields=2)
     float ChargeTime | float MaxChargeTime
-[IComponentData] StormDashCollisionBackupData  (fields=2)
-    CollisionFilter OriginalFilter | byte HasBackup
+[IComponentData] StormDashCollisionBackupData  (fields=3)
+    BlobAssetReference<Collider> Collider | BlobAssetReference<Collider> PhasingCollider | byte HasBackup
+[Other] StormDashCollisionUtil  (fields=0)
 [Other] StormDashJetPresentation  (fields=0)
 [IComponentData] StormDashLockData  (fields=1)
     float2 Direction
@@ -1754,12 +1917,44 @@
     byte Stage | float WindupTimer | bool PendingExplosionSpawn
 [IComponentData] SuicideExplosionHitPrefab  (fields=1)
     Entity Value
+[IComponentData] SunBlueFireFieldTag  (fields=2)
+    float ScaleMul | float BaseScale
+[IComponentData] SunFireFieldTag  (fields=0)
+[Other] SunFissionKind  (fields=0)
+[IComponentData] SunFlameHitEffects  (fields=2)
+    byte ApplySlow | byte ApplyVuln
+[Other] SunFlameHitRequest  (fields=4)
+    Entity Enemy | byte Slow | byte Vuln | float VulnPerSec
+[IComponentData] SunFlameJetTag  (fields=0)
+[MonoBehaviour] SunFluidFireAuthoring  (fields=1)
+    bool phosphorus
+[SystemBase] SunFluidFirePresentationSystem  (fields=0)
+[IComponentData] SunFluidFireTag  (fields=1)
+    byte Phosphorus
+[Other] SunFluidFireVisual  (fields=0)
+[IComponentData] SunHeatFieldThrowTimer  (fields=2)
+    float Timer | float Interval
 [Other] SunHudBuffId  (fields=0)
+[IComponentData] SunMagnetoThrownTag  (fields=0)
 [Other] SunMechConfig  (fields=0)
 [IComponentData] SunMechConfigData  (fields=1)
     CollisionFilter CollisionFilter
 [Other] SunMetaProgression  (fields=5)
     float AttackBonus | float RegenRateBonus | float SkillDamageBonus | float SkillDurationBonus | float SkillCDBonus
+[Other] SunModuleCombatRuntime  (fields=0)
+[IComponentData] SunModuleCombatState  (fields=25)
+    float RunStartMaxHp | float FusionRamp | float FusionShieldCd | byte FusionHasShield | float FusionBreakRemain | int FusionKills | int FusionHpSteps | float FissionConsumed | float FissionRest | float FissionHealAccum | float FissionCritRemain | float LastModuleCrit | float LastModuleCritDmg | float Heat01 | Entity FlameEntity | float ArsonTimer | int BurstCharges | float PendingChargeMul | float ManeuverRemain | int MagnetoLayers | float AppliedMoveBonus3 | Entity ShieldVfx | Entity HeatRingOuter | Entity HeatRingFill | float FlamePoseCd
+[ISystem] SunModuleCombatSystem  (fields=0)
+[IComponentData] SunModuleEntityBinding  (fields=2)
+    Entity Owner | byte IsShield
+[ISystem] SunModuleEntityBindingSystem  (fields=0)
+[IBufferElementData] SunModuleEntry  (fields=5)
+    int ModuleId | int UpgradeLevels | float DamageMul | float DamageStep | byte SlotKind
+[Other] SunModuleHitBridge  (fields=0)
+[Other] SunModuleRun  (fields=0)
+[IComponentData] SunModuleRunState  (fields=6)
+    int Passive | int Weapon | int Active | int Generic0 | int Generic1 | byte InstalledCount
+[ISystem] SunModuleShieldAbsorbSystem  (fields=0)
 [ISystem] SunPerk10IgniteSystem  (fields=0)
 [IComponentData] SunPerk10IgniteTimerData  (fields=2)
     float Timer | float Interval
@@ -1777,17 +1972,26 @@
 [IComponentData] SunPerk62DeploymentData  (fields=1)
     float TimerRemaining
 [ISystem] SunPerk62DeploymentSystem  (fields=0)
-[IComponentData] SunPerk65ChainData  (fields=10)
-    float TimerRemaining | int SpawnedCircleCount | float NextSpawnTimer | int TotalCircleCount | float Damage | float RangeBase | float Duration | float HitInterval | float CritRate | Entity AttackPrefab
+[IComponentData] SunPerk65ChainData  (fields=13)
+    float TimerRemaining | int SpawnedCircleCount | float NextSpawnTimer | int TotalCircleCount | float Damage | float RangeBase | float Duration | float HitInterval | float CritRate | Entity AttackPrefab | byte LockMove | byte DetonateAllOnEnd | float SpawnInterval
 [ISystem] SunPerk65ChainSystem  (fields=0)
 [IComponentData] SunPerk7FireFieldTag  (fields=0)
+[IComponentData] SunPierceFalloffData  (fields=6)
+    float AfterMul | byte HasStruck | Entity SplitPrefab | int SplitCount | float SplitLifetime | float SpawnHeight
+[Other] SunPierceSplitRequest  (fields=9)
+    Entity Prefab | Entity Owner | float3 Position | float Angle | float Scale | float Damage | float Speed | float CritRate | SunPierceFalloffData Falloff
 [ISystem] SunRecoverHPSystem  (fields=0)
+[IComponentData] SunShieldVfxTag  (fields=0)
 [IComponentData] SunSkillData  (fields=3)
     Entity SkillPrefab | Entity NowEntity | CollisionFilter CollisionFilter
+[IComponentData] SunStreamOrbit  (fields=4)
+    float Height | float AngleRad | float Radius | float SpinRad
 [IComponentData] SunUltimateBeamAimTag  (fields=1)
     Entity Owner
 [IComponentData] SunUltimateChargeState  (fields=2)
     float TimerRemaining | Entity ChargeVfxEntity
+[IComponentData] SunVulnData  (fields=4)
+    float Amp | float FreshTimer | float PhosPerSec | byte InBlueFire
 [IComponentData] SuppressEnemyDeathRewardsTag  (fields=0)
 [Other] SurvivorsInput  (fields=0)
 [Other] SurvivorsInputShared  (fields=0)
@@ -1824,8 +2028,8 @@
 [MonoBehaviour] UIPanelMotion  (fields=0)
 [MonoBehaviour] UIScrollRectSelectionFollower  (fields=0)
 [Other] UIStateSpriteRegistration  (fields=0)
-[Other] UpgradeOption  (fields=22)
-    int id | string name | string description | string shortDescription | string sourceSkill | int slot | UpgradeType type | Sprite icon | float baseProbability | float weightMultiplier | byte maxLevel | byte currentLevel | bool isMaxLevel | float dynamicWeight | int branchId | bool useRequirement | UpgradeRequirementType requirementType | int requiredPerkId | byte requiredPerkLevel | int requiredBranchId | byte requiredBranchLevelTotal | int exclusiveGroupId
+[Other] UpgradeOption  (fields=26)
+    int id | string name | string description | string shortDescription | string sourceSkill | int slot | UpgradeType type | Sprite icon | float baseProbability | float weightMultiplier | byte maxLevel | byte currentLevel | bool isMaxLevel | float dynamicWeight | int branchId | bool useRequirement | UpgradeRequirementType requirementType | int requiredPerkId | byte requiredPerkLevel | int requiredBranchId | byte requiredBranchLevelTotal | int exclusiveGroupId | PerkEntryKind entryKind | int moduleId | int moduleSlot | float moduleDamageStep
 [Other] UpgradeOptionCsvParser  (fields=0)
 [Other] UpgradeOptionSlotMapping  (fields=0)
 [Other] UpgradeRequirementType  (fields=0)
@@ -1850,6 +2054,14 @@
 [IComponentData] WeatherConfigTag  (fields=0)
 [MonoBehaviour] WeatherManager  (fields=0)
 [Other] WeatherRuntimeControl  (fields=0)
+[IComponentData] WeatherSkylightConfigData  (fields=11)
+    byte Enabled | int MaxCount | float SpawnInterval | float SpawnRadiusMin | float SpawnRadiusMax | float DespawnDistance | float MoveSpeedMin | float MoveSpeedMax | float ScaleMin | float ScaleMax | double NextSpawnTime
+[IComponentData] WeatherSkylightMoveData  (fields=1)
+    float2 VelocityXy
+[IBufferElementData] WeatherSkylightPrefabElement  (fields=1)
+    Entity Prefab
+[ISystem] WeatherSkylightSystem  (fields=0)
+[IComponentData] WeatherSkylightTag  (fields=0)
 [IComponentData] WeatherSmokeConfigData  (fields=11)
     byte Enabled | int MaxCount | float SpawnInterval | float SpawnRadiusMin | float SpawnRadiusMax | float DespawnDistance | float MoveSpeedMin | float MoveSpeedMax | float ScaleMin | float ScaleMax | double NextSpawnTime
 [IComponentData] WeatherSmokeMoveData  (fields=1)

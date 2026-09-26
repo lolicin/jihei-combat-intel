@@ -19,9 +19,6 @@ namespace CombatInspector
     {
         public static Runner Instance { get; private set; }
 
-        public void SetOverlayVisible(bool v) { _overlay.Visible = v; }
-        public bool OverlayVisible { get { return _overlay.Visible; } }
-
         [Header("capture")]
         public float CaptureInterval = 0.25f;
         public float FileWriteInterval = 1f;
@@ -39,9 +36,7 @@ namespace CombatInspector
         public bool WriteCsvFile = true;
 
         [Header("hotkeys")]
-        public Key OverlayKey = Key.F9;
         public Key DumpKey = Key.F10;
-        public Key RadarKey = Key.F11;
         public Key BarsKey = Key.F12;
         public Key AdvisorKey = Key.F8;
         public Key AutoAimKey = Key.F7;
@@ -56,12 +51,6 @@ namespace CombatInspector
         public bool AutoAimEnabled = false;
         public float AutoAimMaxDistance = 45f;
 
-        [Header("radar")]
-        public bool RadarVisible = true;
-        public float RadarSize = 300f;
-        public float RadarRange = 0f;      // 0 = 自动
-        public bool RadarNames = false;
-
         [Header("health bars")]
         public bool BarsEnabled = true;
         public int BarsMaxCount = 40;
@@ -71,8 +60,6 @@ namespace CombatInspector
         public bool BarsShowPrediction = true;
         public bool BarsLeaderLine = true;
 
-        private readonly Overlay _overlay = new Overlay();
-        private readonly RadarOverlay _radar = new RadarOverlay();
         private readonly HealthBars _bars = new HealthBars();
         private StateHttpServer _http;
         private CombatSnapshot _latest;
@@ -94,11 +81,6 @@ namespace CombatInspector
             CombatScanner.MaxProjectiles = Mathf.Max(0, MaxProjectiles);
             CombatScanner.IncludeComponentNames = IncludeComponentNames;
 
-            _radar.Visible = RadarVisible;
-            _radar.Size = Mathf.Clamp(RadarSize, 160f, 700f);
-            _radar.FixedRange = Mathf.Max(0f, RadarRange);
-            _radar.ShowNames = RadarNames;
-
             _bars.Enabled = BarsEnabled;
             _bars.MaxCount = Mathf.Clamp(BarsMaxCount, 1, 400);
             _bars.MaxDistance = Mathf.Max(0f, BarsMaxDistance);
@@ -110,9 +92,7 @@ namespace CombatInspector
             TacticsAdvisor.MaxEngageDistance = Mathf.Max(5f, AdvisorMaxEngage);
             TacticsAdvisor.ThreatRadius = Mathf.Max(2f, AdvisorThreatRadius);
             TacticsAdvisor.KiteDistance = Mathf.Max(1f, AdvisorKiteDistance);
-            _radar.ShowAdvice = AdvisorEnabled;
             _bars.MarkAdvice = AdvisorEnabled;
-            _overlay.ShowAdvice = AdvisorEnabled;
 
             AimOverrideSystem.MaxAimDistance = Mathf.Max(5f, AutoAimMaxDistance);
             AimOverrideSystem.Active = AutoAimEnabled && AdvisorEnabled;
@@ -203,8 +183,8 @@ namespace CombatInspector
                 if (!_http.Start()) { _http = null; HttpEnabled = false; }
             }
 
-            Log("CombatInspector ready. " + OverlayKey + " = overlay, " + DumpKey + " = dump files, " +
-                RadarKey + " = radar, " + BarsKey + " = health bars. out=" + OutDir);
+            Log("CombatInspector ready. " + DumpKey + " = dump files, " +
+                BarsKey + " = health bars, " + AdvisorKey + " = advisor, " + AutoAimKey + " = auto aim. out=" + OutDir);
         }
 
         private void OnDestroy()
@@ -244,37 +224,11 @@ namespace CombatInspector
 
         private void OnGUI()
         {
-            // 血条先画，压在两个窗口下面
+            // 只画血条（含预期伤害/可秒杀标记）。信息浮层与雷达已按需求移除。
             if (_latest != null)
             {
                 try { _bars.Draw(_latest); }
                 catch (Exception ex) { Log("health bars draw failed: " + ex); }
-            }
-
-            // 雷达独立于主面板显示，默认右上角
-            if (_radar.Visible && _latest != null)
-            {
-                try { _radar.Draw(_latest); }
-                catch (Exception ex) { Log("radar draw failed: " + ex); }
-            }
-
-            if (!_overlay.Visible) return;
-            try
-            {
-                string httpInfo = _http != null
-                    ? "HTTP http://127.0.0.1:" + HttpPort + "/   (/state /snapshot /deep?enemies=8&depth=4 /dump)  served=" + _http.RequestsServed
-                    : "HTTP disabled";
-                string status = "captures=" + _captureCount + "  " + _statusLine +
-                                (AimOverrideSystem.Active
-                                    ? ("\n自动瞄准 开 · " + AimOverrideSystem.LastStatus +
-                                       " · 累计写入 " + AimOverrideSystem.TotalWrites)
-                                    : "\n自动瞄准 关（按 " + AutoAimKey + " 开启）") +
-                                (string.IsNullOrEmpty(_lastError) ? "" : "  lastError=" + _lastError);
-                _overlay.Draw(_latest, httpInfo + "\n" + status, OutDir);
-            }
-            catch (Exception ex)
-            {
-                GUI.Label(new Rect(10, 10, 600, 40), "CombatInspector overlay error: " + ex.Message);
             }
         }
 
@@ -285,11 +239,6 @@ namespace CombatInspector
             var kb = Keyboard.current;
             if (kb == null) return;
 
-            if (WasPressed(kb, OverlayKey))
-            {
-                _overlay.Visible = !_overlay.Visible;
-                Log("overlay " + (_overlay.Visible ? "shown" : "hidden"));
-            }
             if (WasPressed(kb, DumpKey))
             {
                 try
@@ -299,11 +248,6 @@ namespace CombatInspector
                 }
                 catch (Exception ex) { Log("dump failed: " + ex.Message); }
             }
-            if (WasPressed(kb, RadarKey))
-            {
-                _radar.Visible = !_radar.Visible;
-                Log("radar " + (_radar.Visible ? "shown" : "hidden"));
-            }
             if (WasPressed(kb, BarsKey))
             {
                 _bars.Enabled = !_bars.Enabled;
@@ -312,9 +256,7 @@ namespace CombatInspector
             if (WasPressed(kb, AdvisorKey))
             {
                 AdvisorEnabled = !AdvisorEnabled;
-                _radar.ShowAdvice = AdvisorEnabled;
                 _bars.MarkAdvice = AdvisorEnabled;
-                _overlay.ShowAdvice = AdvisorEnabled;
                 Log("advisor " + (AdvisorEnabled ? "on" : "off"));
             }
             if (WasPressed(kb, AutoAimKey))
@@ -325,9 +267,7 @@ namespace CombatInspector
                 if (AutoAimEnabled && !AdvisorEnabled)
                 {
                     AdvisorEnabled = true;
-                    _radar.ShowAdvice = true;
                     _bars.MarkAdvice = true;
-                    _overlay.ShowAdvice = true;
                 }
 
                 AimOverrideSystem.Active = AutoAimEnabled && AdvisorEnabled;
@@ -379,7 +319,6 @@ namespace CombatInspector
 
             snap.screenWidth = Screen.width;
             snap.screenHeight = Screen.height;
-            snap.radarInfo = _radar.Describe();
             snap.barsInfo = _bars.Describe();
             snap.damageTrackerEntries = DamageTracker.TrackedCount;
 

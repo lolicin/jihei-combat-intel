@@ -93,15 +93,7 @@ namespace CombatInspector
             var cHttp = Config.Bind("Http", "Enabled", true, "Serve the state on a local HTTP endpoint.");
             var cPort = Config.Bind("Http", "Port", 8790, "TCP port on 127.0.0.1.");
 
-            var cOverlayKey = Config.Bind("Hotkeys", "OverlayKey", "F9", "Toggle the in-game overlay.");
             var cDumpKey = Config.Bind("Hotkeys", "DumpKey", "F10", "Force a snapshot + deep dump to disk.");
-            var cRadarKey = Config.Bind("Hotkeys", "RadarKey", "F11", "Toggle the radar window.");
-            var cOverlayVisible = Config.Bind("Hotkeys", "OverlayVisibleByDefault", true, "");
-
-            var cRadarVisible = Config.Bind("Radar", "VisibleByDefault", true, "Show the radar window on start.");
-            var cRadarSize = Config.Bind("Radar", "Size", 300f, "Radar size in pixels (160-700).");
-            var cRadarRange = Config.Bind("Radar", "Range", 0f, "0 = auto-fit to enemies; otherwise fixed world units.");
-            var cRadarNames = Config.Bind("Radar", "ShowNames", false, "Draw enemy names next to their dots.");
 
             var cBarsOn = Config.Bind("Bars", "Enabled", true, "HP bar above EVERY enemy head (game only does elites natively).");
             var cBarsMax = Config.Bind("Bars", "MaxCount", 40, "Max bars drawn per frame (nearest first).");
@@ -141,13 +133,7 @@ namespace CombatInspector
             _runner.WriteCsvFile = cWriteCsv.Value;
             _runner.HttpEnabled = cHttp.Value;
             _runner.HttpPort = Mathf.Clamp(cPort.Value, 1024, 65535);
-            _runner.OverlayKey = ParseKey(cOverlayKey.Value, Key.F9);
             _runner.DumpKey = ParseKey(cDumpKey.Value, Key.F10);
-            _runner.RadarKey = ParseKey(cRadarKey.Value, Key.F11);
-            _runner.RadarVisible = cRadarVisible.Value;
-            _runner.RadarSize = Mathf.Clamp(cRadarSize.Value, 160f, 700f);
-            _runner.RadarRange = Mathf.Max(0f, cRadarRange.Value);
-            _runner.RadarNames = cRadarNames.Value;
             _runner.BarsEnabled = cBarsOn.Value;
             _runner.BarsMaxCount = Mathf.Clamp(cBarsMax.Value, 1, 400);
             _runner.BarsMaxDistance = Mathf.Max(0f, cBarsDist.Value);
@@ -171,16 +157,12 @@ namespace CombatInspector
 
             TryInstallAimPatch();
 
-            // Overlay default visibility is applied after Awake has built the Overlay instance.
-            var start = go.AddComponent<ApplyOverlayVisibility>();
-            start.visible = cOverlayVisible.Value;
-
             LogInfo("  outDir  : " + Safe(cOutDir.Value));
             LogInfo("  capture : every " + _runner.CaptureInterval.ToString("F2", CultureInfo.InvariantCulture) + "s");
             if (_runner.HttpEnabled)
                 LogInfo("  http    : http://127.0.0.1:" + _runner.HttpPort + "/  (set Http/Enabled=false to disable)");
-            LogInfo("  hotkeys : " + _runner.OverlayKey + " = overlay, " + _runner.DumpKey + " = dump to disk, " +
-                    _runner.RadarKey + " = radar, " + _runner.BarsKey + " = health bars, " +
+            LogInfo("  hotkeys : " + _runner.DumpKey + " = dump to disk, " +
+                    _runner.BarsKey + " = health bars, " +
                     _runner.AdvisorKey + " = advisor");
             LogInfo("  advisor : " + (_runner.AdvisorEnabled ? "on (read-only suggestions)" : "off"));
             LogInfo("  bars    : " + (_runner.BarsEnabled ? "on (max " + _runner.BarsMaxCount + ", dist " + _runner.BarsMaxDistance + ")" : "off"));
@@ -240,18 +222,6 @@ namespace CombatInspector
             if (!string.IsNullOrEmpty(s) && Enum.TryParse(s.Trim(), true, out k)) return k;
             LogWarn("unknown hotkey '" + s + "', falling back to " + fallback);
             return fallback;
-        }
-    }
-
-    /// <summary>Applies config-driven overlay visibility once Runner has constructed its Overlay.</summary>
-    public sealed class ApplyOverlayVisibility : MonoBehaviour
-    {
-        public bool visible = true;
-
-        private void Start()
-        {
-            if (Runner.Instance != null) Runner.Instance.SetOverlayVisible(visible);
-            Destroy(this);
         }
     }
 }
