@@ -112,7 +112,7 @@ namespace CombatInspector
             var cAdvThreat = Config.Bind("Advisor", "ThreatRadius", 9f, "Enemies inside this radius shape the movement suggestion.");
             var cAdvKite = Config.Bind("Advisor", "KiteDistance", 8f, "Preferred stand-off distance from the focus target.");
 
-            var cAimKey = Config.Bind("Hotkeys", "AutoAimKey", "F7",
+            var cAimKey = Config.Bind("Hotkeys", "AutoAimKey", "Numpad1",
                 "Toggle aim takeover. It only writes MouseTarget (crosshair); movement and skills stay yours.");
             var cAimOn = Config.Bind("AutoAim", "Enabled", false,
                 "Start with aim takeover on. Off by default because it moves your crosshair.");
@@ -147,7 +147,7 @@ namespace CombatInspector
             _runner.AdvisorMaxEngage = Mathf.Max(5f, cAdvEngage.Value);
             _runner.AdvisorThreatRadius = Mathf.Max(2f, cAdvThreat.Value);
             _runner.AdvisorKiteDistance = Mathf.Max(1f, cAdvKite.Value);
-            _runner.AutoAimKey = ParseKey(cAimKey.Value, Key.F7);
+            _runner.AutoAimKey = ParseKey(cAimKey.Value, Key.Numpad1);
             _runner.AutoAimEnabled = cAimOn.Value;
             _runner.AutoAimMaxDistance = Mathf.Max(5f, cAimDist.Value);
             _runner.enabled = true;
@@ -200,7 +200,7 @@ namespace CombatInspector
                 harmony.Patch(target, null, new HarmonyMethod(postfix));
 
                 _aimPatched = true;
-                LogInfo("  aimpatch: " + t.Name + "." + target.Name + " postfix 已挂载（F7 开启接管瞄准）");
+                LogInfo("  aimpatch: " + t.Name + "." + target.Name + " postfix 已挂载（小键盘1 开启接管瞄准）");
             }
             catch (Exception ex)
             {

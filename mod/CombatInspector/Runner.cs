@@ -230,6 +230,49 @@ namespace CombatInspector
                 try { _bars.Draw(_latest); }
                 catch (Exception ex) { Log("health bars draw failed: " + ex); }
             }
+
+            DrawToast();
+        }
+
+        // ---------------------------------------------------------------- toast（3 秒自动消失的屏幕提示）
+
+        private string _toastText;
+        private float _toastUntil;
+        private GUIStyle _toastStyle;
+
+        /// <summary>屏幕上方居中弹一条提示，3 秒后自动消失。</summary>
+        private void ShowToast(string text)
+        {
+            _toastText = text;
+            _toastUntil = Time.unscaledTime + 3f;
+            Log("toast: " + text);
+        }
+
+        private void DrawToast()
+        {
+            if (string.IsNullOrEmpty(_toastText) || Time.unscaledTime >= _toastUntil) return;
+
+            if (_toastStyle == null)
+            {
+                // 系统字体保证中文能画出来；用完即弃的提示不值得加载游戏字体
+                _toastStyle = new GUIStyle(GUI.skin.label)
+                {
+                    fontSize = 26,
+                    alignment = TextAnchor.MiddleCenter
+                };
+                _toastStyle.normal.textColor = new Color(1f, 0.92f, 0.6f);
+                _toastStyle.font = Cjk.Font;
+            }
+
+            var w = Mathf.Min(700f, Screen.width * 0.6f);
+            var rect = new Rect((Screen.width - w) / 2f, Screen.height * 0.12f, w, 44f);
+            var shadow = new Rect(rect.x + 2f, rect.y + 2f, rect.width, rect.height);
+
+            var c = _toastStyle.normal.textColor;
+            _toastStyle.normal.textColor = new Color(0f, 0f, 0f, 0.9f);
+            GUI.Label(shadow, _toastText, _toastStyle);           // 阴影，保证亮背景下可读
+            _toastStyle.normal.textColor = c;
+            GUI.Label(rect, _toastText, _toastStyle);
         }
 
         // ---------------------------------------------------------------- hotkeys
@@ -272,7 +315,9 @@ namespace CombatInspector
 
                 AimOverrideSystem.Active = AutoAimEnabled && AdvisorEnabled;
                 AimOverrideSystem.MaxAimDistance = Mathf.Max(5f, AutoAimMaxDistance);
-                Log("自动瞄准 " + (AimOverrideSystem.Active
+                bool on = AimOverrideSystem.Active;
+                ShowToast(on ? "自动瞄准 开" : "自动瞄准 关");
+                Log("自动瞄准 " + (on
                     ? "开：接管 MouseTarget（移动和技能仍由你操作）"
                     : "关：鼠标已交还给你"));
             }
